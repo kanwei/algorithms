@@ -16,6 +16,9 @@ class DS
     def initialize(ary=[])
       @root_array = []
       @size = 0
+      if !ary.empty?
+        ary.each { |n| insert(n) }
+      end
     end
     
     def size
@@ -80,6 +83,10 @@ class DS
     end
   
     def merge!(otherheap)
+      if otherheap.class == DS::Heap
+        othersize = otherheap.size
+        otherheap = otherheap.root_array
+      end
       a, b, c = @root_array, otherheap, nil
       if(a.size < b.size) # Make sure 'a' is always bigger
         a, b = b, a
@@ -95,6 +102,7 @@ class DS
         end
       end
       @root_array = a
+      @size += othersize if othersize
     end
     
     private
