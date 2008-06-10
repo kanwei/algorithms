@@ -1,6 +1,6 @@
 === June 9, 2008
 
-  * Implementing Binomial heap
+  * Finished binomial heap implementation
 
 
 === June 8, 2008
