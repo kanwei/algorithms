@@ -4,7 +4,7 @@ include Benchmark
 
 describe DS::Heap do
   before(:each) do
-    @heap = DS::Heap.new
+    @heap = DS::MaxHeap.new
   end
   
   describe "(empty)" do
@@ -24,7 +24,7 @@ describe DS::Heap do
     end
     
     it "should let you initialize with an array" do
-      @heap = DS::Heap.new([1,2,3])
+      @heap = DS::MaxHeap.new([1,2,3])
       @heap.size.should eql(3)
     end
 
@@ -35,25 +35,23 @@ describe DS::Heap do
       @random_array = []
       @num_items = 100
       @num_items.times { |x| @random_array << rand(@num_items) }
-      @heap = DS::Heap.new(@random_array)
+      @heap = DS::MaxHeap.new(@random_array)
     end
     
     it "should display the correct size" do
       @heap.size.should eql(@num_items)
     end
     
-    it "should be correct!" do
+    it "should be in max->min order" do
       ordered = []
-      until @heap.size == 0
-        ordered << @heap.get_max!
-      end
+      ordered << @heap.get_max! until @heap.size == 0
       
       ordered.should eql(@random_array.sort.reverse)
     end
     
     it "should let you merge with another heap" do
       numbers = [1,3,4,5]
-      otherheap = DS::Heap.new(numbers)
+      otherheap = DS::MaxHeap.new(numbers)
       otherheap.size.should eql(4)
       @heap.merge!(otherheap)
       
@@ -71,6 +69,16 @@ describe DS::Heap do
         x.report("Heap: ") do
           @num_items.times { @heap.get_max! }
         end
+      end
+    end
+    
+    describe "min-heap" do
+      it "should be in min->max order" do
+        @heap = DS::MinHeap.new(@random_array)
+        ordered = []
+        ordered << @heap.get_min! until @heap.size == 0
+
+        ordered.should eql(@random_array.sort)
       end
     end
     

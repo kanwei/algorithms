@@ -1,5 +1,5 @@
 class DS
-  # Implemented as a Binomial heap
+  # Implemented as a Binomial heap  
   class Heap
     class Node
       attr_accessor :object, :left, :right
@@ -13,7 +13,8 @@ class DS
     
     attr_reader :root_array
     
-    def initialize(ary=[])
+    def initialize(ary=[], &block)
+      @lambda = block_given? ? block : lambda { |x, y| (x <=> y) == -1 }
       @root_array = []
       @size = 0
       if !ary.empty?
@@ -27,44 +28,44 @@ class DS
   
     def peek
       return nil if @size < 1
-      max, max_object = -1, nil
+      next_index, next_object = -1, nil
       
       @root_array.size.times do |i|
         unless @root_array[i].nil?
-          if ((max == -1) || ( (max_object <=> @root_array[i].object) == -1))
-            max, max_object = i, @root_array[i].object
+          if ((next_index == -1) || @lambda.call(next_object, @root_array[i].object))
+            next_index, next_object = i, @root_array[i].object
           end
         end
       end
-      return max_object
+      return next_object
     end
   
-    def get_max!
+    def get_next!
       return nil if @size < 1
-      max, max_object = -1, nil
+      next_index, next_object = -1, nil
       
       # Remove the root node containing the maximum from its power-of-2 heap
       @root_array.size.times do |i|
         unless @root_array[i].nil?
-          if ((max == -1) || ( (max_object <=> @root_array[i].object) == -1))
-            max, max_object = i, @root_array[i].object
+          if ((next_index == -1) || @lambda.call(next_object, @root_array[i].object))
+            next_index, next_object = i, @root_array[i].object
           end
         end
       end
       
       # Temporarily build a binomial queue containing the remaining parts of the power-of-2 heap, and merge this back into the original
       temp = []
-      x = @root_array[max].left
-      (max-1).downto(0) do |i|
+      x = @root_array[next_index].left
+      (next_index-1).downto(0) do |i|
         temp[i] = x
         x = x.right
         temp[i].right = nil
       end
 
-      @root_array[max] = nil
+      @root_array[next_index] = nil
       merge!(temp)
       @size -= 1
-      return max_object
+      return next_object
     end
   
     def insert(object)
@@ -83,7 +84,7 @@ class DS
     end
   
     def merge!(otherheap)
-      if otherheap.class == DS::Heap
+      if (otherheap.class == DS::Heap || otherheap.class == DS::MaxHeap)
         othersize = otherheap.size
         otherheap = otherheap.root_array
       end
@@ -111,7 +112,7 @@ class DS
     end
     
     def pair(p, q)
-      if ( (p.object <=> q.object) == -1)
+      if @lambda.call(p.object, q.object)
         p.right = q.left
         q.left = p
         return q
@@ -121,6 +122,25 @@ class DS
         return p
       end
     end
+  end
+  
+  class MaxHeap < Heap
+    def initialize(ary=[])
+      super(ary) { |x, y| (x <=> y) == -1 }
+    end
     
+    def get_max!
+      get_next!
+    end
+  end
+  
+  class MinHeap < Heap
+    def initialize(ary=[])
+      super(ary) { |x, y| (x <=> y) == 1 }
+    end
+    
+    def get_min!
+      get_next!
+    end
   end
 end
