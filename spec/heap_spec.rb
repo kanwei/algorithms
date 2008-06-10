@@ -16,7 +16,7 @@ describe DS::Heap do
     it "should let you insert and remove one item" do
       @heap.size.should eql(0)
       
-      @heap.insert(1)
+      @heap.insert(1, 1)
       @heap.size.should eql(1)
       
       @heap.get_max!.should eql(1)
