@@ -2,11 +2,10 @@ class DS
   # Implemented as a Binomial heap  
   class Heap
     class Node
-      attr_accessor :key, :left, :right, :object
-      def initialize(object, key)
+      attr_accessor :object, :left, :right
+      def initialize(object)
         @left = nil
         @right = nil
-        @key = key
         @object = object
       end
       
@@ -19,7 +18,7 @@ class DS
       @root_array = []
       @size = 0
       if !ary.empty?
-        ary.each { |n| insert(n, n) }
+        ary.each { |n| insert(n) }
       end
     end
     
@@ -29,32 +28,30 @@ class DS
   
     def peek
       return nil if @size < 1
-      next_index, next_key = -1, nil
+      next_index, next_object = -1, nil
       
       @root_array.size.times do |i|
         unless @root_array[i].nil?
-          if ((next_index == -1) || @lambda.call(next_key, @root_array[i].key))
-            next_index, next_key = i, @root_array[i].key
+          if ((next_index == -1) || @lambda.call(next_object, @root_array[i].object))
+            next_index, next_object = i, @root_array[i].object
           end
         end
       end
-      return @root_array[next_index].object
+      return next_object
     end
   
     def get_next!
       return nil if @size < 1
-      next_index, next_key = -1, nil
+      next_index, next_object = -1, nil
       
       # Remove the root node containing the maximum from its power-of-2 heap
       @root_array.size.times do |i|
         unless @root_array[i].nil?
-          if ((next_index == -1) || @lambda.call(next_key, @root_array[i].key))
-            next_index, next_key = i, @root_array[i].key
+          if ((next_index == -1) || @lambda.call(next_object, @root_array[i].object))
+            next_index, next_object = i, @root_array[i].object
           end
         end
       end
-      
-      object = @root_array[next_index].object
       
       # Temporarily build a binomial queue containing the remaining parts of the power-of-2 heap, and merge this back into the original
       temp = []
@@ -68,11 +65,11 @@ class DS
       @root_array[next_index] = nil
       merge!(temp)
       @size -= 1
-      return object
+      return next_object
     end
   
-    def insert(object, key)
-      c = Node.new(object, key)
+    def insert(object)
+      c = Node.new(object)
       (0..@root_array.size+1).each do |i|
         break if c.nil?
         if @root_array[i].nil?            # The spot is empty, so we use it
@@ -115,7 +112,7 @@ class DS
     end
     
     def pair(p, q)
-      if @lambda.call(p.key, q.key)
+      if @lambda.call(p.object, q.object)
         p.right = q.left
         q.left = p
         return q
