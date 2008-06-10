@@ -1,8 +1,8 @@
 require 'lib/algorithms'
 
-describe Stack do
+describe DS::Stack do
   before(:each) do
-    @stack = Stack.new
+    @stack = DS::Stack.new
   end
   
   describe "(empty)" do

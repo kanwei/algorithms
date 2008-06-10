@@ -1,3 +1,9 @@
+=== June 10, 2008
+
+  * Implemented merge! for other heaps and heap initialization from an array
+  * Implemented Queue
+
+
 === June 9, 2008
 
   * Finished binomial heap implementation
