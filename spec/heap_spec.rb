@@ -61,16 +61,16 @@ describe DS::Heap do
       ordered.should eql( (@random_array + numbers).sort.reverse)
     end
     
-    it "should be faster than the naive approach of finding maximum in an array" do
-      benchmark do |x|
-        x.report("Array#max: ") do
-          @num_items.times { @random_array.delete_at(@random_array.index(@random_array.max)) }
-        end
-        x.report("Heap: ") do
-          @num_items.times { @heap.get_max! }
-        end
-      end
-    end
+    # it "should be faster than the naive approach of finding maximum in an array" do
+    #       benchmark do |x|
+    #         x.report("Array#max: ") do
+    #           @num_items.times { @random_array.delete_at(@random_array.index(@random_array.max)) }
+    #         end
+    #         x.report("Heap: ") do
+    #           @num_items.times { @heap.get_max! }
+    #         end
+    #       end
+    #     end
     
     describe "min-heap" do
       it "should be in min->max order" do

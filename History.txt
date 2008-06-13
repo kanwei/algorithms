@@ -1,3 +1,7 @@
+=== June 12, 2008
+
+  * Implemented Sedgewick's Left Leaning Red Black Tree
+
 === June 10, 2008
 
   * Implemented merge! for other heaps and heap initialization from an array

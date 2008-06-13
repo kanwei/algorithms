@@ -14,8 +14,5 @@ end
 task :default => :spec
 
 task :spec do
-  Dir.glob("spec/*spec.rb") do |spec_file|
-    sh "spec #{spec_file}"
-  end
-  
+  sh "spec spec/*spec.rb"
 end
