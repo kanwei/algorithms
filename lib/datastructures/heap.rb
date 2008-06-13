@@ -95,11 +95,11 @@ class DS
       
       (0..b.size).each do |i|
         case bits(c, b[i], a[i])
-        when 2: a[i] = b[i]
-        when 3: c = pair(a[i], b[i]); a[i] = nil
-        when 4: a[i] = c; c = nil
-        when 5: c = pair(c, a[i]); a[i] = nil
-        when 6..7: c = pair(c, b[i])
+        when 2 then a[i] = b[i]
+        when 3 then c = pair(a[i], b[i]); a[i] = nil
+        when 4 then a[i] = c; c = nil
+        when 5 then c = pair(c, a[i]); a[i] = nil
+        when 6..7 then c = pair(c, b[i])
         end
       end
       @root_array = a

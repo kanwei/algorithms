@@ -63,9 +63,9 @@ class DS
     def getR(node, key)
       return nil if node.nil?
       case key <=> node.key
-      when  0: return node.value;
-      when -1: return getR(node.left, key)
-      when  1: return getR(node.right, key)
+      when  0 then return node.value;
+      when -1 then return getR(node.left, key)
+      when  1 then return getR(node.right, key)
       end
     end
     
@@ -105,9 +105,9 @@ class DS
       colorflip(node) if (isred(node.left) && isred(node.right))
       
       case key <=> node.key
-      when 0: node.value = value
-      when -1: node.left = insert(node.left, key, value)
-      when 1: node.right = insert(node.right, key, value)
+      when  0 then node.value = value
+      when -1 then node.left = insert(node.left, key, value)
+      when  1 then node.right = insert(node.right, key, value)
       end
       
       node = rotate_left(node) if isred(node.right)
