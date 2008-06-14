@@ -89,7 +89,10 @@ class DS
       return fixup(node)
     end
     
-    
+    def deleteMin(node)
+      
+      
+    end
     
     def getR(node, key)
       return nil if node.nil?
@@ -211,10 +214,6 @@ class DS
       end
       return h
     end
-  end
-  
-  class SplayTree
-    
   end
   
 end
