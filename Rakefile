@@ -14,6 +14,6 @@ end
 task :default => :spec
 
 task :spec do
-  sh "cd ext/datastructures/tree; make"
+  sh "cd ext/datastructures/tree_map; make"
   sh "spec spec/*spec.rb"
 end

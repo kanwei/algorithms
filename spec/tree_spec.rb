@@ -1,8 +1,8 @@
 require 'lib/algorithms'
 
-describe DS::RedBlackTree do
+describe DS::TreeMap do
   before(:each) do
-    @tree = DS::RedBlackTree.new
+    @tree = DS::TreeMap.new
   end
   
   describe "(empty)" do

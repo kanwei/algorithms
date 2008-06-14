@@ -1,4 +1,0 @@
-task :default do
-	sh "make"
-	sh "ruby -e 'require \"credblacktree\"; puts a = CRedBlackTree.new; 100.times { |x| a.put(x,x) }; p a.size; p a.get(13); p a.contains?(200)'"
-end
