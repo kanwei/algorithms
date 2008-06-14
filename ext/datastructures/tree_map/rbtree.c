@@ -1,11 +1,13 @@
 #include "ruby.h"
-#include <stdbool.h>
 
 #define RED 1
 #define BLACK 0
 
+#define FALSE 0
+#define TRUE 1
+
 typedef struct struct_rbtree_node {
-	bool color;
+	int color;
 	VALUE key;
 	VALUE value;
 	struct struct_rbtree_node *left;
@@ -35,11 +37,11 @@ static rbtree* get_tree_from_self(VALUE self) {
 	return tree;
 }
 
-bool isred(rbtree_node *node) {
-	if(!node) {	return false; }
+int isred(rbtree_node *node) {
+	if(!node) {	return FALSE; }
 	
-	if(node->color == RED) { return true; }
-	else return false;
+	if(node->color == RED) { return TRUE; }
+	else return FALSE;
 }
 
 static void colorflip(rbtree_node *node) {
@@ -173,7 +175,7 @@ static VALUE rbtree_init(VALUE self)
 }
 
 static void rbtree_free(rbtree *tree) {
-	free(tree->root);
+	recursively_free_nodes(tree->root);
 	free(tree);
 }
 
