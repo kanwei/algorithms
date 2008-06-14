@@ -1,1 +1,5 @@
 *.rbc
+*.bundle
+*.o
+Makefile
+
