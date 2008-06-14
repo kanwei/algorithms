@@ -1,6 +1,4 @@
 require 'lib/algorithms'
-require 'benchmark'
-include Benchmark
 
 describe DS::RedBlackTree do
   before(:each) do
