@@ -1,8 +1,8 @@
 require 'lib/algorithms'
 
-describe DS::TreeMap do
+describe Containers::TreeMap do
   before(:each) do
-    @tree = DS::TreeMap.new
+    @tree = Containers::TreeMap.new
   end
   
   describe "(empty)" do
@@ -19,9 +19,9 @@ describe DS::TreeMap do
       @tree.size.should eql(0)
     end
     
-    it "should return nil for min and max" do
-      @tree.min.should eql(nil)
-      @tree.max.should eql(nil)
+    it "should return nil for #min_key and #max_key" do
+      @tree.min_key.should eql(nil)
+      @tree.max_key.should eql(nil)
     end
     
   end
@@ -38,9 +38,9 @@ describe DS::TreeMap do
       @tree.size.should eql(@random_array.uniq.size)
     end
     
-    it "should return correct max and min" do
-      @tree.min.should eql(@random_array.min)
-      @tree.max.should eql(@random_array.max)
+    it "should return correct max and min keys" do
+      @tree.min_key.should eql(@random_array.min)
+      @tree.max_key.should eql(@random_array.max)
     end
     
     it "should not #contain? keys it doesn't have" do

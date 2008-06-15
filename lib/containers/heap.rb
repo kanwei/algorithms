@@ -1,4 +1,4 @@
-class DS
+module Containers
   # Implemented as a Binomial heap  
   class Heap
     class Node
@@ -14,7 +14,7 @@ class DS
     attr_reader :root_array
     
     def initialize(ary=[], &block)
-      @lambda = block_given? ? block : lambda { |x, y| (x <=> y) == -1 }
+      @compare_function = block_given? ? block : lambda { |x, y| (x <=> y) == -1 }
       @root_array = []
       @size = 0
       if !ary.empty?
@@ -32,7 +32,7 @@ class DS
       
       @root_array.size.times do |i|
         unless @root_array[i].nil?
-          if ((next_index == -1) || @lambda.call(next_object, @root_array[i].object))
+          if ((next_index == -1) || @compare_function.call(next_object, @root_array[i].object))
             next_index, next_object = i, @root_array[i].object
           end
         end
@@ -47,7 +47,7 @@ class DS
       # Remove the root node containing the maximum from its power-of-2 heap
       @root_array.size.times do |i|
         unless @root_array[i].nil?
-          if ((next_index == -1) || @lambda.call(next_object, @root_array[i].object))
+          if ((next_index == -1) || @compare_function.call(next_object, @root_array[i].object))
             next_index, next_object = i, @root_array[i].object
           end
         end
@@ -84,7 +84,7 @@ class DS
     end
   
     def merge!(otherheap)
-      if (otherheap.class == DS::Heap || otherheap.class == DS::MaxHeap)
+      if (otherheap.class == Containers::Heap || otherheap.class == Containers::MinHeap || otherheap.class == Containers::MaxHeap)
         othersize = otherheap.size
         otherheap = otherheap.root_array
       end
@@ -112,7 +112,7 @@ class DS
     end
     
     def pair(p, q)
-      if @lambda.call(p.object, q.object)
+      if @compare_function.call(p.object, q.object)
         p.right = q.left
         q.left = p
         return q

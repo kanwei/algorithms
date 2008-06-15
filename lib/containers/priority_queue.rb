@@ -1,4 +1,4 @@
-class DS
+module Containers
   class PriorityQueue
     def initialize
       

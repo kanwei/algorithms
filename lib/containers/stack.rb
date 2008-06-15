@@ -1,8 +1,8 @@
-class DS
+module Containers
   # Use a Ruby array for storage
   class Stack
     def initialize(ary=[])
-      @container = Array.new
+      @container = ary
     end
   
     def push(object)

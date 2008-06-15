@@ -1,8 +1,8 @@
-class DS
+module Containers
   # Use a Ruby array for storage
   class Queue
     def initialize(ary=[])
-      @container = Array.new
+      @container = ary
     end
   
     def put(object)

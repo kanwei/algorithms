@@ -1,8 +1,8 @@
 require 'lib/algorithms'
 
-describe DS::Queue do
+describe Containers::Queue do
   before(:each) do
-    @queue = DS::Queue.new
+    @queue = Containers::Queue.new
   end
   
   describe "(empty)" do
