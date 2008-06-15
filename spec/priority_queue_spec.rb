@@ -1,10 +1,8 @@
 require 'lib/algorithms'
-require 'benchmark'
-include Benchmark
 
-describe DS::PriorityQueue do
+describe Containers::PriorityQueue do
   before(:each) do
-    @pq = DS::PriorityQueue.new
+    @pq = Containers::PriorityQueue.new
   end
   
   describe "(empty)" do

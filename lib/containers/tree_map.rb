@@ -1,4 +1,4 @@
-class DS
+module Containers
   # A TreeMap implemented with a self-balancing red-black tree
   # Adapted from Robert Sedgewick's Left Leaning Red-Black Tree Implementation
   # http://www.cs.princeton.edu/~rs/talks/LLRB/Java/RedBlackBST.java
@@ -30,27 +30,27 @@ class DS
     end
     
     def size
-      return sizeR(@root)
+      sizeR(@root)
     end
     
     def height
-      return heightR(@root)
+      heightR(@root)
     end
     
     def contains?(key)
-      return !get(key).nil?
+      !get(key).nil?
     end
     
     def get(key)
-      return getR(@root, key)
+      getR(@root, key)
     end
     
-    def min
-      return @root.nil? ? nil : minR(@root)
+    def min_key
+      @root.nil? ? nil : minR(@root)
     end
     
-    def max
-      return @root.nil? ? nil : maxR(@root)
+    def max_key
+      @root.nil? ? nil : maxR(@root)
     end
     
     def delete(key)
@@ -61,7 +61,7 @@ class DS
     
     def to_s
       return "" if @root.nil?
-      return "#{@height_black} #{to_sR(@root)}"
+      "#{@height_black} #{to_sR(@root)}"
     end
     
     private
@@ -86,7 +86,7 @@ class DS
           node.right = delete(node.right, key)
         end
       end
-      return fixup(node)
+      fixup(node)
     end
     
     def deleteMin(node)
@@ -108,27 +108,31 @@ class DS
       x.left.nil? ? s << '(' : s << to_sR(x.left)
       s << "*" if isred(x)
       x.right.nil? ? s << ')' : s << to_sR(x.right)
-      return s + ')'
+      s + ')'
     end    
     
     def sizeR(node)
       return 0 if node.nil?
-      return node.num_nodes
+      
+      node.num_nodes
     end
     
     def heightR(node)
       return 0 if node.nil?
-      return node.height
+      
+      node.height
     end
     
     def minR(node)
       return node.key if node.left.nil?
-      return minR(node.left)
+      
+      minR(node.left)
     end
     
     def maxR(node)
       return node.key if node.right.nil?
-      return maxR(node.right)
+      
+      maxR(node.right)
     end
     
     def insert(node, key, value)
@@ -147,30 +151,33 @@ class DS
       node = rotate_left(node) if isred(node.right)
       node = rotate_right(node) if (isred(node.left) && isred(node.left.left))
       
-      return set_num_nodes(node)
+      set_num_nodes(node)
     end
     
     def isred(h)
       return false if h.nil?
-      return h.color == :red
+      
+      h.color == :red
     end
     
     def rotate_left(h)
-      x = h.right;
-      h.right = x.left;
-      x.left = set_num_nodes(h);
-      x.color = x.left.color;                   
-      x.left.color = :red;                     
-      return set_num_nodes(x);
+      x = h.right
+      h.right = x.left
+      x.left = set_num_nodes(h)
+      x.color = x.left.color
+      x.left.color = :red
+                         
+      set_num_nodes(x)
     end
     
     def rotate_right(h)
-      x = h.left;
-      h.left = x.right;
-      x.right = set_num_nodes(h);
-      x.color = x.right.color;                   
-      x.right.color = :red;                     
-      return set_num_nodes(x);
+      x = h.left
+      h.left = x.right
+      x.right = set_num_nodes(h)
+      x.color = x.right.color
+      x.right.color = :red
+      
+      set_num_nodes(x);
     end
     
     def colorflip(h)
@@ -186,7 +193,7 @@ class DS
         h = rotate_left(h)
         colorflip(h)
       end
-      return h      
+      h      
     end
     
     def move_red_right(h)
@@ -195,14 +202,15 @@ class DS
         h = rotate_right(h)
         colorflip(h)
       end
-      return h      
+      h      
     end
     
     def fixup(h)
       h = rotate_left(h) if isred(h.right)
       h = rotate_right(h) if (isred(h.left) && isred(h.left.left))
       colorflip(h) if (isred(h.left) && isred(h.right))
-      return set_num_nodes(h)
+      
+      set_num_nodes(h)
     end
     
     def set_num_nodes(h)
@@ -212,7 +220,7 @@ class DS
       else
         h.height = heightR(h.right) + 1
       end
-      return h
+      h
     end
   end
   
