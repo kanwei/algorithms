@@ -59,6 +59,16 @@ module Containers
       nil
     end
     
+    def delete_min_key
+      @root = delete_minR(@root)
+      @root.color = :black
+    end
+    
+    def delete_max_key
+      @root = delete_maxR(@root)
+      @root.color = :black
+    end
+    
     def to_s
       return "" if @root.nil?
       "#{@height_black} #{to_sR(@root)}"
@@ -72,26 +82,44 @@ module Containers
         node.left = deleteR(node.left, key)
       else
         node = rotate_right(node) if isred(node.left)
-        if ( ( (key <=> node.key) == 0) && h.right.nil? )
+        if ( ( (key <=> node.key) == 0) && node.right.nil? )
           return nil
         end
         if (!isred(node.right) && !isred(node.right.left))
-          node = moveRedRight(node);
+          node = move_red_right(node);
         end
         if (key <=> node.key) == 0
-          node.value = get(node.right, minR(node.right));
+          node.value = getR(node.right, minR(node.right));
           node.key = minR(node.right);
-          node.right = deleteMin(node.right);
+          node.right = delete_minR(node.right);
         else
-          node.right = delete(node.right, key)
+          node.right = deleteR(node.right, key)
         end
       end
       fixup(node)
     end
     
-    def deleteMin(node)
+    def delete_minR(node)
+      return nil if node.left.nil?
+      if ( !isred(node.left) && !isred(node.left.left) )
+        node = move_red_left(node)
+      end
+      node.left = delete_minR(node.left)
       
+      fixup(node)
+    end
+    
+    def delete_maxR(node)
+      if (isred(node.left))
+        node = rotate_right(node)
+      end
+      return nil if node.right.nil?
+      if ( !isred(node.right) && !isred(node.right.left) )
+        node = move_red_right(node)
+      end
+      node.right = delete_maxR(node.right)
       
+      fixup(node)
     end
     
     def getR(node, key)
