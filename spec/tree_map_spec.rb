@@ -51,6 +51,26 @@ describe Containers::TreeMap do
       @tree.contains?(@random_array[0]).should eql(true)
     end
     
+    it "should remove max key with #delete_max_key" do
+      max = @tree.max_key
+      @tree.contains?(max).should eql(true)
+      @tree.delete_max_key
+      @tree.contains?(max).should eql(false)
+    end
+    
+    it "should remove min key with #delete_min_key" do
+      min = @tree.min_key
+      @tree.contains?(min).should eql(true)
+      @tree.delete_min_key
+      @tree.contains?(min).should eql(false)
+    end
+    
+    it "should remove any key" do
+      random_key = @random_array[rand(@num_items)]
+      @tree.contains?(random_key).should eql(true)
+      @tree.delete(random_key).should eql(nil)
+      @tree.contains?(random_key).should eql(false)
+    end
   end
   
 end
