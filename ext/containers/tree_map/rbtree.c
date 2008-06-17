@@ -38,7 +38,7 @@ static rbtree* get_tree_from_self(VALUE self) {
 }
 
 int isred(rbtree_node *node) {
-	if(!node) {	return FALSE; }
+	if(!node) { return FALSE; }
 	
 	if(node->color == RED) { return TRUE; }
 	else return FALSE;
@@ -91,6 +91,37 @@ static rbtree_node* rotate_right(rbtree_node *h) {
 	return set_num_nodes(x);	
 }
 
+static rbtree_node* move_red_left(rbtree_node *h) {
+	colorflip(h);
+	if ( isred(h->right->left) ) {
+		h->right = rotate_right(h->right);
+		h = rotate_left(h);
+		colorflip(h);
+	}
+	return h;
+}
+
+static rbtree_node* move_red_right(rbtree_node *h) {
+	colorflip(h);
+	if ( isred(h->left->left) ) {
+		h = rotate_right(h);
+		colorflip(h);
+	}
+	return h;
+}
+
+static rbtree_node* fixup(rbtree_node *h) {
+	if ( isred(h->right) )
+		h = rotate_left(h);
+	
+	if ( isred(h->left) && isred(h->left->left) )
+		h = rotate_right(h);
+	
+	if ( isred(h->left) && isred(h->right) )
+		colorflip(h);
+		
+	return set_num_nodes(h);
+}
 static rbtree* create_rbtree(int (*compare_function)(VALUE, VALUE)) {
 	rbtree *tree = ALLOC(rbtree);
 	tree->black_height = 0;
@@ -109,7 +140,7 @@ static rbtree_node* insert(rbtree *tree, rbtree_node *node, VALUE key, VALUE val
 		new_node->value		= value;
 		new_node->color		= RED;
 		new_node->height	= 1;
-		new_node->num_nodes	= 1;
+		new_node->num_nodes = 1;
 		new_node->left		= NULL;
 		new_node->right		= NULL;
 		return new_node;
@@ -122,12 +153,12 @@ static rbtree_node* insert(rbtree *tree, rbtree_node *node, VALUE key, VALUE val
 	
 	// Insert left or right, recursively
 	cmp = tree->compare_function(key, node->key);
-	if 		(cmp == 0) 	{ node->value = value; }
+	if		(cmp == 0)	{ node->value = value; }
 	else if (cmp == -1) { node->left  = insert(tree, node->left, key, value); }
-	else 				{ node->right = insert(tree, node->right, key, value); }
+	else				{ node->right = insert(tree, node->right, key, value); }
 	
 	// Fix our tree to keep left-lean
-	if (isred(node->right))	{ node = rotate_left(node); }
+	if (isred(node->right)) { node = rotate_left(node); }
 	if (isred(node->left) && isred(node->left->left)) { node = rotate_right(node); }
 	
 	return set_num_nodes(node);
@@ -140,9 +171,9 @@ static VALUE get(rbtree *tree, rbtree_node *node, VALUE key) {
 	}
 	
 	cmp = tree->compare_function(key, node->key);
-	if 		(cmp == 0) 	{ return node->value; }
+	if		(cmp == 0)	{ return node->value; }
 	else if (cmp == -1) { return get(tree, node->left, key); }
-	else 				{ return get(tree, node->right, key); }
+	else				{ return get(tree, node->right, key); }
 	
 }
 
@@ -159,9 +190,70 @@ static VALUE max(rbtree_node *node) {
 	
 	return max(node->right);
 }
+
+static rbtree_node* delete_min(rbtree_node *h) { 
+	if ( !(h->left) )
+		return NULL;
+	
+	if ( !isred(h->left) && !isred(h->left->left) )
+		h = move_red_left(h);
+
+	h->left = delete_min(h->left);
+
+	return fixup(h);
+}
+
+static rbtree_node* delete_max(rbtree_node *h) {
+	if ( isred(h->left) )
+		h = rotate_right(h);
+
+	if ( !(h->right) )
+		return NULL;
+
+	if ( !isred(h->right) && !isred(h->right->left) )
+		h = move_red_right(h);
+
+	h->right = delete_max(h->right);
+
+	return fixup(h);
+}
+
+
+static rbtree_node* delete(rbtree *tree, rbtree_node *node, VALUE key) {
+	int cmp;
+	VALUE min_key;
+	cmp = tree->compare_function(key, node->key);
+	if (cmp < 0) {
+		if ( !isred(node->left) && !isred(node->left->left) )
+			node = move_red_left(node);
+		
+		node->left = delete(tree, node->left, key);
+	}
+	else {
+		if ( isred(node->left) )
+			node = rotate_right(node);
+	
+		if ( (cmp == 0) && !(node->right) )
+			return NULL;
+
+		if ( !isred(node->right) && !isred(node->right->left) )
+			node = move_red_right(node);
+
+		if (cmp == 0) {
+			min_key = min(node->right);
+			node->value = get(tree, node->right, min_key);
+			node->key = min_key;
+			node->right = delete_min(node->right);
+		}
+		else {
+			node->right = delete(tree, node->right, key);
+		}
+	}
+	return fixup(node);
+}
 	
 
-// Ruby stuff
+// Methods to be called in Ruby
 
 static int id_compare_operator;
 
@@ -171,7 +263,7 @@ static int rbtree_compare_function(VALUE a, VALUE b) {
 
 static VALUE rbtree_init(VALUE self)
 {
-    return self;
+	return self;
 }
 
 static void rbtree_free(rbtree *tree) {
@@ -229,18 +321,36 @@ static VALUE rbtree_max(VALUE self) {
 	return max(tree->root);
 }
 
-VALUE cRBTree;
+static VALUE rbtree_delete(VALUE self, VALUE key) {
+	rbtree *tree = get_tree_from_self(self);
+	if(!tree->root)
+		return Qnil;
+	
+	tree->root = delete(tree, tree->root, key);
+	if(!tree->root)
+		tree->root->color = BLACK;
+		
+	return Qnil;
+}
+
+static VALUE cRBTree;
+static VALUE mContainers;
+
 void Init_c_tree_map() {
 	id_compare_operator = rb_intern("<=>");
 	
-    cRBTree = rb_define_class("CTreeMap", rb_cObject);
+	mContainers = rb_define_module("Containers");
+	cRBTree = rb_define_class_under(mContainers, "CTreeMap", rb_cObject);
 	rb_define_alloc_func(cRBTree, rbtree_alloc);
-    rb_define_method(cRBTree, "initialize", rbtree_init, 0);
-    rb_define_method(cRBTree, "put", rbtree_put, 2);
-    rb_define_method(cRBTree, "size", rbtree_size, 0);
-    rb_define_method(cRBTree, "height", rbtree_height, 0);
-    rb_define_method(cRBTree, "min", rbtree_min, 0);
-    rb_define_method(cRBTree, "max", rbtree_max, 0);
-    rb_define_method(cRBTree, "get", rbtree_get, 1);
-    rb_define_method(cRBTree, "contains?", rbtree_contains, 1);
+	rb_define_method(cRBTree, "initialize", rbtree_init, 0);
+	rb_define_method(cRBTree, "put", rbtree_put, 2);
+	rb_define_alias(cRBTree, "[]=", "put");
+	rb_define_method(cRBTree, "size", rbtree_size, 0);
+	rb_define_method(cRBTree, "height", rbtree_height, 0);
+	rb_define_method(cRBTree, "min_key", rbtree_min, 0);
+	rb_define_method(cRBTree, "max_key", rbtree_max, 0);
+	rb_define_method(cRBTree, "get", rbtree_get, 1);
+	rb_define_alias(cRBTree, "[]", "get");
+	rb_define_method(cRBTree, "contains?", rbtree_contains, 1);
+	rb_define_method(cRBTree, "delete", rbtree_delete, 1);
 }

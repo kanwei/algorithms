@@ -2,12 +2,12 @@ require 'lib/algorithms'
 
 describe Containers::TreeMap do
   before(:each) do
-    @tree = Containers::TreeMap.new
+    @tree = Containers::CTreeMap.new
   end
   
   describe "(empty)" do
     it "should let you put stuff in" do
-      100.times { |x| @tree.put(x, x) }
+      100.times { |x| @tree[x] = x }
       @tree.size.should eql(100)
     end
     
@@ -24,6 +24,9 @@ describe Containers::TreeMap do
       @tree.max_key.should eql(nil)
     end
     
+    it "should not delete" do
+      @tree.delete(:non_existing).should eql(nil)
+    end
   end
   
   describe "(non-empty)" do
@@ -31,7 +34,7 @@ describe Containers::TreeMap do
       @num_items = 100
       @random_array = []
       @num_items.times { @random_array << rand(@num_items) }
-      @random_array.each { |x| @tree.put(x, x) }
+      @random_array.each { |x| @tree[x] = x }
     end
     
     it "should return correct size (uniqify items first)" do
@@ -49,20 +52,6 @@ describe Containers::TreeMap do
     
     it "should #contain? keys it does have" do
       @tree.contains?(@random_array[0]).should eql(true)
-    end
-    
-    it "should remove max key with #delete_max_key" do
-      max = @tree.max_key
-      @tree.contains?(max).should eql(true)
-      @tree.delete_max_key
-      @tree.contains?(max).should eql(false)
-    end
-    
-    it "should remove min key with #delete_min_key" do
-      min = @tree.min_key
-      @tree.contains?(min).should eql(true)
-      @tree.delete_min_key
-      @tree.contains?(min).should eql(false)
     end
     
     it "should remove any key" do

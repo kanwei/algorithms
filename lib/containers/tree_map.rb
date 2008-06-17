@@ -28,6 +28,7 @@ module Containers
       @height_black += 1 if isred(@root)
       @root.color = :black
     end
+    alias :[]= :put
     
     def size
       sizeR(@root)
@@ -44,6 +45,7 @@ module Containers
     def get(key)
       getR(@root, key)
     end
+    alias :[] :get
     
     def min_key
       @root.nil? ? nil : minR(@root)
@@ -54,19 +56,11 @@ module Containers
     end
     
     def delete(key)
-      @root = deleteR(@root, key)
-      @root.color = :black if @root
+      if @root
+        @root = deleteR(@root, key)
+        @root.color = :black
+      end
       nil
-    end
-    
-    def delete_min_key
-      @root = delete_minR(@root)
-      @root.color = :black
-    end
-    
-    def delete_max_key
-      @root = delete_maxR(@root)
-      @root.color = :black
     end
     
     def to_s
@@ -89,9 +83,9 @@ module Containers
           node = move_red_right(node);
         end
         if (key <=> node.key) == 0
-          node.value = getR(node.right, minR(node.right));
-          node.key = minR(node.right);
-          node.right = delete_minR(node.right);
+          node.value = getR(node.right, minR(node.right))
+          node.key = minR(node.right)
+          node.right = delete_minR(node.right)
         else
           node.right = deleteR(node.right, key)
         end

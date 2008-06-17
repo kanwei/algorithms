@@ -4,7 +4,7 @@ include Benchmark
 
 # Benchmark heap
 @random_array = []
-@num_items = 100000
+@num_items = 10000
 @num_items.times { |x| @random_array << rand(@num_items) }
 # @heap = DS::MaxHeap.new(@random_array)
 
@@ -18,11 +18,22 @@ include Benchmark
 # end
 
 # Benchmark Search trees
-@tree = DS::RedBlackTree.new
-@ctree = CRedBlackTree.new
-@random_array.each { |x| @tree.put(x, x); @ctree.put(x, x) }
+@tree = Containers::TreeMap.new
+@ctree = Containers::CTreeMap.new
+@hash = Hash.new
 
 benchmark do |bench|
+  bench.report("Tree: \t") do
+    @random_array.each { |x| @tree[x] = x }
+  end
+  
+  bench.report("CTree: \t") do
+    @random_array.each { |x| @ctree[x] = x }
+  end
+  
+  bench.report("Hash: \t") do
+    @hash.each { |x| @hash[x] = x }
+  end
   # bench.report("#find: \t") do
   #   @num_items.times { |n| @random_array.include?(n) }
   # end
