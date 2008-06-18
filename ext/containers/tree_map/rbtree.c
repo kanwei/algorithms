@@ -177,18 +177,18 @@ static VALUE get(rbtree *tree, rbtree_node *node, VALUE key) {
 	
 }
 
-static VALUE min(rbtree_node *node) {
+static VALUE min_key(rbtree_node *node) {
 	if (!node->left)
 		return node->key;
 		
-	return min(node->left);
+	return min_key(node->left);
 }
 
-static VALUE max(rbtree_node *node) {
+static VALUE max_key(rbtree_node *node) {
 	if (!node->right)
 		return node->key;
 	
-	return max(node->right);
+	return max_key(node->right);
 }
 
 static rbtree_node* delete_min(rbtree_node *h) { 
@@ -221,7 +221,7 @@ static rbtree_node* delete_max(rbtree_node *h) {
 
 static rbtree_node* delete(rbtree *tree, rbtree_node *node, VALUE key) {
 	int cmp;
-	VALUE min_key;
+	VALUE minimum_key;
 	cmp = tree->compare_function(key, node->key);
 	if (cmp < 0) {
 		if ( !isred(node->left) && !isred(node->left->left) )
@@ -240,9 +240,9 @@ static rbtree_node* delete(rbtree *tree, rbtree_node *node, VALUE key) {
 			node = move_red_right(node);
 
 		if (cmp == 0) {
-			min_key = min(node->right);
-			node->value = get(tree, node->right, min_key);
-			node->key = min_key;
+			minimum_key = min_key(node->right);
+			node->value = get(tree, node->right, minimum_key);
+			node->key = minimum_key;
 			node->right = delete_min(node->right);
 		}
 		else {
@@ -305,20 +305,20 @@ static VALUE rbtree_contains(VALUE self, VALUE key) {
 	return Qtrue;
 }
 
-static VALUE rbtree_min(VALUE self) {
+static VALUE rbtree_min_key(VALUE self) {
 	rbtree *tree = get_tree_from_self(self);
 	if(!tree->root)
 		return Qnil;
 	
-	return min(tree->root);
+	return min_key(tree->root);
 }
 
-static VALUE rbtree_max(VALUE self) {
+static VALUE rbtree_max_key(VALUE self) {
 	rbtree *tree = get_tree_from_self(self);
 	if(!tree->root)
 		return Qnil;
 	
-	return max(tree->root);
+	return max_key(tree->root);
 }
 
 static VALUE rbtree_delete(VALUE self, VALUE key) {
@@ -347,8 +347,8 @@ void Init_c_tree_map() {
 	rb_define_alias(cRBTree, "[]=", "put");
 	rb_define_method(cRBTree, "size", rbtree_size, 0);
 	rb_define_method(cRBTree, "height", rbtree_height, 0);
-	rb_define_method(cRBTree, "min_key", rbtree_min, 0);
-	rb_define_method(cRBTree, "max_key", rbtree_max, 0);
+	rb_define_method(cRBTree, "min_key", rbtree_min_key, 0);
+	rb_define_method(cRBTree, "max_key", rbtree_max_key, 0);
 	rb_define_method(cRBTree, "get", rbtree_get, 1);
 	rb_define_alias(cRBTree, "[]", "get");
 	rb_define_method(cRBTree, "contains?", rbtree_contains, 1);

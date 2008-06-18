@@ -3,6 +3,8 @@ module Containers
   # Adapted from Robert Sedgewick's Left Leaning Red-Black Tree Implementation
   # http://www.cs.princeton.edu/~rs/talks/LLRB/Java/RedBlackBST.java
   class TreeMap
+    include Enumerable
+    
     class Node
       attr_accessor :color, :key, :value, :left, :right, :num_nodes, :height
       def initialize(key, value)
@@ -56,11 +58,16 @@ module Containers
     end
     
     def delete(key)
+      result = nil
       if @root
-        @root = deleteR(@root, key)
+        @root, result = deleteR(@root, key)
         @root.color = :black
       end
-      nil
+      result
+    end
+    
+    def each(&block)
+      @root.nil? ? nil : eachR(@root, block)
     end
     
     def to_s
@@ -70,27 +77,36 @@ module Containers
     
     private
     
+    def eachR(node, block)
+      return if node.nil?
+      
+      eachR(node.left, block)
+      block.call(node.key, node.value)
+      eachR(node.right, block)
+    end
+    
     def deleteR(node, key)
       if (key <=> node.key) == -1
         node = move_red_left(node) if (!isred(node.left) && !isred(node.left.left))
-        node.left = deleteR(node.left, key)
+        node.left, result = deleteR(node.left, key)
       else
         node = rotate_right(node) if isred(node.left)
         if ( ( (key <=> node.key) == 0) && node.right.nil? )
-          return nil
+          return nil, node.value
         end
         if (!isred(node.right) && !isred(node.right.left))
           node = move_red_right(node);
         end
         if (key <=> node.key) == 0
+          result = node.value
           node.value = getR(node.right, minR(node.right))
           node.key = minR(node.right)
           node.right = delete_minR(node.right)
         else
-          node.right = deleteR(node.right, key)
+          node.right, result = deleteR(node.right, key)
         end
       end
-      fixup(node)
+      return fixup(node), result
     end
     
     def delete_minR(node)

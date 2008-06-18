@@ -2,7 +2,7 @@ require 'lib/algorithms'
 
 describe Containers::TreeMap do
   before(:each) do
-    @tree = Containers::CTreeMap.new
+    @tree = Containers::TreeMap.new
   end
   
   describe "(empty)" do
@@ -57,8 +57,17 @@ describe Containers::TreeMap do
     it "should remove any key" do
       random_key = @random_array[rand(@num_items)]
       @tree.contains?(random_key).should eql(true)
-      @tree.delete(random_key).should eql(nil)
+      @tree.delete(random_key).should eql(random_key)
       @tree.contains?(random_key).should eql(false)
+    end
+    
+    it "should let you iterate with #each" do
+      counter = 0
+      sorted_array = @random_array.uniq.sort
+      @tree.each do |key, val|
+        key.should eql(sorted_array[counter])
+        counter += 1
+      end
     end
   end
   
