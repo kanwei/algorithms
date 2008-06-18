@@ -2,7 +2,7 @@ require 'lib/algorithms'
 
 describe Containers::TreeMap do
   before(:each) do
-    @tree = Containers::TreeMap.new
+    @tree = Containers::CTreeMap.new
   end
   
   describe "(empty)" do
