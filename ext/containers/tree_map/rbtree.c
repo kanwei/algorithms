@@ -234,7 +234,6 @@ static rbtree_node* delete(rbtree *tree, rbtree_node *node, VALUE key, VALUE *de
 			node = rotate_right(node);
 	
 		if ( (cmp == 0) && !(node->right) ) {
-			printf("SHIT");
 			*deleted_value = node->value;
 			return NULL;
 		}
@@ -255,6 +254,24 @@ static rbtree_node* delete(rbtree *tree, rbtree_node *node, VALUE key, VALUE *de
 		}
 	}
 	return fixup(node);
+}
+
+static rbtree* rbtree_each_node(rbtree *tree, rbtree_node *node, void (*each)(rbtree *tree_, rbtree_node *node_, void* args), void* arguments) {
+	if (!node)
+		return NULL;
+	
+    if (node->left)
+    	rbtree_each_node(tree, node->left, each, arguments);
+	(*each)(tree, node, arguments);
+    if (node->right)
+    	rbtree_each_node(tree, node->right, each, arguments);
+	return tree;
+}
+
+static rbtree* rbt_each(rbtree *tree, void (*each)(rbtree *tree, rbtree_node *node, void *args), void* arguments) {
+	if (tree->root)
+    	rbtree_each_node(tree, tree->root, each, arguments);
+  	return tree;
 }
 	
 
@@ -343,11 +360,15 @@ static VALUE rbtree_delete(VALUE self, VALUE key) {
 	return Qnil;
 }
 
-// static VALUE rbtree_each(VALUE self) {
-// 	VALUE block;
-// 	
-// 	rb_scan_args();
-// }
+static void rbtree_each_helper(rbtree *tree, rbtree_node *node, void *args) {
+	rb_yield(rb_ary_new3(2, node->key, node->value));
+};
+
+static VALUE rbtree_each(VALUE self) {
+	rbtree *tree = get_tree_from_self(self);
+	rbt_each(tree, &rbtree_each_helper, NULL);
+	return self;
+}
 
 static VALUE cRBTree;
 static VALUE mContainers;
@@ -365,8 +386,10 @@ void Init_c_tree_map() {
 	rb_define_method(cRBTree, "height", rbtree_height, 0);
 	rb_define_method(cRBTree, "min_key", rbtree_min_key, 0);
 	rb_define_method(cRBTree, "max_key", rbtree_max_key, 0);
+	rb_define_method(cRBTree, "each", rbtree_each, 0);
 	rb_define_method(cRBTree, "get", rbtree_get, 1);
 	rb_define_alias(cRBTree, "[]", "get");
 	rb_define_method(cRBTree, "contains?", rbtree_contains, 1);
 	rb_define_method(cRBTree, "delete", rbtree_delete, 1);
+	rb_include_module(cRBTree, rb_eval_string("Enumerable"));
 }
