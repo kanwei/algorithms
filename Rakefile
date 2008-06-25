@@ -1,19 +1,21 @@
 # -*- ruby -*-
 
 require 'rubygems'
-require 'hoe'
-require './lib/algorithms.rb'
+require 'echoe'
 
-Hoe.new('algorithms', Algorithms::VERSION) do |p|
-  # p.rubyforge_name = 'algorithmsx' # if different than lowercase project name
-  p.developer('Kanwei Li', 'kanwei@gmail.com')
+Echoe.new('algorithms') do |p|
+  p.author  = 'Kanwei Li'
+  p.email   = 'kanwei@gmail.com'
+  p.summary = 'A library of algorithms and containers.'
+  p.url     = 'http://rubyforge.org/projects/algorithms/'
+  p.version = "0.0.1"
+  p.runtime_dependencies = []
 end
 
 # vim: syntax=Ruby
 
 task :default => :spec
 
-task :spec do
-  sh "cd ext/containers/tree_map; make"
+task :spec => :compile do
   sh "spec spec/*spec.rb"
 end

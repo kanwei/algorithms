@@ -1,6 +1,7 @@
 %w(heap stack queue priority_queue tree_map).each { |file| require "#{File.dirname(__FILE__)}/containers/#{file}" }
-require "#{File.dirname(__FILE__)}/../ext/containers/tree_map/c_tree_map"
-
-class Algorithms
-  VERSION = '0.0.1'
+begin
+  require 'CTreeMap'
+  Containers::TreeMap = Containers::CTreeMap
+rescue LoadError # C Version could not be found, try ruby version
+  Containers::TreeMap = Containers::RubyTreeMap
 end

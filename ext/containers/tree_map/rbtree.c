@@ -373,7 +373,7 @@ static VALUE rbtree_each(VALUE self) {
 static VALUE cRBTree;
 static VALUE mContainers;
 
-void Init_c_tree_map() {
+void Init_CTreeMap() {
 	id_compare_operator = rb_intern("<=>");
 	
 	mContainers = rb_define_module("Containers");
