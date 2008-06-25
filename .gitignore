@@ -3,3 +3,6 @@
 *.o
 Makefile
 .DS_Store
+*.gemspec
+doc
+pkg
