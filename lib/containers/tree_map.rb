@@ -2,7 +2,7 @@ module Containers
   # A TreeMap implemented with a self-balancing red-black tree
   # Adapted from Robert Sedgewick's Left Leaning Red-Black Tree Implementation
   # http://www.cs.princeton.edu/~rs/talks/LLRB/Java/RedBlackBST.java
-  class TreeMap
+  class RubyTreeMap
     include Enumerable
     
     class Node

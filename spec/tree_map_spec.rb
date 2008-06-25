@@ -82,17 +82,17 @@ describe Containers::CTreeMap do
   end
 end
 
-describe Containers::TreeMap do
+describe Containers::RubyTreeMap do
   describe "empty" do
     before(:each) do
-      @tree = Containers::TreeMap.new
+      @tree = Containers::RubyTreeMap.new
     end
     it_should_behave_like "(empty)"
   end
   
   describe "full" do
     before(:each) do
-      @tree = Containers::TreeMap.new
+      @tree = Containers::RubyTreeMap.new
     end
     it_should_behave_like "(non-empty)"
   end

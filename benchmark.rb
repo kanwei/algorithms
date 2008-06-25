@@ -19,7 +19,7 @@ include Benchmark
 
 # Benchmark Search trees
 @tree = Containers::TreeMap.new
-@ctree = Containers::CTreeMap.new
+@ctree = Containers::TreeMap.new
 @hash = Hash.new
 
 benchmark do |bench|
@@ -34,9 +34,10 @@ benchmark do |bench|
   bench.report("Hash: \t") do
     @hash.each { |x| @hash[x] = x }
   end
-  # bench.report("#find: \t") do
-  #   @num_items.times { |n| @random_array.include?(n) }
-  # end
+
+  bench.report("Hash: \t") do
+    @num_items.times { |n| @hash.has_key?(n) }
+  end
   
   bench.report("Tree: \t") do
     @num_items.times { |n| @tree.contains?(n) }
