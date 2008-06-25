@@ -1,32 +1,42 @@
 = algorithms
 
-* FIX (url)
+* http://rubyforge.org/projects/algorithms/
 
 == DESCRIPTION:
 
-FIX (describe your package)
+Using the right data structure or algorithm for the situation is an important aspect of programming. In computer science literature, many data structures and algorithms have been researched and extensively documented. However, there is still no standard library in Ruby implementing useful structures and algorithms like Red/Black Trees, tries, graphs, different sorting algorithms, etc. This project will create such a library with documentation on when to use a particular structure/algorithm. It will also come with a benchmark suite to compare performance in different situations.
 
 == FEATURES/PROBLEMS:
 
-* FIX (list of features or problems)
+Done so far:
+* Heaps (Maximum, Minimum)
+* Priority Queue
+* Stack
+* Queue
+* TreeMap
 
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+  require 'rubygems'
+  require 'algorithms'
+  
+  include Containers
+  max_heap = MaxHeap.new
 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+* Ruby 1.8
+* C compiler for extensions (optional)
 
 == INSTALL:
 
-* FIX (sudo gem install, anything else)
+* sudo gem install
 
 == LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2008 FIX
+Copyright (c) 2008 Kanwei Li
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
