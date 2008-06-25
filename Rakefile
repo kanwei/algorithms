@@ -1,5 +1,3 @@
-# -*- ruby -*-
-
 require 'rubygems'
 require 'echoe'
 
@@ -12,10 +10,8 @@ Echoe.new('algorithms') do |p|
   p.runtime_dependencies = []
 end
 
-# vim: syntax=Ruby
-
 task :default => :spec
 
 task :spec => :compile do
-  sh "spec spec/*spec.rb"
+  sh "spec -c spec/"
 end
