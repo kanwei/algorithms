@@ -901,7 +901,8 @@ VALUE pq_inspect(VALUE self) {
   return result;
 }
 
-VALUE cPriorityQueue;
+static VALUE cPriorityQueue;
+static VALUE mContainers;
 
 /* 
  * A Priority Queue implementation
@@ -920,7 +921,8 @@ void Init_CPriorityQueue() {
   id_format = rb_intern("format");
   id_display = rb_intern("display");
 
-  cPriorityQueue = rb_define_class("CPriorityQueue", rb_cObject);
+  mContainers = rb_define_module("Containers");
+  cPriorityQueue = rb_define_class_under(mContainers, "CPriorityQueue", rb_cObject);
 
   rb_define_alloc_func(cPriorityQueue, pq_alloc);
   rb_define_method(cPriorityQueue, "initialize", pq_init, 0);

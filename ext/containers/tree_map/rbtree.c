@@ -154,7 +154,7 @@ static rbtree_node* insert(rbtree *tree, rbtree_node *node, VALUE key, VALUE val
 	// Insert left or right, recursively
 	cmp = tree->compare_function(key, node->key);
 	if		(cmp == 0)	{ node->value = value; }
-	else if (cmp == -1) { node->left  = insert(tree, node->left, key, value); }
+	else if (cmp == -1) { node->left	= insert(tree, node->left, key, value); }
 	else				{ node->right = insert(tree, node->right, key, value); }
 	
 	// Fix our tree to keep left-lean
@@ -260,18 +260,18 @@ static rbtree* rbtree_each_node(rbtree *tree, rbtree_node *node, void (*each)(rb
 	if (!node)
 		return NULL;
 	
-    if (node->left)
-    	rbtree_each_node(tree, node->left, each, arguments);
+		if (node->left)
+			rbtree_each_node(tree, node->left, each, arguments);
 	(*each)(tree, node, arguments);
-    if (node->right)
-    	rbtree_each_node(tree, node->right, each, arguments);
+		if (node->right)
+			rbtree_each_node(tree, node->right, each, arguments);
 	return tree;
 }
 
 static rbtree* rbt_each(rbtree *tree, void (*each)(rbtree *tree, rbtree_node *node, void *args), void* arguments) {
 	if (tree->root)
-    	rbtree_each_node(tree, tree->root, each, arguments);
-  	return tree;
+			rbtree_each_node(tree, tree->root, each, arguments);
+		return tree;
 }
 	
 
@@ -280,7 +280,7 @@ static rbtree* rbt_each(rbtree *tree, void (*each)(rbtree *tree, rbtree_node *no
 static int id_compare_operator;
 
 static int rbtree_compare_function(VALUE a, VALUE b) {
-  return FIX2INT(rb_funcall((VALUE) a, id_compare_operator, 1, (VALUE) b));
+	return FIX2INT(rb_funcall((VALUE) a, id_compare_operator, 1, (VALUE) b));
 }
 
 static VALUE rbtree_init(VALUE self)
