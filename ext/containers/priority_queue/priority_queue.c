@@ -18,16 +18,15 @@
  * Except for using a value except of a void* the priority queue c-code is ruby
  * agnostic.
  *
+ * Modifications by Kanwei Li
  */
 #include <stdlib.h>
 #include <stdio.h>
 #include "ruby.h"
 #include <math.h>
 
-typedef _Bool bool;
-
-#define false 0;
-#define true 1;
+#define FALSE 0;
+#define TRUE 1;
 
 // Node Structure
 typedef struct struct_priority_node {
@@ -38,7 +37,7 @@ typedef struct struct_priority_node {
   struct struct_priority_node* child;
   struct struct_priority_node* left;
   struct struct_priority_node* right;
-  bool mark;
+  int mark;
 } priority_node;
 
 // The Priority Queue
@@ -63,7 +62,7 @@ priority_node* create_priority_node(VALUE object, VALUE priority) {
   result->child = NULL;
   result->left = result;
   result->right = result;
-  result->mark = false;  
+  result->mark = FALSE;  
   return result;
 }
 
@@ -104,7 +103,7 @@ priority_node* link_nodes(priority_queue* q, priority_node* b1, priority_node* b
     b2->right = b2;
   }
   b1->degree++;
-  b2->mark = false; // TODO: Check if it is not rather b1 that should be marked as false
+  b2->mark = FALSE; // TODO: Check if it is not rather b1 that should be marked as false
   return b1;
 }
 
@@ -281,7 +280,7 @@ priority_node* priority_queue_delete_min(priority_queue* q) {
       priority_node* n = min->child;
       do {
 	n->parent = NULL;
-	n->mark = false;
+	n->mark = FALSE;
 	n = n->right;
       } while (n!=min->child);
 
@@ -330,7 +329,7 @@ static
     q->rootlist->left = n;
     q->rootlist = n;
 
-    n->mark = false;
+    n->mark = FALSE;
 
     return q;
   }
@@ -392,7 +391,7 @@ priority_queue* priority_queue_change_priority(priority_queue* q, priority_node*
     n = p;
   } while (n->mark && n->parent);
   if (n->parent)
-    n->mark = true;
+    n->mark = TRUE;
   return q;
 }
 
@@ -401,7 +400,7 @@ priority_node* priority_queue_min(priority_queue *q) {
   return q->min;
 }
 
-_Bool priority_queue_empty(priority_queue *q) {
+int priority_queue_empty(priority_queue *q) {
   return q->min == NULL;
 }
 
