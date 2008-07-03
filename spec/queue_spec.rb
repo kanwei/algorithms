@@ -1,4 +1,4 @@
-require 'lib/algorithms'
+require 'lib/containers/queue'
 
 describe Containers::Queue do
   before(:each) do
@@ -6,16 +6,16 @@ describe Containers::Queue do
   end
   
   describe "(empty)" do
-    it "should return nil when sent #get" do
-      @queue.get.should eql(nil)
+    it "should return nil when sent #pop" do
+      @queue.pop.should eql(nil)
     end
 
-    it "should return a size of 1 when sent #put" do
-      @queue.put(1).size.should eql(1)
+    it "should return a size of 1 when sent #push" do
+      @queue.push(1).size.should eql(1)
     end
     
-    it "should return nil when peeked" do
-      @queue.peek.should eql(nil)
+    it "should return nil when sent #next" do
+      @queue.next.should eql(nil)
     end
     
     it "should return empty?" do
@@ -25,12 +25,12 @@ describe Containers::Queue do
   
   describe "(non-empty)" do
     before(:each) do
-      @queue.put(10)
-      @queue.put("10")
+      @queue.push(10)
+      @queue.push("10")
     end
     
-    it "should return first put object" do
-      @queue.get.should eql(10)
+    it "should return first pushed object" do
+      @queue.pop.should eql(10)
     end
     
     it "should return the size" do
@@ -42,10 +42,10 @@ describe Containers::Queue do
     end
     
     it "should return nil after all gets" do
-      @queue.get
-      @queue.get
-      @queue.get.should eql(nil)
-      @queue.peek.should eql(nil)
+      @queue.pop
+      @queue.pop
+      @queue.pop.should eql(nil)
+      @queue.next.should eql(nil)
     end
     
   end
