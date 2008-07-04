@@ -1,4 +1,4 @@
-require 'lib/algorithms'
+require 'lib/containers/stack'
 
 describe Containers::Stack do
   before(:each) do
@@ -14,8 +14,8 @@ describe Containers::Stack do
       @stack.push(1).size.should eql(1)
     end
     
-    it "should return nil when peeked" do
-      @stack.peek.should eql(nil)
+    it "should return nil when sent #next" do
+      @stack.next.should eql(nil)
     end
     
     it "should return empty?" do
@@ -45,7 +45,7 @@ describe Containers::Stack do
       @stack.pop
       @stack.pop
       @stack.pop.should eql(nil)
-      @stack.peek.should eql(nil)
+      @stack.next.should eql(nil)
     end
     
   end
