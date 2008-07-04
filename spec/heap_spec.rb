@@ -8,7 +8,7 @@ describe Containers::Heap do
   describe "(empty)" do
   
     it "should return nil when getting the maximum" do
-      @heap.get_max!.should eql(nil)
+      @heap.max!.should eql(nil)
     end
     
     it "should let you insert and remove one item" do
@@ -17,7 +17,7 @@ describe Containers::Heap do
       @heap.insert(1)
       @heap.size.should eql(1)
       
-      @heap.get_max!.should eql(1)
+      @heap.max!.should eql(1)
       @heap.size.should eql(0)
     end
     
@@ -42,7 +42,7 @@ describe Containers::Heap do
     
     it "should be in max->min order" do
       ordered = []
-      ordered << @heap.get_max! until @heap.size == 0
+      ordered << @heap.max! until @heap.size == 0
       
       ordered.should eql(@random_array.sort.reverse)
     end
@@ -54,7 +54,7 @@ describe Containers::Heap do
       @heap.merge!(otherheap)
       
       ordered = []
-      ordered << @heap.get_max! until @heap.size == 0
+      ordered << @heap.max! until @heap.size == 0
       
       ordered.should eql( (@random_array + numbers).sort.reverse)
     end
@@ -63,7 +63,7 @@ describe Containers::Heap do
       it "should be in min->max order" do
         @heap = Containers::MinHeap.new(@random_array)
         ordered = []
-        ordered << @heap.get_min! until @heap.size == 0
+        ordered << @heap.min! until @heap.size == 0
 
         ordered.should eql(@random_array.sort)
       end
