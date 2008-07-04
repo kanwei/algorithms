@@ -36,8 +36,7 @@ module Containers
       @size
     end
     
-    
-    def peek
+    def next
       return nil if @size < 1
       next_index, next_object = -1, nil
       
@@ -51,7 +50,7 @@ module Containers
       return next_object
     end
   
-    def get_next!
+    def pop
       return nil if @size < 1
       next_index, next_object = -1, nil
       
@@ -140,8 +139,12 @@ module Containers
       super(ary) { |x, y| (x <=> y) == -1 }
     end
     
-    def get_max!
-      get_next!
+    def max
+      self.next
+    end
+    
+    def max!
+      self.pop
     end
   end
   
@@ -150,8 +153,12 @@ module Containers
       super(ary) { |x, y| (x <=> y) == 1 }
     end
     
-    def get_min!
-      get_next!
+    def min
+      self.next
+    end
+    
+    def min!
+      self.pop
     end
   end
 end
