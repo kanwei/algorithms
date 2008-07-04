@@ -1,21 +1,21 @@
 module Containers
 =begin rdoc
-    A TreeMap is a map that is stored in sorted order based on the order of its keys. This ordering is
+    A RBTreeMap is a map that is stored in sorted order based on the order of its keys. This ordering is
     determined by applying the function <=> to compare the keys. No duplicate values for keys are allowed,
     so duplicate values are overwritten.
     
-    A major advantage of TreeMap over a Hash is the fact that keys are stored in order and can thus be
+    A major advantage of RBTreeMap over a Hash is the fact that keys are stored in order and can thus be
     iterated over in order. This is useful for many datasets.
     
     The implementation is adapted from Robert Sedgewick's Left Leaning Red-Black Tree implementation,
     which can be found at http://www.cs.princeton.edu/~rs/talks/LLRB/Java/RedBlackBST.java
     
-    Containers::TreeMap automatically uses the faster C implementation if it was built 
-    when the gem was installed. Alternatively, Containers::RubyTreeMap and Containers::CTreeMap can be 
+    Containers::RBTreeMap automatically uses the faster C implementation if it was built 
+    when the gem was installed. Alternatively, Containers::RubyRBTreeMap and Containers::CRBTreeMap can be 
     explicitly used as well; their functionality is identical.
     
 =end
-  class RubyTreeMap
+  class RubyRBTreeMap
     include Enumerable
     
     attr_accessor :height_black

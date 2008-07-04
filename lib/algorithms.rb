@@ -12,11 +12,11 @@ require 'containers/heap'
 require 'containers/stack'
 require 'containers/queue'
 require 'containers/priority_queue'
-require 'containers/tree_map'
+require 'containers/rb_tree_map'
 
 begin
-  require 'CTreeMap'
-  Containers::TreeMap = Containers::CTreeMap
+  require 'CRBTreeMap'
+  Containers::RBTreeMap = Containers::CTreeMap
 rescue LoadError # C Version could not be found, try ruby version
   Containers::TreeMap = Containers::RubyTreeMap
 end

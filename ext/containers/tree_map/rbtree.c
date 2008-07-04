@@ -373,11 +373,11 @@ static VALUE rbtree_each(VALUE self) {
 static VALUE cRBTree;
 static VALUE mContainers;
 
-void Init_CTreeMap() {
+void Init_CRBTreeMap() {
 	id_compare_operator = rb_intern("<=>");
 	
 	mContainers = rb_define_module("Containers");
-	cRBTree = rb_define_class_under(mContainers, "CTreeMap", rb_cObject);
+	cRBTree = rb_define_class_under(mContainers, "CRBTreeMap", rb_cObject);
 	rb_define_alloc_func(cRBTree, rbtree_alloc);
 	rb_define_method(cRBTree, "initialize", rbtree_init, 0);
 	rb_define_method(cRBTree, "put", rbtree_put, 2);
