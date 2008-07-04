@@ -1,5 +1,5 @@
-require 'lib/containers/tree_map'
-require 'lib/CTreeMap'
+require 'lib/containers/rb_tree_map'
+require 'lib/CRBTreeMap'
   
 describe "(empty)", :shared => true do
   it "should let you put stuff in" do
@@ -67,33 +67,33 @@ describe "(non-empty)", :shared => true do
   end
 end
 
-describe Containers::CTreeMap do
+describe Containers::CRBTreeMap do
   describe "empty" do
     before(:each) do
-      @tree = Containers::CTreeMap.new
+      @tree = Containers::CRBTreeMap.new
     end
     it_should_behave_like "(empty)"
   end
   
   describe "full" do
     before(:each) do
-      @tree = Containers::CTreeMap.new
+      @tree = Containers::CRBTreeMap.new
     end
     it_should_behave_like "(non-empty)"
   end
 end
 
-describe Containers::RubyTreeMap do
+describe Containers::RubyRBTreeMap do
   describe "empty" do
     before(:each) do
-      @tree = Containers::RubyTreeMap.new
+      @tree = Containers::RubyRBTreeMap.new
     end
     it_should_behave_like "(empty)"
   end
   
   describe "full" do
     before(:each) do
-      @tree = Containers::RubyTreeMap.new
+      @tree = Containers::RubyRBTreeMap.new
     end
     it_should_behave_like "(non-empty)"
   end
