@@ -1,4 +1,4 @@
-require 'lib/algorithms'
+require 'lib/containers/heap'
 
 describe Containers::Heap do
   before(:each) do

@@ -1,4 +1,5 @@
-require 'lib/algorithms'
+require 'lib/containers/priority_queue'
+require 'lib/CPriorityQueue'
 
 describe Containers::RubyPriorityQueue do
   before(:each) do

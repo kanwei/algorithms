@@ -1,7 +1,16 @@
 module Containers
-  # Implemented as a Binomial heap  
+=begin rdoc
+    A Heap is a container that satisfies the heap property that nodes are always smaller in
+    value than their parent node.
+    
+    The Containers::Heap class is flexible and upon initialization, takes an optional block
+    that determines how the items are ordered. Two versions that are included are the
+    Containers::MaxHeap and Containers::MinHeap that return the largest and smallest items on
+    each invocation, respectively.
+    
+=end
   class Heap
-    class Node
+    class Node # :nodoc: all
       attr_accessor :object, :left, :right
       def initialize(object)
         @left = nil
@@ -22,10 +31,12 @@ module Containers
       end
     end
     
+    # Return the number of items in the heap.
     def size
       @size
     end
-  
+    
+    
     def peek
       return nil if @size < 1
       next_index, next_object = -1, nil
