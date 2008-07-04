@@ -1,11 +1,21 @@
 module Containers
-  # A TreeMap implemented with a self-balancing red-black tree
-  # Adapted from Robert Sedgewick's Left Leaning Red-Black Tree Implementation
-  # http://www.cs.princeton.edu/~rs/talks/LLRB/Java/RedBlackBST.java
+=begin rdoc
+    A TreeMap is a map that is stored in sorted order based on the order of its keys. This ordering is
+    determined by applying the function <=> to compare the keys. No duplicate values for keys are allowed,
+    so duplicate values are overwritten.
+    
+    The implementation is adapted from Robert Sedgewick's Left Leaning Red-Black Tree implementation,
+    which can be found at http://www.cs.princeton.edu/~rs/talks/LLRB/Java/RedBlackBST.java
+    
+    Containers::TreeMap automatically uses the faster C implementation if it was built 
+    when the gem was installed. Alternatively, Containers::RubyTreeMap and Containers::CTreeMap can be 
+    explicitly used as well; their functionality is identical.
+    
+=end
   class RubyTreeMap
     include Enumerable
     
-    class Node
+    class Node # :nodoc: all
       attr_accessor :color, :key, :value, :left, :right, :num_nodes, :height
       def initialize(key, value)
         @key = key
@@ -20,43 +30,94 @@ module Containers
     
     attr_accessor :height_black
     
+    # Create and initialize a new empty TreeMap.
     def initialize
       @root = nil
       @height_black = 0
     end
     
+    # Insert an item with an associated key into the TreeMap, and returns the item inserted
+    #
+    # map = Containers::TreeMap.new
+    # map.put("MA", "Massachusetts") #=> "Massachusetts"
+    # map.get("MA") #=> "Massachusetts"
     def put(key, value)
       @root = insert(@root, key, value)
       @height_black += 1 if isred(@root)
       @root.color = :black
+      value
     end
     alias :[]= :put
     
+    # Return the number of items in the TreeMap.
+    #
+    # map = Containers::TreeMap.new
+    # map.put("MA", "Massachusetts")
+    # map.put("GA", "Georgia")
+    # map.size #=> 2
     def size
       sizeR(@root)
     end
     
+    # Return the height of the tree structure in the TreeMap.
+    #
+    # map = Containers::TreeMap.new
+    # map.put("MA", "Massachusetts")
+    # map.put("GA", "Georgia")
+    # map.height #=> 2
     def height
       heightR(@root)
     end
     
-    def contains?(key)
+    # Return true if key is found in the TreeMap, false otherwise
+    #
+    # map = Containers::TreeMap.new
+    # map.put("MA", "Massachusetts")
+    # map.put("GA", "Georgia")
+    # map.contains_key?("GA") #=> true
+    # map.contains_key?("DE") #=> false
+    def contains_key?(key)
       !get(key).nil?
     end
     
+    # Return the item associated with the key, or nil if none found.
+    #
+    # map = Containers::TreeMap.new
+    # map.put("MA", "Massachusetts")
+    # map.put("GA", "Georgia")
+    # map.get("GA") #=> "Georgia"
     def get(key)
       getR(@root, key)
     end
     alias :[] :get
     
+    # Return the smallest key in the TreeMap
+    #
+    # map = Containers::TreeMap.new
+    # map.put("MA", "Massachusetts")
+    # map.put("GA", "Georgia")
+    # map.min_key #=> "GA"
     def min_key
       @root.nil? ? nil : minR(@root)
     end
     
+    # Return the largest key in the TreeMap
+    #
+    # map = Containers::TreeMap.new
+    # map.put("MA", "Massachusetts")
+    # map.put("GA", "Georgia")
+    # map.max_key #=> "MA"
     def max_key
       @root.nil? ? nil : maxR(@root)
     end
     
+    # Deletes the item and key if it's found, and returns the item. Returns nil
+    # if key is not present.
+    #
+    # map = Containers::TreeMap.new
+    # map.put("MA", "Massachusetts")
+    # map.put("GA", "Georgia")
+    # map.min_key #=> "GA"
     def delete(key)
       result = nil
       if @root
@@ -66,6 +127,7 @@ module Containers
       result
     end
     
+    # Iterates over the TreeMap from smallest to largest element
     def each(&block)
       @root.nil? ? nil : eachR(@root, block)
     end
