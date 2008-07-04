@@ -15,19 +15,6 @@ module Containers
   class RubyTreeMap
     include Enumerable
     
-    class Node # :nodoc: all
-      attr_accessor :color, :key, :value, :left, :right, :num_nodes, :height
-      def initialize(key, value)
-        @key = key
-        @value = value
-        @color = :red
-        @left = nil
-        @right = nil
-        @num_nodes = 1
-        @height = 1
-      end
-    end
-    
     attr_accessor :height_black
     
     # Create and initialize a new empty TreeMap.
@@ -56,7 +43,8 @@ module Containers
     # map.put("GA", "Georgia")
     # map.size #=> 2
     def size
-      sizeR(@root)
+      return 0 if @root.nil?
+      @root.size
     end
     
     # Return the height of the tree structure in the TreeMap.
@@ -139,6 +127,23 @@ module Containers
     
     private
     
+    class Node # :nodoc: all
+      attr_accessor :color, :key, :value, :left, :right, :num_nodes, :height
+      def initialize(key, value)
+        @key = key
+        @value = value
+        @color = :red
+        @left = nil
+        @right = nil
+        @num_nodes = 1
+        @height = 1
+      end
+      
+      def size
+        self.num_nodes
+      end
+    end
+    
     def eachR(node, block)
       return if node.nil?
       
@@ -209,12 +214,6 @@ module Containers
       s << "*" if isred(x)
       x.right.nil? ? s << ')' : s << to_sR(x.right)
       s + ')'
-    end    
-    
-    def sizeR(node)
-      return 0 if node.nil?
-      
-      node.num_nodes
     end
     
     def heightR(node)
@@ -314,7 +313,7 @@ module Containers
     end
     
     def set_num_nodes(node)
-      node.num_nodes = sizeR(node.left) + sizeR(node.right) + 1
+      node.num_nodes = (node.left ? node.left.size : 0) + (node.right ? node.right.size : 0) + 1
       if heightR(node.left) > heightR(node.right)
         node.height = heightR(node.left) + 1
       else
