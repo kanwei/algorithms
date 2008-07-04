@@ -1,4 +1,5 @@
-require 'lib/algorithms'
+require 'lib/containers/tree_map'
+require 'lib/CTreeMap'
   
 describe "(empty)", :shared => true do
   it "should let you put stuff in" do
@@ -41,19 +42,19 @@ describe "(non-empty)", :shared => true do
     @tree.max_key.should eql(@random_array.max)
   end
   
-  it "should not #contain? keys it doesn't have" do
-    @tree.contains?(10000).should eql(false)
+  it "should not #contains_key? keys it doesn't have" do
+    @tree.contains_key?(10000).should eql(false)
   end
   
-  it "should #contain? keys it does have" do
-    @tree.contains?(@random_array[0]).should eql(true)
+  it "should #contains_key? keys it does have" do
+    @tree.contains_key?(@random_array[0]).should eql(true)
   end
   
   it "should remove any key" do
     random_key = @random_array[rand(@num_items)]
-    @tree.contains?(random_key).should eql(true)
+    @tree.contains_key?(random_key).should eql(true)
     @tree.delete(random_key).should eql(random_key)
-    @tree.contains?(random_key).should eql(false)
+    @tree.contains_key?(random_key).should eql(false)
   end
   
   it "should let you iterate with #each" do
