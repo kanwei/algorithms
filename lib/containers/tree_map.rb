@@ -254,73 +254,73 @@ module Containers
       set_num_nodes(node)
     end
     
-    def isred(h)
-      return false if h.nil?
+    def isred(node)
+      return false if node.nil?
       
-      h.color == :red
+      node.color == :red
     end
     
-    def rotate_left(h)
-      x = h.right
-      h.right = x.left
-      x.left = set_num_nodes(h)
+    def rotate_left(node)
+      x = node.right
+      node.right = x.left
+      x.left = set_num_nodes(node)
       x.color = x.left.color
       x.left.color = :red
                          
       set_num_nodes(x)
     end
     
-    def rotate_right(h)
-      x = h.left
-      h.left = x.right
-      x.right = set_num_nodes(h)
+    def rotate_right(node)
+      x = node.left
+      node.left = x.right
+      x.right = set_num_nodes(node)
       x.color = x.right.color
       x.right.color = :red
       
       set_num_nodes(x);
     end
     
-    def colorflip(h)
-      h.color       = h.color == :red       ? :black : :red
-      h.left.color  = h.left.color == :red  ? :black : :red
-      h.right.color = h.right.color == :red ? :black : :red
+    def colorflip(node)
+      node.color       = node.color == :red       ? :black : :red
+      node.left.color  = node.left.color == :red  ? :black : :red
+      node.right.color = node.right.color == :red ? :black : :red
     end
     
-    def move_red_left(h)
-      colorflip(h)
-      if isred(h.right.left)
-        h.right = rotate_right(h.right)
-        h = rotate_left(h)
-        colorflip(h)
+    def move_red_left(node)
+      colorflip(node)
+      if isred(node.right.left)
+        node.right = rotate_right(node.right)
+        node = rotate_left(node)
+        colorflip(node)
       end
-      h      
+      node
     end
     
-    def move_red_right(h)
-      colorflip(h)
-      if isred(h.left.left)
-        h = rotate_right(h)
-        colorflip(h)
+    def move_red_right(node)
+      colorflip(node)
+      if isred(node.left.left)
+        node = rotate_right(node)
+        colorflip(node)
       end
-      h      
+      node     
     end
     
-    def fixup(h)
-      h = rotate_left(h) if isred(h.right)
-      h = rotate_right(h) if (isred(h.left) && isred(h.left.left))
-      colorflip(h) if (isred(h.left) && isred(h.right))
+    def fixup(node)
+      node = rotate_left(node) if isred(node.right)
+      node = rotate_right(node) if (isred(node.left) && isred(node.left.left))
+      colorflip(node) if (isred(node.left) && isred(node.right))
       
-      set_num_nodes(h)
+      set_num_nodes(node)
     end
     
-    def set_num_nodes(h)
-      h.num_nodes = sizeR(h.left) + sizeR(h.right) + 1
-      if heightR(h.left) > heightR(h.right)
-        h.height = heightR(h.left) + 1
+    def set_num_nodes(node)
+      node.num_nodes = sizeR(node.left) + sizeR(node.right) + 1
+      if heightR(node.left) > heightR(node.right)
+        node.height = heightR(node.left) + 1
       else
-        h.height = heightR(h.right) + 1
+        node.height = heightR(node.right) + 1
       end
-      h
+      node
     end
   end
   
