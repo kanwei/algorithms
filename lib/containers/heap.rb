@@ -94,7 +94,7 @@ module Containers
     end
   
     def merge!(otherheap)
-      if (otherheap.class == Containers::Heap || otherheap.class == Containers::MinHeap || otherheap.class == Containers::MaxHeap)
+      if otherheap.kind_of? Containers::Heap
         othersize = otherheap.size
         otherheap = otherheap.root_array
       end
