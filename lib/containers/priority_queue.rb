@@ -1,15 +1,24 @@
-# This is a fibonacci heap priority queue implementation.
 # (c) 2005 Brian Amberg
 # Please submit bugreports to mail@brian-amberg.de
-
 # Modifications by Kanwei Li
 module Containers
+=begin rdoc
+    A Priority Queue is a data structure that behaves like a queue except that elements have an
+    associated priority. The #next and #pop methods return the item with the next highest priority.
+    
+    Priority Queues are often used in graph problems, such as Dijkstra's Algorithm for shortest
+    path, and the A* search algorithm for shortest path.
+
+    Containers::PriorityQueue automatically uses the faster C implementation if it was built 
+    when the gem was installed. Alternatively, Containers::RubyPriorityQueue and Containers::CPriorityQueue
+    can be explicitly used as well; their functionality is identical.
+=end
   class RubyPriorityQueue
     include Enumerable
     
-    # Returns the number of elements of the queue.
+    # Returns the number of elements in the queue.
     # 
-    #    q = PriorityQueue.new
+    #    q = Containers::PriorityQueue.new
     #    q.length #=> 0
     #    q[0] = 1
     #    q.length #=> 1
@@ -23,29 +32,6 @@ module Containers
       @length = 0
     end
 
-    # Print a priority queue as a dot-graph. The output can be fed to dot from the
-    # vizgraph suite to create a tree depicting the internal datastructure.
-    def to_dot
-      r = ["digraph fibheap {"]
-      #r << @rootlist.to_dot.join("\n") if @rootlist
-      r << "ROOT -> #{@rootlist.dot_id};" if @rootlist
-      @nodes.to_a.sort.each do | (_, n) |
-        r << "  #{n.dot_id} [label=\"#{n.key}: #{n.priority}\"];"
-        r << "  #{n.dot_id} -> #{n.right.dot_id} [constraint=false];" if n.right# and n.dot_id < n.right.dot_id
-        r << "  #{n.dot_id} -> #{n.left.dot_id} [constraint=false];" if n.left #and n.dot_id < n.left.dot_id
-        r << "  #{n.dot_id} -> #{n.child.dot_id}" if n.child
-      end
-      r << "}"
-      r.join("\n")
-      r
-    end
-
-    # Call dot and gv displaying the datstructure
-    def display_dot
-      puts to_dot
-      system "echo '#{to_dot}' | twopi -Tps -Groot=ROOT -Goverlap=false> /tmp/dotfile.ps; gv /tmp/dotfile.ps"
-    end
-
     # call-seq:
     #     [key] = priority
     #     change_priority(key, priority)
@@ -53,7 +39,7 @@ module Containers
     # 
     # Set the priority of a key.
     #
-    #     q = PriorityQueue.new
+    #     q = Containers::PriorityQueue.new
     #     q["car"] = 50
     #     q["train"] = 50
     #     q["bike"] = 10
@@ -83,7 +69,11 @@ module Containers
       self
     end
 
-    # Add an object to the queue.
+    # Add an object to the queue with associated priority.
+    # 
+    #   q = Containers::PriorityQueue.new
+    #   q.push("airplane", 1)
+    #   q.min #=> ["airplane", 1]
     def push(key, priority)    
       return change_priority(key, priority) if @nodes[key]
       @nodes[key] = node = Node.new(key, priority)
@@ -101,7 +91,7 @@ module Containers
       self
     end
 
-    # Returns true if the array is empty, false otherwise.
+    # Returns true if the queue is empty, false otherwise.
     def empty?
       @rootlist.nil?
     end
@@ -111,8 +101,8 @@ module Containers
     #
     # Return the priority of a key or nil if the key is not in the queue.
     #
-    #     q = PriorityQueue.new
-    #     (0..10).each do | i | q[i.to_s] = i end
+    #     q = Containers::PriorityQueue.new
+    #     (0..10).each { |i| q[i.to_s] = i }
     #     q["5"] #=> 5
     #     q[5] #=> nil
     def [](key)
@@ -125,7 +115,7 @@ module Containers
     # Return false if the key is not in the queue, true otherwise.
     #
     #     q = PriorityQueue.new
-    #     (0..10).each do | i | q[i.to_s] = i end
+    #     (0..10).each { |i| q[i.to_s] = i }
     #     q.has_key("5") #=> true 
     #     q.has_key(5)   #=> false
     def has_key?(key)
@@ -136,7 +126,7 @@ module Containers
 
     # Call the given block with each [key, priority] pair in the queue
     #
-    # Beware: Changing the queue in the block may lead to unwanted behaviour and
+    # Beware: Changing the queue in the block may lead to unwanted behavior and
     # even infinite loops.
     def each
       @nodes.each do | key, node |
@@ -150,7 +140,7 @@ module Containers
     # Return the pair [object, priority] with minimal priority or nil when the
     # queue is empty.
     #
-    #     q = PriorityQueue.new
+    #     q = Containers::PriorityQueue.new
     #     q["a"] = 10
     #     q["b"] = 20
     #     q.min          #=> ["a", 10]
@@ -200,11 +190,11 @@ module Containers
     #     delete(key) -> [key, priority]
     #     delete(key) -> nil
     #
-    # Delete a key from the priority queue. Returns nil when the key was not in
-    # the queue and [key, priority] otherwise.
+    # Delete a key from the priority queue. Returns nil if the key is not in
+    # the queue, and [key, priority] otherwise.
     #
     #     q = PriorityQueue.new
-    #     (0..10).each do | i | q[i.to_s] = i end
+    #     (0..10).each { |i| q[i.to_s] = i }
     #     q.delete(5)                              #=> ["5", 5]
     #     q.delete(5)                              #=> nil
     def delete(key)
