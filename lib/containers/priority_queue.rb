@@ -333,28 +333,6 @@ module Containers
       "<PriorityQueue: #{@nodes.map{|(_, n)| [n.key, n.priority]}.sort_by{|(_,p)|p}.inspect}>"
     end
 
-    def initialize_copy(copy)
-      copy_nodes = @nodes
-      @nodes = {}
-
-      copy_nodes.each do | (_, cn) |
-        n = @nodes[cn.key] = Node.new(cn.key, cn.priority)
-        n.mark = cn.mark
-        n.degree = cn.degree
-      end
-
-      copy_nodes.each do | (_, cn) |
-        n = @nodes[cn.key]
-        n.left   = @nodes[cn.left.key]   if cn.left
-        n.right  = @nodes[cn.right.key]  if cn.right
-        n.parent = @nodes[cn.parent.key] if cn.parent
-        n.child  = @nodes[cn.child.key]  if cn.child
-      end
-      @rootlist = @nodes[@rootlist.key] if @rootlist
-      @min = @nodes[@min.key] if @min
-      self
-    end
-
     # Node class used internally
     class Node # :nodoc:
       attr_accessor :parent, :child, :left, :right, :key, :priority, :degree, :mark

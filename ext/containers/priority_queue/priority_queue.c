@@ -794,57 +794,6 @@ VALUE pq_delete(VALUE self, VALUE object) {
   }
 }
 
-
-// Dot a single node of a priority queue. Called by pq_to_dot to do the inner work.
-// (I'm not proud of this function ;-( )
-static
-void pq_node2dot(VALUE result_string, priority_node* n, unsigned int level) {
-  if (n == NULL) return;  
-  unsigned int i;
-  for (i=0; i<level; i++) rb_str_cat2(result_string, "  ");  
-  if (n->mark)
-    rb_str_concat(result_string,
-	rb_funcall(Qnil, id_format, 4, rb_str_new2("NODE%i [label=\"%s (%s)\"];\n"), 
-	  ULONG2NUM((unsigned long) n), n->object, n->priority));
-  else
-    rb_str_concat(result_string,
-	rb_funcall(Qnil, id_format, 4, rb_str_new2("NODE%i [label=\"%s (%s)\",shape=box];\n"), 
-	  ULONG2NUM((unsigned long) n), n->object, n->priority));
-  if (n->child != NULL) {
-    priority_node* n1 = n->child;
-    do {
-      pq_node2dot(result_string, n1, level + 1);
-      for (i=0; i<level; i++) rb_str_cat2(result_string, "  ");  
-      rb_str_concat(result_string,
-	  rb_funcall(Qnil, id_format, 4, rb_str_new2("NODE%i -> NODE%i;\n"), 
-	    ULONG2NUM((unsigned long) n), ULONG2NUM((unsigned long) n1)));
-      n1 = n1->right;
-    } while(n1 != n->child);
-  }
-}
-
-/* 
- * Print a priority queue as a dot-graph. The output can be fed to dot from the
- * vizgraph suite to create a tree depicting the internal datastructure.
- * 
- * (I'm not proud of this function ;-( )
- */
-static
-VALUE pq_to_dot(VALUE self) {
-  priority_queue* q = get_pq_from_value(self);
-
-  VALUE result_string = rb_str_new2("digraph fibonacci_heap {\n");
-  if (q->rootlist) {
-    priority_node* n1 = q->rootlist;
-    do {    
-      pq_node2dot(result_string, n1, 1);
-      n1 = n1->right;
-    } while(n1 != q->rootlist);
-  }
-  rb_str_cat2(result_string, "}\n");
-  return result_string;
-}
-
 /*
  * Returns true if the array is empty, false otherwise.
  */
@@ -875,16 +824,6 @@ VALUE pq_each(VALUE self) {
 static
 VALUE pq_insert_node(VALUE node, VALUE queue) {
   return pq_push(queue, rb_ary_entry(node, 0), rb_ary_entry(node, 1));
-}
-
-static
-VALUE pq_initialize_copy(VALUE copy, VALUE orig) {
-  if (copy == orig)
-    return copy;
-
-  rb_iterate(rb_each, orig, pq_insert_node, copy);
-  
-  return copy;
 }
 
 /*
@@ -925,7 +864,6 @@ void Init_CPriorityQueue() {
 
   rb_define_alloc_func(cPriorityQueue, pq_alloc);
   rb_define_method(cPriorityQueue, "initialize", pq_init, 0);
-  rb_define_method(cPriorityQueue, "initialize_copy", pq_initialize_copy, 1);
   rb_define_method(cPriorityQueue, "min", pq_min, 0);
   rb_define_method(cPriorityQueue, "min_key", pq_min_key, 0);
   rb_define_method(cPriorityQueue, "min_priority", pq_min_priority, 0);
@@ -939,7 +877,6 @@ void Init_CPriorityQueue() {
   rb_define_method(cPriorityQueue, "[]", pq_get_priority, 1);
   rb_define_method(cPriorityQueue, "has_key?", pq_has_key, 1);
   rb_define_method(cPriorityQueue, "length", pq_length, 0);
-  rb_define_method(cPriorityQueue, "to_dot", pq_to_dot, 0);
   rb_define_method(cPriorityQueue, "empty?", pq_empty, 0);
   rb_define_method(cPriorityQueue, "delete", pq_delete, 1);
   rb_define_method(cPriorityQueue, "inspect", pq_inspect, 0);
