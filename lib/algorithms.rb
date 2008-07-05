@@ -13,6 +13,7 @@ require 'containers/stack'
 require 'containers/queue'
 require 'containers/priority_queue'
 require 'containers/rb_tree_map'
+require 'containers/splay_tree_map'
 
 begin
   require 'CRBTreeMap'
@@ -27,3 +28,4 @@ begin
 rescue LoadError # C Version could not be found, try ruby version
   Containers::PriorityQueue = Containers::RubyPriorityQueue
 end
+Containers::SplayTreeMap = Containers::RubySplayTreeMap
