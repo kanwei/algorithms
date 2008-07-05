@@ -10,8 +10,10 @@ lib/containers/hash.rb
 lib/containers/heap.rb
 lib/containers/priority_queue.rb
 lib/containers/queue.rb
+lib/containers/rb_tree_map.rb
+lib/containers/splay_tree_map.rb
 lib/containers/stack.rb
-lib/containers/tree_map.rb
+Makefile
 Manifest
 Rakefile
 README.txt
@@ -19,5 +21,6 @@ spec/heap_spec.rb
 spec/priority_queue_spec.rb
 spec/priority_queue_test.rb
 spec/queue_spec.rb
+spec/rb_tree_map_spec.rb
+spec/splay_tree_map_spec.rb
 spec/stack_spec.rb
-spec/tree_map_spec.rb
