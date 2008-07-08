@@ -55,7 +55,12 @@ describe Containers::Heap do
       end
       @heap.empty?.should eql(true)
       ordered.should eql( @random_array )
-      
+    end
+    
+    it "should let you iterate" do
+      ordered = []
+      @heap.each { |v| ordered << v }
+      ordered.should eql(@random_array.sort.reverse)
     end
 
     it "should be in max->min order" do
