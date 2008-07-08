@@ -162,6 +162,16 @@ module Containers
       change_key(key, nil, true)
       pop
     end
+    
+    def each
+      return if self.empty?
+      # Can't just do a deep copy of 'self' because you can't dump Procs (@compare_fn) "no marshal_dump is defined for class Proc"
+      next_backup = Marshal.load(Marshal.dump(@next))
+      size_backup = @size
+      stored_backup = Marshal.load(Marshal.dump(@stored))
+      yield self.pop until self.empty?
+      @next, @size, @stored = next_backup, size_backup, stored_backup
+    end
 
     private
     
@@ -205,30 +215,30 @@ module Containers
       parent.degree += 1
       child.marked = false
     end
-
+    
+    # Makes sure the structure does not contain nodes in the root list with equal degrees
     def consolidate
       roots = []
       root = @next
       min = root
-      # check if there's a new minimum in case popped's children were promoted
+      # find the nodes in the list
       loop do
         roots << root
         root = root.right
         break if root == @next
       end
-      # print_roots(@next)
       degrees = []
       roots.each do |root|
         min = root if @compare_fn[root.key, min.key]
         # check if we need to merge
-        if degrees[root.degree].nil?
+        if degrees[root.degree].nil?  # no other node with the same degree
           degrees[root.degree] = root
           next
-        else
+        else  # there is another node with the same degree, consolidate them
           degree = root.degree
           until degrees[degree].nil? do
             other_root_with_degree = degrees[degree]
-            if @compare_fn[root.key, other_root_with_degree.key]
+            if @compare_fn[root.key, other_root_with_degree.key]  # determine which node is the parent, which one is the child
               smaller, larger = root, other_root_with_degree
             else
               smaller, larger = other_root_with_degree, root
@@ -239,7 +249,7 @@ module Containers
             degree += 1
           end
           degrees[degree] = root
-          min = root if min.key == root.key
+          min = root if min.key == root.key # this fixes a bug with duplicate keys not being in the right order
         end
       end
       @next = min
@@ -257,7 +267,7 @@ module Containers
       end
     end
     
-    # remove x from y's children
+    # remove x from y's children and add x to the root list
     def cut(x, y)
       x.left.right = x.right
       x.right.left = x.left
