@@ -89,9 +89,6 @@ module Containers
 
     def pop
       return nil if @next.nil?
-      p @next.key
-      p @next.value
-      
       popped = @next
       if @size == 1
         @next = nil
@@ -213,7 +210,6 @@ module Containers
       roots = []
       root = @next
       min = root
-      p @next.key
       # check if there's a new minimum in case popped's children were promoted
       loop do
         roots << root
