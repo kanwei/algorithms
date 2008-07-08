@@ -14,7 +14,7 @@ describe Containers::Heap do
     it "should let you insert and remove one item" do
       @heap.size.should eql(0)
       
-      @heap.insert(1)
+      @heap.push(1, 1)
       @heap.size.should eql(1)
       
       @heap.max!.should eql(1)
@@ -31,7 +31,7 @@ describe Containers::Heap do
   describe "(non-empty)" do
     before(:each) do
       @random_array = []
-      @num_items = 100
+      @num_items = 4
       @num_items.times { |x| @random_array << rand(@num_items) }
       @heap = Containers::MaxHeap.new(@random_array)
     end
@@ -48,7 +48,7 @@ describe Containers::Heap do
     end
     
     it "should let you merge with another heap" do
-      numbers = [1,3,4,5]
+      numbers = [1,2,3,4]
       otherheap = Containers::MaxHeap.new(numbers)
       otherheap.size.should eql(4)
       @heap.merge!(otherheap)
@@ -64,7 +64,7 @@ describe Containers::Heap do
         @heap = Containers::MinHeap.new(@random_array)
         ordered = []
         ordered << @heap.min! until @heap.size == 0
-
+    
         ordered.should eql(@random_array.sort)
       end
     end
