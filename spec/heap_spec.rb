@@ -82,6 +82,11 @@ describe Containers::Heap do
       ordered.should eql( [8,3,4,5,6,7,9,10,101,100] )
     end
     
+    it "should not delete keys it doesn't have" do
+      @heap.delete(:nonexisting).should eql(nil)
+      @heap.size.should eql(@num_items)
+    end
+    
     it "should delete certain keys" do
       numbers = [1,2,3,4,5,6,7,8,9,10,100,101]
       heap = Containers::MinHeap.new(numbers)
