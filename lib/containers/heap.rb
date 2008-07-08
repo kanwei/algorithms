@@ -18,7 +18,7 @@ module Containers
     alias :length :size
 
     def initialize(ary=[], &block)
-      @compare_fn = block_given? ? block : lambda { |x, y| (x <=> y) == -1 }
+      @compare_fn = block_given? ? block : lambda { |x, y| (x <=> y) == 1 }
       @next = nil
       @size = 0
       @stored = {}
@@ -26,7 +26,7 @@ module Containers
       ary.each { |n| push(n, n) } unless ary.empty?
     end
     
-    def push(key, value)    
+    def push(key, value=key)    
       node = Node.new(key, value)
       # Add new node to the left of the @next node
       if @next
@@ -53,6 +53,10 @@ module Containers
       @stored[key] << node
       value
     end
+    
+    def has_key?(key)
+      @stored[key] && !@stored[key].empty?
+    end      
     
     def next
       @next.value
@@ -131,6 +135,7 @@ module Containers
       @size -= 1
       popped.value
     end
+    alias :next! :pop
     
     def change_key(key, new_key, delete=false)
       return if @stored[key].nil? || @stored[key].empty? || (key == new_key)
@@ -153,7 +158,7 @@ module Containers
         if delete || @compare_fn[node.key, @next.key]
           @next = node
         end
-        return [node.key, node.value]
+        return node.value
       end
       nil
     end
