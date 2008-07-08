@@ -49,7 +49,6 @@ module Containers
         w = w.right
       end
       arr << @next.value
-      # puts "#{arr.join('-')}, #{@next.value}"
       @stored[key] ||= []
       @stored[key] << node
       value
@@ -72,8 +71,6 @@ module Containers
     def merge!(otherheap)
       raise "Trying to merge a heap with something not a heap" if !otherheap.kind_of? Heap
       other_root = otherheap.instance_variable_get("@next")
-      # print_roots(other_root)
-      # print_roots(@next)
       if !other_root.nil?
         @stored = @stored.merge(otherheap.instance_variable_get("@stored")) { |key, a, b| (a << b).flatten }
         # Insert othernode's @next node to the left of current @next
@@ -83,13 +80,11 @@ module Containers
         ol.right = @next
         @next.left = ol
         
-        # print_roots(@next)
         if @compare_fn[other_root.key, @next.key]
           @next = other_root
         end
       end
       @size += otherheap.size
-      # print_roots(@next)
     end
 
     def pop
@@ -103,7 +98,6 @@ module Containers
         @size = 0
         return popped.value
       end
-      # puts "popping #{@next.value}"
       # Merge the popped's children into root node
       if @next.child
         @next.child.parent = nil
@@ -116,7 +110,6 @@ module Containers
         end
         
         # Merge the children into the root. If @next is the only root node, make its child the @next node
-        # print_roots(@next)
         if @next.right == @next
           @next = @next.child
         else
@@ -214,24 +207,9 @@ module Containers
       end
       parent.degree += 1
       child.marked = false
-      # puts "#{child.left.value}-#{child.value}-#{child.right.value}"
-      # puts "Children of #{child.parent.value}: "
-      # print_roots(child)
-    end
-    
-    def print_roots(node)
-      roots = []
-      root = node
-      loop do
-        roots << root
-        root = root.right
-        break if root == node
-      end
-      p roots.collect{ |r| r.value }
     end
 
     def consolidate
-      # puts "#{@next.left.value}-#{@next.value}-#{@next.right.value}"
       roots = []
       root = @next
       min = root
@@ -248,7 +226,6 @@ module Containers
         min = root if @compare_fn[root.key, min.key]
         # check if we need to merge
         if degrees[root.degree].nil?
-          # puts "Not merging #{root.value}"
           degrees[root.degree] = root
           next
         else
@@ -260,7 +237,6 @@ module Containers
             else
               smaller, larger = other_root_with_degree, root
             end
-            # puts "Making #{larger.value} a child of #{smaller.value}"
             link_nodes(larger, smaller)
             degrees[degree] = nil
             root = smaller
@@ -271,8 +247,6 @@ module Containers
         end
       end
       @next = min
-      # print_roots(@next)
-      # puts "ending consolidate: root: #{@next.value}"
     end
     
     def cascading_cut(node)
