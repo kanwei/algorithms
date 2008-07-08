@@ -14,7 +14,7 @@ describe Containers::Heap do
     it "should let you insert and remove one item" do
       @heap.size.should eql(0)
       
-      @heap.push(1, 1)
+      @heap.push(1)
       @heap.size.should eql(1)
       
       @heap.max!.should eql(1)
