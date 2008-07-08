@@ -70,6 +70,12 @@ describe Containers::PriorityQueue do
       @q.delete(50).should eql("Alaska")
       @q.delete(10).should eql(nil)
     end
+    
+    it "should iterate in max->min fashion" do
+      arr = []
+      @q.each { |priority, object| arr << object }
+      arr.should eql(["Alaska", "Georgia", "Delaware"])
+    end
   end
   
 end
