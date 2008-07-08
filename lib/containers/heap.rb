@@ -21,6 +21,7 @@ module Containers
       @compare_fn = block_given? ? block : lambda { |x, y| (x <=> y) == -1 }
       @next = nil
       @size = 0
+      @stored = {}
       
       ary.each { |n| push(n, n) } unless ary.empty?
     end
@@ -49,6 +50,8 @@ module Containers
       end
       arr << @next.value
       # puts "#{arr.join('-')}, #{@next.value}"
+      @stored[key] ||= []
+      @stored[key] << node
       value
     end
     
@@ -72,6 +75,7 @@ module Containers
       # print_roots(other_root)
       # print_roots(@next)
       if !other_root.nil?
+        @stored = @stored.merge(otherheap.instance_variable_get("@stored")) { |key, a, b| (a << b).flatten }
         # Insert othernode's @next node to the left of current @next
         @next.left.right = other_root
         ol = other_root.left
@@ -90,6 +94,8 @@ module Containers
 
     def pop
       return nil if @next.nil?
+      p @next.key
+      p @next.value
       
       popped = @next
       if @size == 1
@@ -128,11 +134,45 @@ module Containers
         @next = @next.right
       end
       consolidate
-
+      
+      unless @stored[popped.key].delete(popped)
+        raise "Couldn't delete node from stored nodes hash" 
+      end
       @size -= 1
-      popped.value      
-    end 
+      popped.value
+    end
     
+    def change_key(key, new_key, delete=false)
+      return if @stored[key].nil? || @stored[key].empty? || (key == new_key)
+      
+      # Must maintain heap order
+      raise "Changing this key would not maintain heap property!" unless (delete || @compare_fn[new_key, key])
+      node = @stored[key].shift
+      if node
+        node.key = new_key
+        @stored[new_key] ||= []
+        @stored[new_key] << node
+        parent = node.parent
+        if parent
+          # if heap property is violated
+          if delete || @compare_fn[new_key, parent.key]
+            cut(node, parent)
+            cascading_cut(parent)
+          end
+        end
+        if delete || @compare_fn[node.key, @next.key]
+          @next = node
+        end
+        return [node.key, node.value]
+      end
+      nil
+    end
+    
+    def delete(key)
+      change_key(key, nil, true)
+      pop
+    end
+
     private
     
     # Node class used internally
@@ -195,6 +235,7 @@ module Containers
       roots = []
       root = @next
       min = root
+      p @next.key
       # check if there's a new minimum in case popped's children were promoted
       loop do
         roots << root
@@ -246,6 +287,7 @@ module Containers
       end
     end
     
+    # remove x from y's children
     def cut(x, y)
       x.left.right = x.right
       x.right.left = x.left
@@ -255,9 +297,9 @@ module Containers
       elsif (y.child == x)
         y.child = x.right
       end
-      x.right = min
-      x.left = min.left
-      min.left = x
+      x.right = @next
+      x.left = @next.left
+      @next.left = x
       x.left.right = x
       x.parent = nil
       x.marked = false
