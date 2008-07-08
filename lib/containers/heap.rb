@@ -26,7 +26,8 @@ module Containers
       ary.each { |n| push(n, n) } unless ary.empty?
     end
     
-    def push(key, value=key)    
+    def push(key, value=key)
+      raise "Can't enter a key of nil" if key.nil?
       node = Node.new(key, value)
       # Add new node to the left of the @next node
       if @next
@@ -55,10 +56,11 @@ module Containers
     end
     
     def has_key?(key)
-      @stored[key] && !@stored[key].empty?
-    end      
+      @stored[key] && !@stored[key].empty? ? true : false
+    end
     
     def next
+      return nil if @next.nil?
       @next.value
     end
     
@@ -158,14 +160,13 @@ module Containers
         if delete || @compare_fn[node.key, @next.key]
           @next = node
         end
-        return node.value
+        return [node.key, node.value]
       end
       nil
     end
     
     def delete(key)
-      change_key(key, nil, true)
-      pop
+      pop if change_key(key, nil, true)
     end
     
     def each
