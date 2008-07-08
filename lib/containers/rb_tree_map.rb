@@ -65,9 +65,9 @@ module Containers
     # map = Containers::TreeMap.new
     # map.put("MA", "Massachusetts")
     # map.put("GA", "Georgia")
-    # map.contains_key?("GA") #=> true
-    # map.contains_key?("DE") #=> false
-    def contains_key?(key)
+    # map.has_key?("GA") #=> true
+    # map.has_key?("DE") #=> false
+    def has_key?(key)
       !get(key).nil?
     end
     
