@@ -42,19 +42,19 @@ describe "(non-empty)", :shared => true do
     @tree.max_key.should eql(@random_array.max)
   end
   
-  it "should not #contains_key? keys it doesn't have" do
-    @tree.contains_key?(10000).should eql(false)
+  it "should not #has_key? keys it doesn't have" do
+    @tree.has_key?(10000).should eql(false)
   end
   
-  it "should #contains_key? keys it does have" do
-    @tree.contains_key?(@random_array[0]).should eql(true)
+  it "should #has_key? keys it does have" do
+    @tree.has_key?(@random_array[0]).should eql(true)
   end
   
   it "should remove any key" do
     random_key = @random_array[rand(@num_items)]
-    @tree.contains_key?(random_key).should eql(true)
+    @tree.has_key?(random_key).should eql(true)
     @tree.delete(random_key).should eql(random_key)
-    @tree.contains_key?(random_key).should eql(false)
+    @tree.has_key?(random_key).should eql(false)
   end
   
   it "should let you iterate with #each" do

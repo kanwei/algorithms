@@ -319,7 +319,7 @@ static VALUE rbtree_height(VALUE self) {
 	return INT2NUM(height(tree->root));
 }
 
-static VALUE rbtree_contains_key(VALUE self, VALUE key) {
+static VALUE rbtree_has_key(VALUE self, VALUE key) {
 	rbtree *tree = get_tree_from_self(self);
 	if(get(tree, tree->root, key) == Qnil)
 		return Qfalse;
@@ -389,7 +389,7 @@ void Init_CRBTreeMap() {
 	rb_define_method(cRBTree, "each", rbtree_each, 0);
 	rb_define_method(cRBTree, "get", rbtree_get, 1);
 	rb_define_alias(cRBTree, "[]", "get");
-	rb_define_method(cRBTree, "contains_key?", rbtree_contains_key, 1);
+	rb_define_method(cRBTree, "has_key?", rbtree_has_key, 1);
 	rb_define_method(cRBTree, "delete", rbtree_delete, 1);
 	rb_include_module(cRBTree, rb_eval_string("Enumerable"));
 }

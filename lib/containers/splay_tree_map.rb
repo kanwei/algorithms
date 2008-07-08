@@ -84,11 +84,11 @@ module Containers
     # Return true if key is found in the SplayTreeMap, false otherwise
     #
     #   map = Containers::SplayTreeMap.new
-    #   map.put("MA", "Massachusetts")
-    #   map.put("GA", "Georgia")
-    #   map.contains_key?("GA") #=> true
-    #   map.contains_key?("DE") #=> false
-    def contains_key?(key)
+    #   map["MA"] = "Massachusetts"
+    #   map["GA"] = "Georgia"
+    #   map.has_key?("GA") #=> true
+    #   map.has_key?("DE") #=> false
+    def has_key?(key)
       !get(key).nil?
     end
     
@@ -109,8 +109,8 @@ module Containers
     # Return the smallest [key, value] pair in the SplayTreeMap, or nil if the tree is empty.
     #
     #   map = Containers::SplayTreeMap.new
-    #   map.put("MA", "Massachusetts")
-    #   map.put("GA", "Georgia")
+    #   map["MA"] = "Massachusetts"
+    #   map["GA"] = "Georgia"
     #   map.min #=> ["GA", "Georgia"]
     def min
       return nil if @root.nil?
@@ -125,8 +125,8 @@ module Containers
     # Return the largest [key, value] pair in the SplayTreeMap, or nil if the tree is empty.
     #
     #   map = Containers::SplayTreeMap.new
-    #   map.put("MA", "Massachusetts")
-    #   map.put("GA", "Georgia")
+    #   map["MA"] = "Massachusetts"
+    #   map["GA"] = "Georgia"
     #   map.max #=> ["MA", "Massachusetts"]
     def max
       return nil if @root.nil?
@@ -142,8 +142,8 @@ module Containers
     # if key is not present.
     #
     #   map = Containers::SplayTreeMap.new
-    #   map.put("MA", "Massachusetts")
-    #   map.put("GA", "Georgia")
+    #   map["MA"] = "Massachusetts"
+    #   map["GA"] = "Georgia"
     #   map.delete("GA") #=> "Georgia"
     #   map.delete("DE") #=> nil
     def delete(key)
