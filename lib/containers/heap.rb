@@ -10,133 +10,263 @@ module Containers
     
 =end
   class Heap
-    class Node # :nodoc: all
-      attr_accessor :object, :left, :right
-      def initialize(object)
-        @left = nil
-        @right = nil
-        @object = object
-      end
-      
-    end
+    include Enumerable
     
-    attr_reader :root_array
-    
-    def initialize(ary=[], &block)
-      @compare_function = block_given? ? block : lambda { |x, y| (x <=> y) == -1 }
-      @root_array = []
-      @size = 0
-      if !ary.empty?
-        ary.each { |n| insert(n) }
-      end
-    end
-    
-    # Return the number of items in the heap.
     def size
       @size
     end
-    
-    def next
-      return nil if @size < 1
-      next_index, next_object = -1, nil
-      
-      @root_array.size.times do |i|
-        unless @root_array[i].nil?
-          if ((next_index == -1) || @compare_function.call(next_object, @root_array[i].object))
-            next_index, next_object = i, @root_array[i].object
-          end
-        end
-      end
-      return next_object
-    end
-  
-    def pop
-      return nil if @size < 1
-      next_index, next_object = -1, nil
-      
-      # Remove the root node containing the maximum from its power-of-2 heap
-      @root_array.size.times do |i|
-        unless @root_array[i].nil?
-          if ((next_index == -1) || @compare_function.call(next_object, @root_array[i].object))
-            next_index, next_object = i, @root_array[i].object
-          end
-        end
-      end
-      
-      # Temporarily build a binomial queue containing the remaining parts of the power-of-2 heap, and merge this back into the original
-      temp = []
-      x = @root_array[next_index].left
-      (next_index-1).downto(0) do |i|
-        temp[i] = x
-        x = x.right
-        temp[i].right = nil
-      end
+    alias :length :size
 
-      @root_array[next_index] = nil
-      merge!(temp)
-      @size -= 1
-      return next_object
+    def initialize(ary=[], &block)
+      @compare_fn = block_given? ? block : lambda { |x, y| (x <=> y) == -1 }
+      @next = nil
+      @size = 0
+      
+      ary.each { |n| push(n, n) } unless ary.empty?
     end
-  
-    def insert(object)
-      c = Node.new(object)
-      (0..@root_array.size+1).each do |i|
-        break if c.nil?
-        if @root_array[i].nil?            # The spot is empty, so we use it
-          @root_array[i] = c
-          break
+    
+    def push(key, value)    
+      node = Node.new(key, value)
+      # Add new node to the left of the @next node
+      if @next
+        node.right = @next
+        node.left = @next.left
+        node.left.right = node
+        @next.left = node
+        if @compare_fn[key, @next.key]
+          @next = node
         end
-        c = pair(c, @root_array[i])       # Otherwise, join the two and proceed
-        @root_array[i] = nil
+      else
+        @next = node
       end
       @size += 1
-      return object
-    end
-  
-    def merge!(otherheap)
-      if otherheap.kind_of? Containers::Heap
-        othersize = otherheap.size
-        otherheap = otherheap.root_array
-      end
-      a, b, c = @root_array, otherheap, nil
-      if(a.size < b.size) # Make sure 'a' is always bigger
-        a, b = b, a
-      end
       
-      (0..b.size).each do |i|
-        case bits(c, b[i], a[i])
-        when 2 then a[i] = b[i]
-        when 3 then c = pair(a[i], b[i]); a[i] = nil
-        when 4 then a[i] = c; c = nil
-        when 5 then c = pair(c, a[i]); a[i] = nil
-        when 6..7 then c = pair(c, b[i])
+      arr = []
+      w = @next.right
+      until w == @next do
+        arr << w.value
+        w = w.right
+      end
+      arr << @next.value
+      # puts "#{arr.join('-')}, #{@next.value}"
+      value
+    end
+    
+    def next
+      @next.value
+    end
+    
+    def clear
+      @next = nil
+      @size = 0
+    end
+    
+    # Returns true if the heap is empty, false otherwise.
+    def empty?
+      @next.nil?
+    end
+    
+    def merge!(otherheap)
+      raise "Trying to merge a heap with something not a heap" if !otherheap.kind_of? Heap
+      other_root = otherheap.instance_variable_get("@next")
+      # print_roots(other_root)
+      # print_roots(@next)
+      if !other_root.nil?
+        # Insert othernode's @next node to the left of current @next
+        @next.left.right = other_root
+        ol = other_root.left
+        other_root.left = @next.left
+        ol.right = @next
+        @next.left = ol
+        
+        # print_roots(@next)
+        if @compare_fn[other_root.key, @next.key]
+          @next = other_root
         end
       end
-      @root_array = a
-      @size += othersize if othersize
+      @size += otherheap.size
+      # print_roots(@next)
     end
+
+    def pop
+      return nil if @next.nil?
+      
+      popped = @next
+      if @size == 1
+        @next = nil
+        @size = 0
+        return popped.value
+      end
+      # puts "popping #{@next.value}"
+      # Merge the popped's children into root node
+      if @next.child
+        @next.child.parent = nil
+        
+        # get rid of parent
+        sibling = @next.child.right
+        until sibling == @next.child
+          sibling.parent = nil
+          sibling = sibling.right
+        end
+        
+        # Merge the children into the root. If @next is the only root node, make its child the @next node
+        # print_roots(@next)
+        if @next.right == @next
+          @next = @next.child
+        else
+          next_left, next_right = @next.left, @next.right
+          current_child = @next.child
+          @next.right.left = current_child
+          @next.left.right = current_child.right
+          current_child.right.left = next_left
+          current_child.right = next_right
+          @next = @next.right
+        end
+      else
+        @next.left.right = @next.right
+        @next.right.left = @next.left
+        @next = @next.right
+      end
+      consolidate
+
+      @size -= 1
+      popped.value      
+    end 
     
     private
-    def bits(c, b, a)
-      4*(c.nil? ? 0 : 1) + 2*(b.nil? ? 0 : 1) + (a.nil? ? 0 : 1)
+    
+    # Node class used internally
+    class Node # :nodoc:
+      attr_accessor :parent, :child, :left, :right, :key, :value, :degree, :marked
+
+      def initialize(key, value)
+        @key = key
+        @value = value
+        @degree = 0
+        @marked = false
+        @right = self
+        @left = self
+      end
+      
+      def marked?
+        @marked == true
+      end
+      
     end
     
-    def pair(p, q)
-      if @compare_function.call(p.object, q.object)
-        p.right = q.left
-        q.left = p
-        return q
-      else
-        q.right = p.left
-        p.left = q
-        return p
+    # make node a child of a parent node
+    def link_nodes(child, parent)
+      # link the child's siblings
+      child.left.right = child.right
+      child.right.left = child.left
+
+      child.parent = parent
+      
+      # if parent doesn't have children, make new child its only child
+      if parent.child.nil?
+        parent.child = child.right = child.left = child
+      else # otherwise insert new child into parent's children list
+        current_child = parent.child
+        child.left = current_child
+        child.right = current_child.right
+        current_child.right.left = child
+        current_child.right = child
       end
+      parent.degree += 1
+      child.marked = false
+      # puts "#{child.left.value}-#{child.value}-#{child.right.value}"
+      # puts "Children of #{child.parent.value}: "
+      # print_roots(child)
+    end
+    
+    def print_roots(node)
+      roots = []
+      root = node
+      loop do
+        roots << root
+        root = root.right
+        break if root == node
+      end
+      p roots.collect{ |r| r.value }
+    end
+
+    def consolidate
+      # puts "#{@next.left.value}-#{@next.value}-#{@next.right.value}"
+      roots = []
+      root = @next
+      min = root
+      # check if there's a new minimum in case popped's children were promoted
+      loop do
+        roots << root
+        root = root.right
+        break if root == @next
+      end
+      # print_roots(@next)
+      degrees = []
+      roots.each do |root|
+        min = root if @compare_fn[root.key, min.key]
+        # check if we need to merge
+        if degrees[root.degree].nil?
+          # puts "Not merging #{root.value}"
+          degrees[root.degree] = root
+          next
+        else
+          degree = root.degree
+          until degrees[degree].nil? do
+            other_root_with_degree = degrees[degree]
+            if @compare_fn[root.key, other_root_with_degree.key]
+              smaller, larger = root, other_root_with_degree
+            else
+              smaller, larger = other_root_with_degree, root
+            end
+            # puts "Making #{larger.value} a child of #{smaller.value}"
+            link_nodes(larger, smaller)
+            degrees[degree] = nil
+            root = smaller
+            degree += 1
+          end
+          degrees[degree] = root
+          min = root if min.key == root.key
+        end
+      end
+      @next = min
+      # print_roots(@next)
+      # puts "ending consolidate: root: #{@next.value}"
+    end
+    
+    def cascading_cut(node)
+      p = node.parent
+      if p
+        if node.marked?
+          cut(node, p)
+          cascading_cut(p)
+        else
+          node.marked = true
+        end
+      end
+    end
+    
+    def cut(x, y)
+      x.left.right = x.right
+      x.right.left = x.left
+      y.degree -= 1
+      if (y.degree == 0)
+        y.child = nil
+      elsif (y.child == x)
+        y.child = x.right
+      end
+      x.right = min
+      x.left = min.left
+      min.left = x
+      x.left.right = x
+      x.parent = nil
+      x.marked = false
     end
   end
   
   class MaxHeap < Heap
     def initialize(ary=[])
-      super(ary) { |x, y| (x <=> y) == -1 }
+      super(ary) { |x, y| (x <=> y) == 1 }
     end
     
     def max
@@ -150,7 +280,7 @@ module Containers
   
   class MinHeap < Heap
     def initialize(ary=[])
-      super(ary) { |x, y| (x <=> y) == 1 }
+      super(ary) { |x, y| (x <=> y) == -1 }
     end
     
     def min
