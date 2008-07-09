@@ -12,20 +12,50 @@ module Containers
   class Heap
     include Enumerable
     
+    # call-seq:
+    #     size -> int
+    #
+    # Return the number of elements in the heap.
     def size
       @size
     end
     alias :length :size
-
+    
+    # call-seq:
+    #     Heap.new(optional_array) { |x, y| optional_comparison_fn } -> new_heap
+    #
+    # If an optional array is passed, the entries in the array are inserted into the heap with
+    # equal key and value fields. Also, an optional block can be passed to define the function
+    # that maintains heap property. For example, a min-heap can be created with:
+    #
+    #     minheap = Heap.new { |x, y| (x <=> y) == -1 }
+    #     minheap.push(6)
+    #     minheap.push(10)
+    #     minheap.pop #=> 6
+    #
+    # Thus, smaller elements will be parent nodes. The heap defaults to a min-heap if no block
+    # is given.
     def initialize(ary=[], &block)
-      @compare_fn = block_given? ? block : lambda { |x, y| (x <=> y) == 1 }
+      @compare_fn = block_given? ? block : lambda { |x, y| (x <=> y) == -1 }
       @next = nil
       @size = 0
       @stored = {}
       
-      ary.each { |n| push(n, n) } unless ary.empty?
+      ary.each { |n| push(n) } unless ary.empty?
     end
     
+    # call-seq:
+    #     push(key, value) -> value
+    #     push(value) -> value
+    #
+    # Inserts an item with a given key into the heap. If only one parameter is given,
+    # the key is set to the value.
+    #
+    #     heap = MinHeap.new
+    #     heap.push(1, "Cat")
+    #     heap.push(2)
+    #     heap.pop #=> "Cat"
+    #     heap.pop #=> 2
     def push(key, value=key)
       raise "Can't enter a key of nil" if key.nil?
       node = Node.new(key, value)
@@ -55,25 +85,59 @@ module Containers
       value
     end
     
+    # call-seq:
+    #     has_key?(key) -> true or false
+    #
+    # Returns true if heap has the key.
+    #
+    #     minheap = MinHeap.new([1, 2])
+    #     minheap.has_key?(2) #=> true
+    #     minheap.has_key?(4) #=> false
     def has_key?(key)
       @stored[key] && !@stored[key].empty? ? true : false
     end
     
+    # call-seq:
+    #     next -> value
+    #     next -> nil
+    #
+    # Returns the value of the next item in heap order, but does not remove it.
+    #     minheap = MinHeap.new([1, 2])
+    #     minheap.next #=> 1
+    #     minheap.size #=> 2
     def next
       return nil if @next.nil?
       @next.value
     end
     
+    # call-seq:
+    #     clear -> nil
+    #
+    # Removes all elements from the heap, destructively.
     def clear
       @next = nil
       @size = 0
+      nil
     end
     
+    # call-seq:
+    #     empty? -> true or false
+    #
     # Returns true if the heap is empty, false otherwise.
     def empty?
       @next.nil?
     end
     
+    # call-seq:
+    #     merge!(otherheap) -> merged_heap
+    #
+    # Does a shallow merge of all the nodes in the other heap.
+    # 
+    #     heap = MinHeap.new([5, 6, 7, 8])
+    #     otherheap = MinHeap.new([1, 2, 3, 4])
+    #     heap.merge!(otherheap)
+    #     heap.size #=> 8
+    #     heap.pop #=> 1
     def merge!(otherheap)
       raise "Trying to merge a heap with something not a heap" if !otherheap.kind_of? Heap
       other_root = otherheap.instance_variable_get("@next")
@@ -92,7 +156,15 @@ module Containers
       end
       @size += otherheap.size
     end
-
+    
+    # call-seq:
+    #     pop -> value
+    #     pop -> nil
+    #
+    # Returns the value of the next item in heap order and removes it from the heap.
+    #     minheap = MinHeap.new([1, 2])
+    #     minheap.pop #=> 1
+    #     minheap.size #=> 1
     def pop
       return nil if @next.nil?
       popped = @next
@@ -139,10 +211,26 @@ module Containers
     end
     alias :next! :pop
     
+    # call-seq:
+    #     change_key(key, new_key) -> [new_key, value]
+    #     change_key(key, new_key) -> nil
+    #
+    # Changes the key from one to another. Doing so must not violate the heap property or
+    # an exception will be raised. If the key is found, an array containing the new key and 
+    # value pair is returned, otherwise nil is returned. 
+    #
+    # In the case of duplicate keys, an arbitrary key is changed. This will be investigated
+    # more in the future.
+    # 
+    #     minheap = MinHeap.new([1, 2])
+    #     minheap.change_key(2, 3) #=> raise error since we can't increase the value in a min-heap
+    #     minheap.change_key(2, 0) #=> [0, 2]
+    #     minheap.pop #=> 2
+    #     minheap.pop #=> 1
     def change_key(key, new_key, delete=false)
       return if @stored[key].nil? || @stored[key].empty? || (key == new_key)
       
-      # Must maintain heap order
+      # Must maintain heap property
       raise "Changing this key would not maintain heap property!" unless (delete || @compare_fn[new_key, key])
       node = @stored[key].shift
       if node
@@ -165,18 +253,29 @@ module Containers
       nil
     end
     
+    # call-seq:
+    #     delete(key) -> value
+    #     delete(key) -> nil
+    #
+    # Deletes the item with associated key and returns it. nil is returned if the key 
+    # is not found. In the case of nodes with duplicate keys, an arbitrary one is deleted.
     def delete(key)
       pop if change_key(key, nil, true)
     end
     
+    # call-seq:
+    #     each { |value| } -> heap
+    #
+    # Makes a copy of the heap and iterates over it in heap order, yielding the value.
     def each
       return if self.empty?
-      # Can't just do a deep copy of 'self' because you can't dump Procs (@compare_fn) "no marshal_dump is defined for class Proc"
+      # Can't just do a deep copy of 'self' because you can't dump Procs; @compare_fn raises "no marshal_dump is defined for class Proc"
       next_backup = Marshal.load(Marshal.dump(@next))
       size_backup = @size
       stored_backup = Marshal.load(Marshal.dump(@stored))
       yield self.pop until self.empty?
       @next, @size, @stored = next_backup, size_backup, stored_backup
+      self
     end
 
     private
@@ -292,29 +391,83 @@ module Containers
     end
   end
   
+  # A MaxHeap is a heap where the items are returned in descending order of key value.
   class MaxHeap < Heap
+    
+    # call-seq:
+    #     MaxHeap.new(ary) -> new_heap
+    #
+    # Creates a new MaxHeap with an optional array parameter of items to insert into the heap.
+    #
+    #     maxheap = MaxHeap.new([1, 2, 3, 4])
+    #     maxheap.pop #=> 4
+    #     maxheap.pop #=> 3
     def initialize(ary=[])
       super(ary) { |x, y| (x <=> y) == 1 }
     end
     
+    # call-seq:
+    #     max -> value
+    #     max -> nil
+    #
+    # Returns the item with the largest key, but does not remove it from the heap.
+    #
+    #     maxheap = MaxHeap.new([1, 2, 3, 4])
+    #     maxheap.max #=> 4
     def max
       self.next
     end
     
+    # call-seq:
+    #     max! -> value
+    #     max! -> nil
+    #
+    # Returns the item with the largest key and removes it from the heap.
+    #
+    #     maxheap = MaxHeap.new([1, 2, 3, 4])
+    #     maxheap.max! #=> 4
+    #     maxheap.size #=> 3
     def max!
       self.pop
     end
   end
   
+  # A MinHeap is a heap where the items are returned in ascending order of key value.
   class MinHeap < Heap
+    
+    # call-seq:
+    #     MaxHeap.new(ary) -> new_heap
+    #
+    # Creates a new MinHeap with an optional array parameter of items to insert into the heap.
+    #
+    #     minheap = MinHeap.new([1, 2, 3, 4])
+    #     minheap.pop #=> 1
+    #     minheap.pop #=> 2
     def initialize(ary=[])
       super(ary) { |x, y| (x <=> y) == -1 }
     end
     
+    # call-seq:
+    #     min -> value
+    #     min -> nil
+    #
+    # Returns the item with the smallest key, but does not remove it from the heap.
+    #
+    #     minheap = MinHeap.new([1, 2, 3, 4])
+    #     minheap.max #=> 1
     def min
       self.next
     end
     
+    # call-seq:
+    #     min! -> value
+    #     min! -> nil
+    #
+    # Returns the item with the smallest key and removes it from the heap.
+    #
+    #     minheap = MinHeap.new([1, 2, 3, 4])
+    #     minheap.min! #=> 1
+    #     minheap.size #=> 3
     def min!
       self.pop
     end
