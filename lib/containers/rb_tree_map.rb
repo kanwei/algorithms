@@ -145,6 +145,24 @@ module Containers
       def size
         self.num_nodes
       end
+      
+      def colorflip
+        @color       = @color == :red       ? :black : :red
+        @left.color  = @left.color == :red  ? :black : :red
+        @right.color = @right.color == :red ? :black : :red
+      end
+      
+      def update_num_nodes
+        @num_nodes = (@left ? @left.size : 0) + (@right ? @right.size : 0) + 1
+        left_height = (@left ? @left.height : 0)
+        right_height = (@right ? @right.height : 0)
+        if left_height > right_height
+          @height = left_height + 1
+        else
+          @height = right_height + 1
+        end
+        self
+      end
     end
     
     def eachR(node, block)
@@ -242,7 +260,7 @@ module Containers
         return Node.new(key, value)
       end
       
-      colorflip(node) if (isred(node.left) && isred(node.right))
+      node.colorflip if (isred(node.left) && isred(node.right))
       
       case key <=> node.key
       when  0 then node.value = value
@@ -253,7 +271,7 @@ module Containers
       node = rotate_left(node) if isred(node.right)
       node = rotate_right(node) if (isred(node.left) && isred(node.left.left))
       
-      set_num_nodes(node)
+      node.update_num_nodes
     end
     
     def isred(node)
@@ -265,44 +283,38 @@ module Containers
     def rotate_left(node)
       x = node.right
       node.right = x.left
-      x.left = set_num_nodes(node)
+      x.left = node.update_num_nodes
       x.color = x.left.color
       x.left.color = :red
                          
-      set_num_nodes(x)
+      x.update_num_nodes
     end
     
     def rotate_right(node)
       x = node.left
       node.left = x.right
-      x.right = set_num_nodes(node)
+      x.right = node.update_num_nodes
       x.color = x.right.color
       x.right.color = :red
       
-      set_num_nodes(x);
-    end
-    
-    def colorflip(node)
-      node.color       = node.color == :red       ? :black : :red
-      node.left.color  = node.left.color == :red  ? :black : :red
-      node.right.color = node.right.color == :red ? :black : :red
+      x.update_num_nodes;
     end
     
     def move_red_left(node)
-      colorflip(node)
+      node.colorflip
       if isred(node.right.left)
         node.right = rotate_right(node.right)
         node = rotate_left(node)
-        colorflip(node)
+        node.colorflip
       end
       node
     end
     
     def move_red_right(node)
-      colorflip(node)
+      node.colorflip
       if isred(node.left.left)
         node = rotate_right(node)
-        colorflip(node)
+        node.colorflip
       end
       node     
     end
@@ -310,20 +322,11 @@ module Containers
     def fixup(node)
       node = rotate_left(node) if isred(node.right)
       node = rotate_right(node) if (isred(node.left) && isred(node.left.left))
-      colorflip(node) if (isred(node.left) && isred(node.right))
+      node.colorflip if (isred(node.left) && isred(node.right))
       
-      set_num_nodes(node)
+      node.update_num_nodes
     end
     
-    def set_num_nodes(node)
-      node.num_nodes = (node.left ? node.left.size : 0) + (node.right ? node.right.size : 0) + 1
-      if heightR(node.left) > heightR(node.right)
-        node.height = heightR(node.left) + 1
-      else
-        node.height = heightR(node.right) + 1
-      end
-      node
-    end
   end
   
 end
