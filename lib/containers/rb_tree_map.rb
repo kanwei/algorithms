@@ -187,6 +187,33 @@ module Containers
         l.update_size
         update_size
       end
+      
+      def move_red_left
+        colorflip
+        if (@right.left && @right.left.red?)
+          @right.rotate_right
+          rotate_left
+          colorflip
+        end
+        self
+      end
+
+      def move_red_right
+        colorflip
+        if (@left.left && @left.left.red?)
+          rotate_right
+          colorflip
+        end
+        self
+      end
+      
+      def fixup
+        rotate_left if @right && @right.red?
+        rotate_right if (@left && @left.red?) && (@left.left && @left.left.red?)
+        colorflip if (@left && @left.red?) && (@right && @right.red?)
+
+        update_size
+      end
     end
     
     def eachR(node, block)
@@ -199,7 +226,7 @@ module Containers
     
     def deleteR(node, key)
       if (key <=> node.key) == -1
-        node = move_red_left(node) if (!isred(node.left) && !isred(node.left.left))
+        node.move_red_left if (!isred(node.left) && !isred(node.left.left))
         node.left, result = deleteR(node.left, key)
       else
         node = node.rotate_right if isred(node.left)
@@ -207,7 +234,7 @@ module Containers
           return nil, node.value
         end
         if (!isred(node.right) && !isred(node.right.left))
-          node = move_red_right(node)
+          node.move_red_right
         end
         if (key <=> node.key) == 0
           result = node.value
@@ -218,17 +245,17 @@ module Containers
           node.right, result = deleteR(node.right, key)
         end
       end
-      return fixup(node), result
+      return node.fixup, result
     end
     
     def delete_minR(node)
       return nil if node.left.nil?
       if ( !isred(node.left) && !isred(node.left.left) )
-        node = move_red_left(node)
+        node.move_red_left
       end
       node.left = delete_minR(node.left)
       
-      fixup(node)
+      node.fixup
     end
     
     def delete_maxR(node)
@@ -237,11 +264,11 @@ module Containers
       end
       return nil if node.right.nil?
       if ( !isred(node.right) && !isred(node.right.left) )
-        node = move_red_right(node)
+        node.move_red_right
       end
       node.right = delete_maxR(node.right)
       
-      fixup(node)
+      node.fixup
     end
     
     def getR(node, key)
@@ -289,34 +316,7 @@ module Containers
       
       node.color == :red
     end
-    
-    def move_red_left(node)
-      node.colorflip
-      if (node.right.left && node.right.left.red?)
-        node.right.rotate_right
-        node.rotate_left
-        node.colorflip
-      end
-      node
-    end
-    
-    def move_red_right(node)
-      node.colorflip
-      if (node.left.left && node.left.left.red?)
-        node = node.rotate_right
-        node.colorflip
-      end
-      node     
-    end
-    
-    def fixup(node)
-      node.rotate_left if node.right && node.right.red?
-      node = node.rotate_right if (node.left && node.left.red?) && (node.left.left && node.left.left.red?)
-      node.colorflip if (node.left && node.left.red?) && (node.right && node.right.red?)
-      
-      node.update_size
-    end
-    
+
   end
   
 end
