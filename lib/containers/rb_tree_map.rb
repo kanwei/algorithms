@@ -114,7 +114,46 @@ module Containers
       result = nil
       if @root
         @root, result = deleteR(@root, key)
-        @root.color = :black
+        @root.color = :black if @root
+      end
+      result
+    end
+    
+    # Returns true if the tree is empty, false otherwise
+    def empty?
+      @root.nil?
+    end
+    
+    # Deletes the item with the smallest key and returns the item. Returns nil
+    # if key is not present.
+    #
+    # map = Containers::TreeMap.new
+    # map.put("MA", "Massachusetts")
+    # map.put("GA", "Georgia")
+    # map.delete_min #=> "Massachusetts"
+    # map.size #=> 1
+    def delete_min
+      result = nil
+      if @root
+        @root, result = delete_minR(@root)
+        @root.color = :black if @root
+      end
+      result
+    end
+    
+    # Deletes the item with the smallest key and returns the item. Returns nil
+    # if key is not present.
+    #
+    # map = Containers::TreeMap.new
+    # map.put("MA", "Massachusetts")
+    # map.put("GA", "Georgia")
+    # map.delete_max #=> "Georgia"
+    # map.size #=> 1
+    def delete_max
+      result = nil
+      if @root
+        @root, result = delete_maxR(@root)
+        @root.color = :black if @root
       end
       result
     end
@@ -220,27 +259,27 @@ module Containers
       return if node.nil?
       
       eachR(node.left, block)
-      block.call(node.key, node.value)
+      block[node.key, node.value]
       eachR(node.right, block)
     end
     
     def deleteR(node, key)
       if (key <=> node.key) == -1
-        node.move_red_left if (!isred(node.left) && !isred(node.left.left))
+        node.move_red_left if ( !isred(node.left) && !isred(node.left.left) )
         node.left, result = deleteR(node.left, key)
       else
-        node = node.rotate_right if isred(node.left)
+        node.rotate_right if isred(node.left)
         if ( ( (key <=> node.key) == 0) && node.right.nil? )
           return nil, node.value
         end
-        if (!isred(node.right) && !isred(node.right.left))
+        if ( !isred(node.right) && !isred(node.right.left) )
           node.move_red_right
         end
         if (key <=> node.key) == 0
           result = node.value
           node.value = getR(node.right, minR(node.right))
           node.key = minR(node.right)
-          node.right = delete_minR(node.right)
+          node.right = delete_minR(node.right).first
         else
           node.right, result = deleteR(node.right, key)
         end
@@ -249,26 +288,28 @@ module Containers
     end
     
     def delete_minR(node)
-      return nil if node.left.nil?
+      if node.left.nil?
+        return nil, node.value 
+      end
       if ( !isred(node.left) && !isred(node.left.left) )
         node.move_red_left
       end
-      node.left = delete_minR(node.left)
+      node.left, result = delete_minR(node.left)
       
-      node.fixup
+      return node.fixup, result
     end
     
     def delete_maxR(node)
       if (isred(node.left))
         node = node.rotate_right
       end
-      return nil if node.right.nil?
+      return nil, node.value if node.right.nil?
       if ( !isred(node.right) && !isred(node.right.left) )
         node.move_red_right
       end
-      node.right = delete_maxR(node.right)
+      node.right, result = delete_maxR(node.right)
       
-      node.fixup
+      return node.fixup, result
     end
     
     def getR(node, key)
