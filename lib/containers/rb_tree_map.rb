@@ -57,7 +57,8 @@ module Containers
     # map.put("GA", "Georgia")
     # map.height #=> 2
     def height
-      heightR(@root)
+      return 0 if @root.nil?
+      @root.height
     end
     
     # Return true if key is found in the TreeMap, false otherwise
@@ -123,27 +124,22 @@ module Containers
       @root.nil? ? nil : eachR(@root, block)
     end
     
-    def to_s
-      return "" if @root.nil?
-      "#{@height_black} #{to_sR(@root)}"
-    end
-    
     private
     
     class Node # :nodoc: all
-      attr_accessor :color, :key, :value, :left, :right, :num_nodes, :height
+      attr_accessor :color, :key, :value, :left, :right, :size, :height
       def initialize(key, value)
         @key = key
         @value = value
         @color = :red
         @left = nil
         @right = nil
-        @num_nodes = 1
+        @size = 1
         @height = 1
       end
       
-      def size
-        self.num_nodes
+      def red?
+        @color == :red
       end
       
       def colorflip
@@ -152,8 +148,8 @@ module Containers
         @right.color = @right.color == :red ? :black : :red
       end
       
-      def update_num_nodes
-        @num_nodes = (@left ? @left.size : 0) + (@right ? @right.size : 0) + 1
+      def update_size
+        @size = (@left ? @left.size : 0) + (@right ? @right.size : 0) + 1
         left_height = (@left ? @left.height : 0)
         right_height = (@right ? @right.height : 0)
         if left_height > right_height
@@ -183,7 +179,7 @@ module Containers
           return nil, node.value
         end
         if (!isred(node.right) && !isred(node.right.left))
-          node = move_red_right(node);
+          node = move_red_right(node)
         end
         if (key <=> node.key) == 0
           result = node.value
@@ -223,24 +219,10 @@ module Containers
     def getR(node, key)
       return nil if node.nil?
       case key <=> node.key
-      when  0 then return node.value;
+      when  0 then return node.value
       when -1 then return getR(node.left, key)
       when  1 then return getR(node.right, key)
       end
-    end
-    
-    def to_sR(x)
-      s = "("
-      x.left.nil? ? s << '(' : s << to_sR(x.left)
-      s << "*" if isred(x)
-      x.right.nil? ? s << ')' : s << to_sR(x.right)
-      s + ')'
-    end
-    
-    def heightR(node)
-      return 0 if node.nil?
-      
-      node.height
     end
     
     def minR(node)
@@ -260,7 +242,7 @@ module Containers
         return Node.new(key, value)
       end
       
-      node.colorflip if (isred(node.left) && isred(node.right))
+      node.colorflip if (node.left && node.left.red? && node.right && node.right.red?)
       
       case key <=> node.key
       when  0 then node.value = value
@@ -268,10 +250,10 @@ module Containers
       when  1 then node.right = insert(node.right, key, value)
       end
       
-      node = rotate_left(node) if isred(node.right)
-      node = rotate_right(node) if (isred(node.left) && isred(node.left.left))
+      node = rotate_left(node) if (node.right && node.right.red?)
+      node = rotate_right(node) if (node.left && node.left.red? && node.left.left && node.left.left.red?)
       
-      node.update_num_nodes
+      node.update_size
     end
     
     def isred(node)
@@ -283,26 +265,26 @@ module Containers
     def rotate_left(node)
       x = node.right
       node.right = x.left
-      x.left = node.update_num_nodes
+      x.left = node.update_size
       x.color = x.left.color
       x.left.color = :red
                          
-      x.update_num_nodes
+      x.update_size
     end
     
     def rotate_right(node)
       x = node.left
       node.left = x.right
-      x.right = node.update_num_nodes
+      x.right = node.update_size
       x.color = x.right.color
       x.right.color = :red
       
-      x.update_num_nodes;
+      x.update_size
     end
     
     def move_red_left(node)
       node.colorflip
-      if isred(node.right.left)
+      if (node.right.left && node.right.left.red?)
         node.right = rotate_right(node.right)
         node = rotate_left(node)
         node.colorflip
@@ -312,7 +294,7 @@ module Containers
     
     def move_red_right(node)
       node.colorflip
-      if isred(node.left.left)
+      if (node.left.left && node.left.left.red?)
         node = rotate_right(node)
         node.colorflip
       end
@@ -320,11 +302,11 @@ module Containers
     end
     
     def fixup(node)
-      node = rotate_left(node) if isred(node.right)
-      node = rotate_right(node) if (isred(node.left) && isred(node.left.left))
-      node.colorflip if (isred(node.left) && isred(node.right))
+      node = rotate_left(node) if node.right && node.right.red?
+      node = rotate_right(node) if (node.left && node.left.red?) && (node.left.left && node.left.left.red?)
+      node.colorflip if (node.left && node.left.red?) && (node.right && node.right.red?)
       
-      node.update_num_nodes
+      node.update_size
     end
     
   end
