@@ -28,6 +28,7 @@ describe Containers::SuffixArray do
     
     it "should not has_substring? substrings it does not have" do
       @s_array.has_substring?("nope").should eql(false)
+      @s_array.has_substring?(nil).should eql(false)
     end
     
     it "should work with numbers (calls to_s)" do
