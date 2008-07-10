@@ -1,7 +1,7 @@
 require 'lib/containers/splay_tree_map'
   
 describe "(empty splay)", :shared => true do
-  it "should let you put stuff in" do
+  it "should let you push stuff in" do
     100.times { |x| @tree[x] = x }
     @tree.size.should eql(100)
   end

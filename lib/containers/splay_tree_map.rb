@@ -23,9 +23,9 @@ module Containers
     # Insert an item with an associated key into the SplayTreeMap, and returns the item inserted
     #
     # map = Containers::SplayTreeMap.new
-    # map.put("MA", "Massachusetts") #=> "Massachusetts"
+    # map.push("MA", "Massachusetts") #=> "Massachusetts"
     # map.get("MA") #=> "Massachusetts"
-    def put(key, value)
+    def push(key, value)
       if @root.nil?
         @root = Node.new(key, value)
         @size = 1
@@ -52,13 +52,13 @@ module Containers
       @size += 1
       value
     end
-    alias :[]= :put
+    alias :[]= :push
     
     # Return the number of items in the SplayTreeMap.
     #
     #   map = Containers::SplayTreeMap.new
-    #   map.put("MA", "Massachusetts")
-    #   map.put("GA", "Georgia")
+    #   map.push("MA", "Massachusetts")
+    #   map.push("GA", "Georgia")
     #   map.size #=> 2
     def size
       @size
@@ -74,8 +74,8 @@ module Containers
     # Return the height of the tree structure in the SplayTreeMap.
     #
     #   map = Containers::SplayTreeMap.new
-    #   map.put("MA", "Massachusetts")
-    #   map.put("GA", "Georgia")
+    #   map.push("MA", "Massachusetts")
+    #   map.push("GA", "Georgia")
     #   map.height #=> 2
     def height
       heightR(@root)
@@ -95,8 +95,8 @@ module Containers
     # Return the item associated with the key, or nil if none found.
     #
     #   map = Containers::SplayTreeMap.new
-    #   map.put("MA", "Massachusetts")
-    #   map.put("GA", "Georgia")
+    #   map.push("MA", "Massachusetts")
+    #   map.push("GA", "Georgia")
     #   map.get("GA") #=> "Georgia"
     def get(key)
       return nil if @root.nil?
