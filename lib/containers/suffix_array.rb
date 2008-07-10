@@ -33,6 +33,7 @@ module Containers
     # Returns true if the substring occurs in the string, false otherwise.
     def has_substring?(substring)
       substring = substring.to_s
+      return false if substring.empty?
       substring_length = substring.length-1
       l, r = 0, @suffixes.size-1
       while(l <= r)
