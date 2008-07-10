@@ -14,6 +14,8 @@ module Containers
     when the gem was installed. Alternatively, Containers::RubyRBTreeMap and Containers::CRBTreeMap can be 
     explicitly used as well; their functionality is identical.
     
+    Most methods have O(log n) complexity.
+    
 =end
   class RubyRBTreeMap
     include Enumerable
@@ -27,6 +29,8 @@ module Containers
     end
     
     # Insert an item with an associated key into the TreeMap, and returns the item inserted
+    #
+    # Complexity: O(log n)
     #
     # map = Containers::TreeMap.new
     # map.push("MA", "Massachusetts") #=> "Massachusetts"
@@ -52,6 +56,8 @@ module Containers
     
     # Return the height of the tree structure in the TreeMap.
     #
+    # Complexity: O(1)
+    #
     #   map = Containers::TreeMap.new
     #   map.push("MA", "Massachusetts")
     #   map.push("GA", "Georgia")
@@ -62,6 +68,8 @@ module Containers
     end
     
     # Return true if key is found in the TreeMap, false otherwise
+    #
+    # Complexity: O(log n)
     #
     #   map = Containers::TreeMap.new
     #   map.push("MA", "Massachusetts")
@@ -74,6 +82,8 @@ module Containers
     
     # Return the item associated with the key, or nil if none found.
     #
+    # Complexity: O(log n)
+    #
     #   map = Containers::TreeMap.new
     #   map.push("MA", "Massachusetts")
     #   map.push("GA", "Georgia")
@@ -83,7 +93,9 @@ module Containers
     end
     alias :[] :get
     
-    # Return the smallest key in the TreeMap
+    # Return the smallest key in the map.
+    #
+    # Complexity: O(log n)
     #
     #   map = Containers::TreeMap.new
     #   map.push("MA", "Massachusetts")
@@ -93,7 +105,9 @@ module Containers
       @root.nil? ? nil : minR(@root)
     end
     
-    # Return the largest key in the TreeMap
+    # Return the largest key in the map.
+    #
+    # Complexity: O(log n)
     #
     #   map = Containers::TreeMap.new
     #   map.push("MA", "Massachusetts")
@@ -105,6 +119,11 @@ module Containers
     
     # Deletes the item and key if it's found, and returns the item. Returns nil
     # if key is not present.
+    #
+    # !!! Warning !!! There is a currently a bug in the delete method that occurs rarely
+    # but often enough, especially in large datasets. It is currently under investigation.
+    #
+    # Complexity: O(log n)
     #
     #   map = Containers::TreeMap.new
     #   map.push("MA", "Massachusetts")
@@ -127,6 +146,8 @@ module Containers
     # Deletes the item with the smallest key and returns the item. Returns nil
     # if key is not present.
     #
+    # Complexity: O(log n)
+    #
     #   map = Containers::TreeMap.new
     #   map.push("MA", "Massachusetts")
     #   map.push("GA", "Georgia")
@@ -143,6 +164,8 @@ module Containers
     
     # Deletes the item with the smallest key and returns the item. Returns nil
     # if key is not present.
+    #
+    # Complexity: O(log n)
     #
     #   map = Containers::TreeMap.new
     #   map.push("MA", "Massachusetts")
