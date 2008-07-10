@@ -84,17 +84,17 @@ end
 #   end
 # end
 
-describe Containers::RubySplayTreeMap do
+describe Containers::SplayTreeMap do
   describe "empty" do
     before(:each) do
-      @tree = Containers::RubySplayTreeMap.new
+      @tree = Containers::SplayTreeMap.new
     end
     it_should_behave_like "(empty splay)"
   end
   
   describe "full" do
     before(:each) do
-      @tree = Containers::RubySplayTreeMap.new
+      @tree = Containers::SplayTreeMap.new
     end
     it_should_behave_like "(non-empty splay)"
   end

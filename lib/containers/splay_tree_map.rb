@@ -10,7 +10,7 @@ module Containers
     trees.
     
 =end
-  class RubySplayTreeMap
+  class SplayTreeMap
     include Enumerable
     
     # Create and initialize a new empty SplayTreeMap.
