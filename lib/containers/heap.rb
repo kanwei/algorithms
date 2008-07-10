@@ -84,6 +84,7 @@ module Containers
       @stored[key] << node
       value
     end
+    alias :<< :push
     
     # call-seq:
     #     has_key?(key) -> true or false
