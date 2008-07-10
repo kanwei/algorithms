@@ -42,6 +42,12 @@ describe Containers::Queue do
       @queue.empty?.should eql(false)
     end
     
+    it "should iterate in FIFO order" do
+      arr = []
+      @queue.each { |obj| arr << obj }
+      arr.should eql([10, "10"])
+    end
+    
     it "should return nil after all gets" do
       @queue.pop
       @queue.pop

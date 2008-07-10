@@ -42,6 +42,13 @@ describe Containers::Stack do
       @stack.empty?.should eql(false)
     end
     
+    
+    it "should iterate in LIFO order" do
+      arr = []
+      @stack.each { |obj| arr << obj }
+      arr.should eql(["10", 10])
+    end
+    
     it "should return nil after all pops" do
       @stack.pop
       @stack.pop
