@@ -23,6 +23,8 @@ module Containers
     # Adds a key, value pair to the Trie, and returns the value if successful. The to_s method is
     # called on the parameter to turn it into a string.
     #
+    # Complexity: O(m)
+    #
     #   t = Containers::Trie.new
     #   t["hello"] = "world"
     #   t.push("hello", "world") # does the same thing
@@ -38,6 +40,9 @@ module Containers
     alias :[]= :push
     
     # Returns true if the key is contained in the Trie.
+    #
+    # Complexity: O(m) worst case
+    #
     def has_key?(key)
       key = key.to_s
       return false if key.empty?
@@ -45,6 +50,8 @@ module Containers
     end
     
     # Returns the value of the desired key, or nil if the key doesn't exist.
+    #
+    # Complexity: O(m) worst case
     #
     #   t = Containers::Trie.new
     #   t.get("hello") = "world"
@@ -59,6 +66,8 @@ module Containers
     
     # Returns the longest key that has a prefix in common with the parameter string. If
     # no match is found, the blank string "" is returned.
+    #
+    # Complexity: O(m) worst case
     #
     #   t = Containers::Trie.new
     #   t.push("Hello", "World")
@@ -77,6 +86,8 @@ module Containers
     # Returns a sorted array containing strings that match the parameter string. The wildcard
     # characters that match any character are '*' and '.' If no match is found, an empty
     # array is returned.
+    #
+    # Complexity: O(n) worst case
     #
     #   t = Containers::Trie.new
     #   t.push("Hello", "World")
