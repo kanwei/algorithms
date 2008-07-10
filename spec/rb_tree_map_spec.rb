@@ -1,7 +1,7 @@
 require 'lib/containers/rb_tree_map'
 require 'lib/CRBTreeMap'
   
-describe "(empty)", :shared => true do
+describe "(empty rbtree)", :shared => true do
   it "should let you push stuff in" do
     100.times { |x| @tree[x] = x }
     @tree.size.should eql(100)
@@ -19,7 +19,9 @@ describe "(empty)", :shared => true do
     @tree.size.should eql(0)
   end
   
-  it "should return nil for #min_key and #max_key" do
+  it "should return nil for max and min" do
+    @tree.min.should eql(nil)
+    @tree.max.should eql(nil)
     @tree.min_key.should eql(nil)
     @tree.max_key.should eql(nil)
   end
@@ -29,7 +31,7 @@ describe "(empty)", :shared => true do
   end
 end
 
-describe "(non-empty)", :shared => true do
+describe "(non-empty rbtree)", :shared => true do
   before(:each) do
     @num_items = 100
     @random_array = []
@@ -42,9 +44,11 @@ describe "(non-empty)", :shared => true do
     @tree.size.should eql(@random_array.uniq.size)
   end
   
-  it "should return correct max and min keys" do
+  it "should return correct max and min" do
     @tree.min_key.should eql(@random_array.min)
     @tree.max_key.should eql(@random_array.max)
+    @tree.min[0].should eql(@random_array.min)
+    @tree.max[0].should eql(@random_array.max)
   end
   
   it "should not #has_key? keys it doesn't have" do
@@ -94,14 +98,14 @@ describe Containers::CRBTreeMap do
     before(:each) do
       @tree = Containers::CRBTreeMap.new
     end
-    it_should_behave_like "(empty)"
+    it_should_behave_like "(empty rbtree)"
   end
   
   describe "full" do
     before(:each) do
       @tree = Containers::CRBTreeMap.new
     end
-    it_should_behave_like "(non-empty)"
+    it_should_behave_like "(non-empty rbtree)"
   end
 end
 
@@ -110,13 +114,13 @@ describe Containers::RubyRBTreeMap do
     before(:each) do
       @tree = Containers::RubyRBTreeMap.new
     end
-    it_should_behave_like "(empty)"
+    it_should_behave_like "(empty rbtree)"
   end
   
   describe "full" do
     before(:each) do
       @tree = Containers::RubyRBTreeMap.new
     end
-    it_should_behave_like "(non-empty)"
+    it_should_behave_like "(non-empty rbtree)"
   end
 end
