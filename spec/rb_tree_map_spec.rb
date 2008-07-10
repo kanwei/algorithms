@@ -7,6 +7,10 @@ describe "(empty)", :shared => true do
     @tree.size.should eql(100)
   end
   
+  it "should be empty?" do
+    @tree.empty?.should eql(true)
+  end
+  
   it "should return 0 for height" do
     @tree.height.should eql(0)
   end
@@ -34,6 +38,7 @@ describe "(non-empty)", :shared => true do
   end
   
   it "should return correct size (uniqify items first)" do
+    @tree.empty?.should eql(false)
     @tree.size.should eql(@random_array.uniq.size)
   end
   
