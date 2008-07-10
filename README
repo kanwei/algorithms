@@ -1,6 +1,7 @@
 = algorithms
 
 * http://rubyforge.org/projects/algorithms/
+* Documentation: http://algorithms.rubyforge.org/
 
 == DESCRIPTION:
 
@@ -13,7 +14,17 @@ Done so far:
 * Priority Queue
 * Stack
 * Queue
-* TreeMap
+* Deque
+* Red-Black Trees
+* Splay Trees
+* Tries (Ternary Search Tree)
+* Suffix Array
+
+Upcoming:
+* Graphs, graph algorithms
+* Search algorithms
+* Sort algorithms
+* String algorithms
 
 == SYNOPSIS:
 
