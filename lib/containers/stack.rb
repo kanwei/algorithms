@@ -7,8 +7,7 @@ module Containers
     A Stack is a container that keeps elements in a last-in first-out (LIFO) order. There are many
     uses for stacks, including prefix-infix-postfix conversion and backtracking problems.
 
-    The ruby Stack implementation uses an array, while the C implementation uses a linked-list, and
-    has less overhead.
+    This implementation uses a doubly-linked list, guaranteeing O(1) complexity for all operations.
 
 =end
   class Stack

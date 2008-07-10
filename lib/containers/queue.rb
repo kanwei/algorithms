@@ -7,8 +7,7 @@ module Containers
     A Queue is a container that keeps elements in a first-in first-out (FIFO) order. Because of its
     properties, it is often used as a buffer.
     
-    The ruby Queue implementation uses an array, while the C implementation uses a linked-list, and
-    has less overhead.
+    This implementation uses a doubly-linked list, guaranteeing O(1) complexity for all operations.
     
 =end
   class Queue
