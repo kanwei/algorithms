@@ -22,9 +22,9 @@ module Containers
     
     # Insert an item with an associated key into the SplayTreeMap, and returns the item inserted
     #
-    # map = Containers::SplayTreeMap.new
-    # map.push("MA", "Massachusetts") #=> "Massachusetts"
-    # map.get("MA") #=> "Massachusetts"
+    #   map = Containers::SplayTreeMap.new
+    #   map.push("MA", "Massachusetts") #=> "Massachusetts"
+    #   map.get("MA") #=> "Massachusetts"
     def push(key, value)
       if @root.nil?
         @root = Node.new(key, value)

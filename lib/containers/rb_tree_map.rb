@@ -41,10 +41,10 @@ module Containers
     
     # Return the number of items in the TreeMap.
     #
-    # map = Containers::TreeMap.new
-    # map.push("MA", "Massachusetts")
-    # map.push("GA", "Georgia")
-    # map.size #=> 2
+    #   map = Containers::TreeMap.new
+    #   map.push("MA", "Massachusetts")
+    #   map.push("GA", "Georgia")
+    #   map.size #=> 2
     def size
       return 0 if @root.nil?
       @root.size
@@ -52,10 +52,10 @@ module Containers
     
     # Return the height of the tree structure in the TreeMap.
     #
-    # map = Containers::TreeMap.new
-    # map.push("MA", "Massachusetts")
-    # map.push("GA", "Georgia")
-    # map.height #=> 2
+    #   map = Containers::TreeMap.new
+    #   map.push("MA", "Massachusetts")
+    #   map.push("GA", "Georgia")
+    #   map.height #=> 2
     def height
       return 0 if @root.nil?
       @root.height
@@ -63,21 +63,21 @@ module Containers
     
     # Return true if key is found in the TreeMap, false otherwise
     #
-    # map = Containers::TreeMap.new
-    # map.push("MA", "Massachusetts")
-    # map.push("GA", "Georgia")
-    # map.has_key?("GA") #=> true
-    # map.has_key?("DE") #=> false
+    #   map = Containers::TreeMap.new
+    #   map.push("MA", "Massachusetts")
+    #   map.push("GA", "Georgia")
+    #   map.has_key?("GA") #=> true
+    #   map.has_key?("DE") #=> false
     def has_key?(key)
       !get(key).nil?
     end
     
     # Return the item associated with the key, or nil if none found.
     #
-    # map = Containers::TreeMap.new
-    # map.push("MA", "Massachusetts")
-    # map.push("GA", "Georgia")
-    # map.get("GA") #=> "Georgia"
+    #   map = Containers::TreeMap.new
+    #   map.push("MA", "Massachusetts")
+    #   map.push("GA", "Georgia")
+    #   map.get("GA") #=> "Georgia"
     def get(key)
       getR(@root, key)
     end
@@ -85,20 +85,20 @@ module Containers
     
     # Return the smallest key in the TreeMap
     #
-    # map = Containers::TreeMap.new
-    # map.push("MA", "Massachusetts")
-    # map.push("GA", "Georgia")
-    # map.min_key #=> "GA"
+    #   map = Containers::TreeMap.new
+    #   map.push("MA", "Massachusetts")
+    #   map.push("GA", "Georgia")
+    #   map.min_key #=> "GA"
     def min_key
       @root.nil? ? nil : minR(@root)
     end
     
     # Return the largest key in the TreeMap
     #
-    # map = Containers::TreeMap.new
-    # map.push("MA", "Massachusetts")
-    # map.push("GA", "Georgia")
-    # map.max_key #=> "MA"
+    #   map = Containers::TreeMap.new
+    #   map.push("MA", "Massachusetts")
+    #   map.push("GA", "Georgia")
+    #   map.max_key #=> "MA"
     def max_key
       @root.nil? ? nil : maxR(@root)
     end
@@ -106,10 +106,10 @@ module Containers
     # Deletes the item and key if it's found, and returns the item. Returns nil
     # if key is not present.
     #
-    # map = Containers::TreeMap.new
-    # map.push("MA", "Massachusetts")
-    # map.push("GA", "Georgia")
-    # map.min_key #=> "GA"
+    #   map = Containers::TreeMap.new
+    #   map.push("MA", "Massachusetts")
+    #   map.push("GA", "Georgia")
+    #   map.min_key #=> "GA"
     def delete(key)
       result = nil
       if @root
@@ -127,11 +127,11 @@ module Containers
     # Deletes the item with the smallest key and returns the item. Returns nil
     # if key is not present.
     #
-    # map = Containers::TreeMap.new
-    # map.push("MA", "Massachusetts")
-    # map.push("GA", "Georgia")
-    # map.delete_min #=> "Massachusetts"
-    # map.size #=> 1
+    #   map = Containers::TreeMap.new
+    #   map.push("MA", "Massachusetts")
+    #   map.push("GA", "Georgia")
+    #   map.delete_min #=> "Massachusetts"
+    #   map.size #=> 1
     def delete_min
       result = nil
       if @root
@@ -144,11 +144,11 @@ module Containers
     # Deletes the item with the smallest key and returns the item. Returns nil
     # if key is not present.
     #
-    # map = Containers::TreeMap.new
-    # map.push("MA", "Massachusetts")
-    # map.push("GA", "Georgia")
-    # map.delete_max #=> "Georgia"
-    # map.size #=> 1
+    #   map = Containers::TreeMap.new
+    #   map.push("MA", "Massachusetts")
+    #   map.push("GA", "Georgia")
+    #   map.delete_max #=> "Georgia"
+    #   map.size #=> 1
     def delete_max
       result = nil
       if @root

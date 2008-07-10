@@ -436,7 +436,7 @@ module Containers
   class MinHeap < Heap
     
     # call-seq:
-    #     MaxHeap.new(ary) -> new_heap
+    #     MinHeap.new(ary) -> new_heap
     #
     # Creates a new MinHeap with an optional array parameter of items to insert into the heap.
     #
@@ -454,7 +454,7 @@ module Containers
     # Returns the item with the smallest key, but does not remove it from the heap.
     #
     #     minheap = MinHeap.new([1, 2, 3, 4])
-    #     minheap.max #=> 1
+    #     minheap.min #=> 1
     def min
       self.next
     end
