@@ -9,6 +9,9 @@ module Containers
     the root and are easily re-accessed later. Splay Trees are also more simply implemented than Red-Black
     trees.
     
+    Splay trees have amortized O(log n) performance for most methods, but are O(n) worst case. This happens
+    when keys are added in sorted order, causing the tree to have a height of the number of items added.
+    
 =end
   class SplayTreeMap
     include Enumerable
@@ -21,6 +24,8 @@ module Containers
     end
     
     # Insert an item with an associated key into the SplayTreeMap, and returns the item inserted
+    #
+    # Complexity: amortized O(log n)
     #
     #   map = Containers::SplayTreeMap.new
     #   map.push("MA", "Massachusetts") #=> "Massachusetts"
@@ -65,6 +70,9 @@ module Containers
     end
     
     # Remove all elements from the SplayTreeMap
+    #
+    # Complexity: O(1)
+    #
     def clear
       @root = nil
       @size = 0
@@ -72,6 +80,8 @@ module Containers
     end
     
     # Return the height of the tree structure in the SplayTreeMap.
+    #
+    # Complexity: O(log n)
     #
     #   map = Containers::SplayTreeMap.new
     #   map.push("MA", "Massachusetts")
@@ -81,7 +91,9 @@ module Containers
       heightR(@root)
     end
     
-    # Return true if key is found in the SplayTreeMap, false otherwise
+    # Return true if key is found in the SplayTreeMap, false otherwise.
+    #
+    # Complexity: amortized O(log n)
     #
     #   map = Containers::SplayTreeMap.new
     #   map["MA"] = "Massachusetts"
@@ -93,6 +105,8 @@ module Containers
     end
     
     # Return the item associated with the key, or nil if none found.
+    #
+    # Complexity: amortized O(log n)
     #
     #   map = Containers::SplayTreeMap.new
     #   map.push("MA", "Massachusetts")
@@ -107,6 +121,8 @@ module Containers
     alias :[] :get
     
     # Return the smallest [key, value] pair in the SplayTreeMap, or nil if the tree is empty.
+    #
+    # Complexity: amortized O(log n)
     #
     #   map = Containers::SplayTreeMap.new
     #   map["MA"] = "Massachusetts"
@@ -124,6 +140,8 @@ module Containers
     
     # Return the largest [key, value] pair in the SplayTreeMap, or nil if the tree is empty.
     #
+    # Complexity: amortized O(log n)
+    #
     #   map = Containers::SplayTreeMap.new
     #   map["MA"] = "Massachusetts"
     #   map["GA"] = "Georgia"
@@ -140,6 +158,8 @@ module Containers
     
     # Deletes the item and key if it's found, and returns the item. Returns nil
     # if key is not present.
+    #
+    # Complexity: amortized O(log n)
     #
     #   map = Containers::SplayTreeMap.new
     #   map["MA"] = "Massachusetts"
@@ -242,7 +262,7 @@ module Containers
       return if node.nil?
       
       eachR(node.left, block)
-      block.call(node.key, node.value)
+      block[node.key, node.value]
       eachR(node.right, block)
     end
   end
