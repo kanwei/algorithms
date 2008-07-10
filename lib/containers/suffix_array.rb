@@ -49,7 +49,6 @@ module Containers
     #   s_array.has_substring?("ra") #=> true
     #   s_array.has_substring?("racadabra") #=> true
     #   s_array.has_substring?("nope") #=> false
-    end
     def has_substring?(substring)
       substring = substring.to_s
       return false if substring.empty?
