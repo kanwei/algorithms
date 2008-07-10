@@ -1,31 +1,45 @@
 =begin rdoc
   The 'Algorithms and Containers' library is an effort to provide a set of commonly used
   algorithms and containers to Ruby programmers.
-  
-  So far, the following containers have been implemented:
-  * RubyTreeMap
-  * Priority Queue
-=end
 
-# %w(heap stack queue priority_queue tree_map).each { |file| require "#{File.dirname(__FILE__)}/containers/#{file}" }
+  To avoid typing Containers::xxx to initialize containers, include the Containers module.
+    
+    require 'algorithms'
+    include Containers
+    
+    tree = RBTreeMap.new
+  
+  Done so far:
+  * Heaps (Maximum, Minimum)
+  * Priority Queue
+  * Stack
+  * Queue
+  * Deque
+  * Red-Black Trees
+  * Splay Trees
+  * Tries (Ternary Search Tree)
+  * Suffix Array
+
+  Upcoming:
+  * Graphs, graph algorithms
+  * Search algorithms
+  * Sort algorithms
+  * String algorithms    
+=end
+$: << File.expand_path(File.dirname(__FILE__))
 require 'containers/heap'
 require 'containers/stack'
+require 'containers/deque'
 require 'containers/queue'
 require 'containers/priority_queue'
 require 'containers/rb_tree_map'
 require 'containers/splay_tree_map'
+require 'containers/suffix_array'
+require 'containers/trie'
 
 begin
   require 'CRBTreeMap'
-  Containers::RBTreeMap = Containers::CTreeMap
+  Containers::RBTreeMap = Containers::CRBTreeMap
 rescue LoadError # C Version could not be found, try ruby version
-  Containers::TreeMap = Containers::RubyTreeMap
+  Containers::RBTreeMap = Containers::RubyRBTreeMap
 end
-
-begin
-  require 'CPriorityQueue'
-  Containers::PriorityQueue = Containers::CPriorityQueue
-rescue LoadError # C Version could not be found, try ruby version
-  Containers::PriorityQueue = Containers::RubyPriorityQueue
-end
-Containers::SplayTreeMap = Containers::RubySplayTreeMap
