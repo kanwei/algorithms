@@ -8,6 +8,7 @@ module Containers
     Containers::MaxHeap and Containers::MinHeap that return the largest and smallest items on
     each invocation, respectively.
     
+    This library implements a Fibonacci heap, which allows O(1) complexity for most methods.
 =end
   class Heap
     include Enumerable
@@ -47,9 +48,11 @@ module Containers
     # call-seq:
     #     push(key, value) -> value
     #     push(value) -> value
-    #
+    # 
     # Inserts an item with a given key into the heap. If only one parameter is given,
     # the key is set to the value.
+    #
+    # Complexity: O(1)
     #
     #     heap = MinHeap.new
     #     heap.push(1, "Cat")
@@ -89,7 +92,9 @@ module Containers
     # call-seq:
     #     has_key?(key) -> true or false
     #
-    # Returns true if heap has the key.
+    # Returns true if heap contains the key.
+    #
+    # Complexity: O(1)
     #
     #     minheap = MinHeap.new([1, 2])
     #     minheap.has_key?(2) #=> true
@@ -103,6 +108,9 @@ module Containers
     #     next -> nil
     #
     # Returns the value of the next item in heap order, but does not remove it.
+    #
+    # Complexity: O(1)
+    #
     #     minheap = MinHeap.new([1, 2])
     #     minheap.next #=> 1
     #     minheap.size #=> 2
@@ -115,6 +123,9 @@ module Containers
     #     clear -> nil
     #
     # Removes all elements from the heap, destructively.
+    #
+    # Complexity: O(1)
+    #
     def clear
       @next = nil
       @size = 0
@@ -133,7 +144,9 @@ module Containers
     #     merge!(otherheap) -> merged_heap
     #
     # Does a shallow merge of all the nodes in the other heap.
-    # 
+    #
+    # Complexity: O(1)
+    #
     #     heap = MinHeap.new([5, 6, 7, 8])
     #     otherheap = MinHeap.new([1, 2, 3, 4])
     #     heap.merge!(otherheap)
@@ -163,6 +176,9 @@ module Containers
     #     pop -> nil
     #
     # Returns the value of the next item in heap order and removes it from the heap.
+    #
+    # Complexity: O(1)
+    #
     #     minheap = MinHeap.new([1, 2])
     #     minheap.pop #=> 1
     #     minheap.size #=> 1
@@ -222,6 +238,8 @@ module Containers
     #
     # In the case of duplicate keys, an arbitrary key is changed. This will be investigated
     # more in the future.
+    #
+    # Complexity: amortized O(1)
     # 
     #     minheap = MinHeap.new([1, 2])
     #     minheap.change_key(2, 3) #=> raise error since we can't increase the value in a min-heap
@@ -260,6 +278,12 @@ module Containers
     #
     # Deletes the item with associated key and returns it. nil is returned if the key 
     # is not found. In the case of nodes with duplicate keys, an arbitrary one is deleted.
+    #
+    # Complexity: amortized O(log n)
+    #
+    #     minheap = MinHeap.new([1, 2])
+    #     minheap.delete(1) #=> 1
+    #     minheap.size #=> 1
     def delete(key)
       pop if change_key(key, nil, true)
     end
