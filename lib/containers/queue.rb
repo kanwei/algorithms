@@ -12,6 +12,7 @@ module Containers
     
 =end
   class Queue
+    include Enumerable
     # Create a new queue. Takes an optional array argument to initialize the queue.
     #
     #   q = Containers::Queue.new([1, 2, 3])
@@ -60,6 +61,11 @@ module Containers
     # Returns true if the queue is empty, false otherwise.
     def empty?
       @container.empty?
+    end
+    
+    # Iterate over the Queue in FIFO order.
+    def each(&block)
+      @container.each_forward(&block)
     end
   
   end

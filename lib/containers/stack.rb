@@ -12,6 +12,7 @@ module Containers
 
 =end
   class Stack
+    include Enumerable
     # Create a new stack. Takes an optional array argument to initialize the stack.
     #
     #   s = Containers::Stack.new([1, 2, 3])
@@ -60,6 +61,11 @@ module Containers
     # Returns true if the stack is empty, false otherwise.
     def empty?
       @container.empty?
+    end
+    
+    # Iterate over the Stack in LIFO order.
+    def each(&block)
+      @container.each_backward(&block)
     end
   
   end

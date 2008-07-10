@@ -6,18 +6,17 @@ module Containers
     This implementation uses a doubly-linked list, guaranteeing O(1) complexity for all operations.
 =end
   class Deque
+    include Enumerable
     # Create a new stack. Takes an optional array argument to initialize the stack.
     #
     #   d = Containers::Deque.new([1, 2, 3])
     #   d.front #=> 1
     #   d.back #=> 3
-    def initialize(ary)
+    def initialize(ary=[])
       @front = nil
       @back = nil
       @size = 0
-      if ary
-        ary.each { |obj| push_back(obj) }
-      end
+      ary.each { |obj| push_back(obj) }
     end
     
     # Returns true if the Deque is empty, false otherwise.
@@ -65,6 +64,8 @@ module Containers
       else
         node.left = @front.left
         node.right = @front.right
+        node.left.right = node
+        node.right.left = node
         @front = node
       end
       @size += 1
@@ -83,6 +84,8 @@ module Containers
       else
         node.left = @back.left
         node.right = @back.right
+        node.left.right = node
+        node.right.left = node
         @back = node
       end
       @size += 1
@@ -121,7 +124,7 @@ module Containers
       return nil if @back.nil?
       node = @back
       if @size == 1
-        @back = @back = nil
+        @front = @back = nil
       else
         @back.left.right = node.right
         @back.right.left = node.left
@@ -129,6 +132,29 @@ module Containers
       end
       @size -= 1
       node.obj
+    end
+    
+    # Iterate over the Deque in FIFO order.
+    def each_forward
+      return if @front.nil?
+      node = @front
+      loop do
+        yield node.obj
+        break if node.right == @front
+        node = node.right
+      end
+    end
+    alias :each :each_forward
+    
+    # Iterate over the Deque in LIFO order.
+    def each_backward
+      return if @back.nil?
+      node = @back
+      loop do
+        yield node.obj
+        break if node.left == @back
+        node = node.left
+      end
     end
     
     private
