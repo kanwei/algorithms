@@ -11,6 +11,8 @@ module Containers
     # Creates a new SuffixArray with a given string. Object of any class implementing a #to_s method can
     # be passed in, such as integers.
     #
+    # Complexity: O(n^2 log n)
+    #
     #   s_array = Containers::SuffixArray("abracadabra")
     #   s_array["abra"] #=> true
     #
@@ -31,6 +33,23 @@ module Containers
     end
     
     # Returns true if the substring occurs in the string, false otherwise.
+    #
+    # Complexity: O(m + log n)
+    #
+    #   s_array = Containers::SuffixArray.new("abracadabra")
+    #   s_array.has_substring?("a") #=> true
+    #   s_array.has_substring?("abra") #=> true
+    #   s_array.has_substring?("abracadabra") #=> true
+    #   s_array.has_substring?("acadabra") #=> true
+    #   s_array.has_substring?("adabra") #=> true
+    #   s_array.has_substring?("bra") #=> true
+    #   s_array.has_substring?("bracadabra") #=> true
+    #   s_array.has_substring?("cadabra") #=> true
+    #   s_array.has_substring?("dabra") #=> true
+    #   s_array.has_substring?("ra") #=> true
+    #   s_array.has_substring?("racadabra") #=> true
+    #   s_array.has_substring?("nope") #=> false
+    end
     def has_substring?(substring)
       substring = substring.to_s
       return false if substring.empty?
