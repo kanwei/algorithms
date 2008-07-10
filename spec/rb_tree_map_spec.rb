@@ -2,7 +2,7 @@ require 'lib/containers/rb_tree_map'
 require 'lib/CRBTreeMap'
   
 describe "(empty)", :shared => true do
-  it "should let you put stuff in" do
+  it "should let you push stuff in" do
     100.times { |x| @tree[x] = x }
     @tree.size.should eql(100)
   end
@@ -43,18 +43,37 @@ describe "(non-empty)", :shared => true do
   end
   
   it "should not #has_key? keys it doesn't have" do
-    @tree.has_key?(10000).should eql(false)
+    @tree.has_key?(100000).should eql(false)
   end
   
   it "should #has_key? keys it does have" do
     @tree.has_key?(@random_array[0]).should eql(true)
   end
   
-  it "should remove any key" do
-    random_key = @random_array[rand(@num_items)]
-    @tree.has_key?(random_key).should eql(true)
-    @tree.delete(random_key).should eql(random_key)
-    @tree.has_key?(random_key).should eql(false)
+  it "should remove all keys -- KNOWN BUGS" do
+    # @random_array = [43, 48, 55, 27,28, 39,31, 30, 34, 36, 35, 18, 37, 62, 38, 33, 47, 21, 10, 11, 17] <- fails
+    @tree = Containers::RubyRBTreeMap.new
+    @random_array.each { |x| @tree[x] = x }
+    ordered = []
+    @random_array.uniq.each do |key|
+      # puts "#{key} #{@tree.size}"
+      @tree.has_key?(key).should eql(true)
+      ordered << @tree.delete(key)
+      @tree.has_key?(key).should eql(false)
+    end
+    ordered.should eql(@random_array.uniq)
+  end
+  
+  it "should delete_min keys correctly" do
+    ascending = []
+    ascending << @tree.delete_min until @tree.empty?
+    ascending.should eql(@random_array.uniq.sort)
+  end
+  
+  it "should delete_max keys correctly" do
+    descending = []
+    descending << @tree.delete_max until @tree.empty?
+    descending.should eql(@random_array.uniq.sort.reverse)
   end
   
   it "should let you iterate with #each" do

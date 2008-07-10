@@ -191,29 +191,33 @@ static VALUE max_key(rbtree_node *node) {
 	return max_key(node->right);
 }
 
-static rbtree_node* delete_min(rbtree_node *h) { 
-	if ( !(h->left) )
+static rbtree_node* delete_min(rbtree_node *h, VALUE *deleted_value) {
+	if ( !(h->left) ) {
+		*deleted_value = h->value;
 		return NULL;
+	}
 	
 	if ( !isred(h->left) && !isred(h->left->left) )
 		h = move_red_left(h);
 
-	h->left = delete_min(h->left);
+	h->left = delete_min(h->left, deleted_value);
 
 	return fixup(h);
 }
 
-static rbtree_node* delete_max(rbtree_node *h) {
+static rbtree_node* delete_max(rbtree_node *h, VALUE *deleted_value) {
 	if ( isred(h->left) )
 		h = rotate_right(h);
 
-	if ( !(h->right) )
+	if ( !(h->right) ) {
+		*deleted_value = h->value;
 		return NULL;
+	}
 
 	if ( !isred(h->right) && !isred(h->right->left) )
 		h = move_red_right(h);
 
-	h->right = delete_max(h->right);
+	h->right = delete_max(h->right, deleted_value);
 
 	return fixup(h);
 }
@@ -222,6 +226,7 @@ static rbtree_node* delete_max(rbtree_node *h) {
 static rbtree_node* delete(rbtree *tree, rbtree_node *node, VALUE key, VALUE *deleted_value) {
 	int cmp;
 	VALUE minimum_key;
+	VALUE *tmp;
 	cmp = tree->compare_function(key, node->key);
 	if (cmp == -1) {
 		if ( !isred(node->left) && !isred(node->left->left) )
@@ -247,7 +252,7 @@ static rbtree_node* delete(rbtree *tree, rbtree_node *node, VALUE key, VALUE *de
 			minimum_key = min_key(node->right);
 			node->value = get(tree, node->right, minimum_key);
 			node->key = minimum_key;
-			node->right = delete_min(node->right);
+			node->right = delete_min(node->right, tmp);
 		}
 		else {
 			node->right = delete(tree, node->right, key, deleted_value);
@@ -298,7 +303,7 @@ static VALUE rbtree_alloc(VALUE klass) {
 	return Data_Wrap_Struct(klass, NULL, rbtree_free, tree);
 }
 
-static VALUE rbtree_put(VALUE self, VALUE key, VALUE value) {
+static VALUE rbtree_push(VALUE self, VALUE key, VALUE value) {
 	rbtree *tree = get_tree_from_self(self);
 	tree->root = insert(tree, tree->root, key, value);
 	return value;
@@ -312,6 +317,11 @@ static VALUE rbtree_get(VALUE self, VALUE key) {
 static VALUE rbtree_size(VALUE self) {
 	rbtree *tree = get_tree_from_self(self);
 	return INT2NUM(size(tree->root));
+}
+
+static VALUE rbtree_is_empty(VALUE self) {
+	rbtree *tree = get_tree_from_self(self);
+	return (tree->root ? Qtrue : Qfalse);
 }
 
 static VALUE rbtree_height(VALUE self) {
@@ -350,7 +360,41 @@ static VALUE rbtree_delete(VALUE self, VALUE key) {
 		return Qnil;
 	
 	tree->root = delete(tree, tree->root, key, &deleted_value);
+	if(tree->root)
+		tree->root->color = BLACK;
+	
+	if(deleted_value) {
+		return deleted_value;
+	}
+		
+	return Qnil;
+}
+
+static VALUE rbtree_delete_min(VALUE self) {
+	VALUE deleted_value;
+	rbtree *tree = get_tree_from_self(self);
 	if(!tree->root)
+		return Qnil;
+	
+	tree->root = delete_min(tree->root, &deleted_value);
+	if(tree->root)
+		tree->root->color = BLACK;
+	
+	if(deleted_value) {
+		return deleted_value;
+	}
+		
+	return Qnil;
+}
+
+static VALUE rbtree_delete_max(VALUE self) {
+	VALUE deleted_value;
+	rbtree *tree = get_tree_from_self(self);
+	if(!tree->root)
+		return Qnil;
+	
+	tree->root = delete_max(tree->root, &deleted_value);
+	if(tree->root)
 		tree->root->color = BLACK;
 	
 	if(deleted_value) {
@@ -380,12 +424,15 @@ void Init_CRBTreeMap() {
 	cRBTree = rb_define_class_under(mContainers, "CRBTreeMap", rb_cObject);
 	rb_define_alloc_func(cRBTree, rbtree_alloc);
 	rb_define_method(cRBTree, "initialize", rbtree_init, 0);
-	rb_define_method(cRBTree, "put", rbtree_put, 2);
-	rb_define_alias(cRBTree, "[]=", "put");
+	rb_define_method(cRBTree, "push", rbtree_push, 2);
+	rb_define_alias(cRBTree, "[]=", "push");
 	rb_define_method(cRBTree, "size", rbtree_size, 0);
+	rb_define_method(cRBTree, "empty?", rbtree_is_empty, 0);
 	rb_define_method(cRBTree, "height", rbtree_height, 0);
 	rb_define_method(cRBTree, "min_key", rbtree_min_key, 0);
 	rb_define_method(cRBTree, "max_key", rbtree_max_key, 0);
+	rb_define_method(cRBTree, "delete_min", rbtree_delete_min, 0);
+	rb_define_method(cRBTree, "delete_max", rbtree_delete_max, 0);
 	rb_define_method(cRBTree, "each", rbtree_each, 0);
 	rb_define_method(cRBTree, "get", rbtree_get, 1);
 	rb_define_alias(cRBTree, "[]", "get");
