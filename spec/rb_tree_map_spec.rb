@@ -31,7 +31,7 @@ end
 
 describe "(non-empty)", :shared => true do
   before(:each) do
-    @num_items = 1000
+    @num_items = 100
     @random_array = []
     @num_items.times { @random_array << rand(@num_items) }
     @random_array.each { |x| @tree[x] = x }
