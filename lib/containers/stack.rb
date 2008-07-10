@@ -1,3 +1,7 @@
+$: << File.expand_path(File.dirname(__FILE__))
+require 'deque'
+include Containers
+
 module Containers
 =begin rdoc
     A Stack is a container that keeps elements in a last-in first-out (LIFO) order. There are many
@@ -14,7 +18,7 @@ module Containers
     #   s.pop #=> 3
     #   s.pop #=> 2
     def initialize(ary=[])
-      @container = ary
+      @container = Deque.new(ary)
     end
     
     # Returns the next item from the stack but does not remove it.
@@ -23,7 +27,7 @@ module Containers
     #   s.next #=> 3
     #   s.size #=> 3
     def next
-      @container.last
+      @container.back
     end
     
     # Adds an item to the stack.
@@ -32,8 +36,8 @@ module Containers
     #   s.push(2)
     #   s.pop #=> 2
     #   s.pop #=> 1
-    def push(object)
-      @container.push(object)
+    def push(obj)
+      @container.push_back(obj)
     end
     
     # Removes the next item from the stack and returns it.
@@ -42,7 +46,7 @@ module Containers
     #   s.pop #=> 3
     #   s.size #=> 2
     def pop
-      @container.pop
+      @container.pop_back
     end
     
     # Return the number of items in the stack.
