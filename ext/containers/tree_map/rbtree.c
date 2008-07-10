@@ -321,7 +321,7 @@ static VALUE rbtree_size(VALUE self) {
 
 static VALUE rbtree_is_empty(VALUE self) {
 	rbtree *tree = get_tree_from_self(self);
-	return (tree->root ? Qtrue : Qfalse);
+	return (tree->root ? Qfalse : Qtrue);
 }
 
 static VALUE rbtree_height(VALUE self) {
