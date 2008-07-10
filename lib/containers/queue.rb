@@ -1,3 +1,7 @@
+$: << File.expand_path(File.dirname(__FILE__))
+require 'deque'
+include Containers
+
 module Containers
 =begin rdoc
     A Queue is a container that keeps elements in a first-in first-out (FIFO) order. Because of its
@@ -14,7 +18,7 @@ module Containers
     #   q.pop #=> 1
     #   q.pop #=> 2
     def initialize(ary=[])
-      @container = ary
+      @container = Deque.new(ary)
     end
      
     # Returns the next item from the queue but does not remove it.
@@ -23,7 +27,7 @@ module Containers
     #   q.next #=> 1
     #   q.size #=> 3
     def next
-      @container[0]
+      @container.front
     end
         
     # Adds an item to the queue.
@@ -32,8 +36,8 @@ module Containers
     #   q.push(2)
     #   q.pop #=> 1
     #   q.pop #=> 2
-    def push(object)
-      @container.push(object)
+    def push(obj)
+      @container.push_back(obj)
     end
     
     # Removes the next item from the queue and returns it.
@@ -42,7 +46,7 @@ module Containers
     #   q.pop #=> 1
     #   q.size #=> 2
     def pop
-      @container.shift
+      @container.pop_front
     end
     
     # Return the number of items in the queue.

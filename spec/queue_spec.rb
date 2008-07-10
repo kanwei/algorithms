@@ -11,7 +11,8 @@ describe Containers::Queue do
     end
 
     it "should return a size of 1 when sent #push" do
-      @queue.push(1).size.should eql(1)
+      @queue.push(1)
+      @queue.size.should eql(1)
     end
     
     it "should return nil when sent #next" do

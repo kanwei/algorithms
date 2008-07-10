@@ -11,7 +11,8 @@ describe Containers::Stack do
     end
 
     it "should return a size of 1 when sent #push" do
-      @stack.push(1).size.should eql(1)
+      @stack.push(1)
+      @stack.size.should eql(1)
     end
     
     it "should return nil when sent #next" do
