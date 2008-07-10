@@ -15,3 +15,9 @@ task :default => :spec
 task :spec => :compile do
   sh "spec -c spec/"
 end
+
+task :push do
+  sh "git push"    # Rubyforge
+  sh "git push gt" # Gitorious
+  sh "git push gh" # Github
+end
