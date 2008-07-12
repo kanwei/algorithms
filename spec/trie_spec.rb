@@ -7,8 +7,8 @@ describe Containers::Trie do
     end
     
     it "should not get or has_key?" do
-      @trie.get("anything").should eql(nil)
-      @trie.has_key?("anything").should eql(false)
+      @trie.get("anything").should be_nil
+      @trie.has_key?("anything").should be_false
     end
     
     it "should not have longest_prefix or match wildcards" do
@@ -27,13 +27,13 @@ describe Containers::Trie do
     end
   
     it "should has_key? keys it has" do
-      @trie.has_key?("Hello").should eql(true)
-      @trie.has_key?("Hello, brother").should eql(true)
-      @trie.has_key?("Hello, bob").should eql(true)
+      @trie.has_key?("Hello").should be_true
+      @trie.has_key?("Hello, brother").should be_true
+      @trie.has_key?("Hello, bob").should be_true
     end
     
     it "should not has_key? keys it doesn't have" do
-      @trie.has_key?("Nope").should eql(false)
+      @trie.has_key?("Nope").should be_false
     end
     
     it "should get values" do

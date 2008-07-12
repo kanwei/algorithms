@@ -8,7 +8,7 @@ describe "(empty rbtree)", :shared => true do
   end
   
   it "should be empty?" do
-    @tree.empty?.should eql(true)
+    @tree.empty?.should be_true
   end
   
   it "should return 0 for height" do
@@ -20,14 +20,14 @@ describe "(empty rbtree)", :shared => true do
   end
   
   it "should return nil for max and min" do
-    @tree.min.should eql(nil)
-    @tree.max.should eql(nil)
-    @tree.min_key.should eql(nil)
-    @tree.max_key.should eql(nil)
+    @tree.min.should be_nil
+    @tree.max.should be_nil
+    @tree.min_key.should be_nil
+    @tree.max_key.should be_nil
   end
   
   it "should not delete" do
-    @tree.delete(:non_existing).should eql(nil)
+    @tree.delete(:non_existing).should be_nil
   end
 end
 
@@ -40,7 +40,7 @@ describe "(non-empty rbtree)", :shared => true do
   end
   
   it "should return correct size (uniqify items first)" do
-    @tree.empty?.should eql(false)
+    @tree.should_not be_empty
     @tree.size.should eql(@random_array.uniq.size)
   end
   
@@ -52,11 +52,11 @@ describe "(non-empty rbtree)", :shared => true do
   end
   
   it "should not #has_key? keys it doesn't have" do
-    @tree.has_key?(100000).should eql(false)
+    @tree.has_key?(100000).should be_false
   end
   
   it "should #has_key? keys it does have" do
-    @tree.has_key?(@random_array[0]).should eql(true)
+    @tree.has_key?(@random_array[0]).should be_true
   end
   
   # it "should remove all keys -- KNOWN BUGS" do

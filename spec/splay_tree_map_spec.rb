@@ -11,12 +11,12 @@ describe "(empty splay)", :shared => true do
   end
   
   it "should return nil for #min and #max" do
-    @tree.min.should eql(nil)
-    @tree.max.should eql(nil)
+    @tree.min.should be_nil
+    @tree.max.should be_nil
   end
   
   it "should return nil for #delete" do
-    @tree.delete(:non_existing).should eql(nil)
+    @tree.delete(:non_existing).should be_nil
   end
 end
 
@@ -44,18 +44,18 @@ describe "(non-empty splay)", :shared => true do
   end
   
   it "should not #has_key? keys it doesn't have" do
-    @tree.has_key?(10000).should eql(false)
+    @tree.has_key?(10000).should be_false
   end
   
   it "should #has_key? keys it does have" do
-    @tree.has_key?(@random_array[0]).should eql(true)
+    @tree.has_key?(@random_array[0]).should be_true
   end
   
   it "should remove any key" do
     random_key = @random_array[rand(@num_items)]
-    @tree.has_key?(random_key).should eql(true)
+    @tree.has_key?(random_key).should be_true
     @tree.delete(random_key).should eql(random_key)
-    @tree.has_key?(random_key).should eql(false)
+    @tree.has_key?(random_key).should be_false
   end
   
   it "should let you iterate with #each" do
