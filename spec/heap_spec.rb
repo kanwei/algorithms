@@ -8,7 +8,7 @@ describe Containers::Heap do
   describe "(empty)" do
   
     it "should return nil when getting the maximum" do
-      @heap.max!.should eql(nil)
+      @heap.max!.should be_nil
     end
     
     it "should let you insert and remove one item" do
@@ -53,7 +53,7 @@ describe Containers::Heap do
       @random_array.size.times do |t|
         ordered << @heap.delete(@random_array[t])
       end
-      @heap.empty?.should eql(true)
+      @heap.should be_empty
       ordered.should eql( @random_array )
     end
     
@@ -83,7 +83,7 @@ describe Containers::Heap do
     end
     
     it "should not delete keys it doesn't have" do
-      @heap.delete(:nonexisting).should eql(nil)
+      @heap.delete(:nonexisting).should be_nil
       @heap.size.should eql(@num_items)
     end
     

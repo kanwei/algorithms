@@ -7,7 +7,7 @@ describe Containers::Stack do
   
   describe "(empty)" do
     it "should return nil when sent #pop" do
-      @stack.pop.should eql(nil)
+      @stack.pop.should be_nil
     end
 
     it "should return a size of 1 when sent #push" do
@@ -16,11 +16,11 @@ describe Containers::Stack do
     end
     
     it "should return nil when sent #next" do
-      @stack.next.should eql(nil)
+      @stack.next.should be_nil
     end
     
     it "should return empty?" do
-      @stack.empty?.should eql(true)
+      @stack.empty?.should be_true
     end
   end
   
@@ -39,7 +39,7 @@ describe Containers::Stack do
     end
     
     it "should not return empty?" do
-      @stack.empty?.should eql(false)
+      @stack.empty?.should be_false
     end
     
     
@@ -52,8 +52,8 @@ describe Containers::Stack do
     it "should return nil after all pops" do
       @stack.pop
       @stack.pop
-      @stack.pop.should eql(nil)
-      @stack.next.should eql(nil)
+      @stack.pop.should be_nil
+      @stack.next.should be_nil
     end
     
   end

@@ -7,7 +7,7 @@ describe Containers::Queue do
   
   describe "(empty)" do
     it "should return nil when sent #pop" do
-      @queue.pop.should eql(nil)
+      @queue.pop.should be_nil
     end
 
     it "should return a size of 1 when sent #push" do
@@ -16,11 +16,11 @@ describe Containers::Queue do
     end
     
     it "should return nil when sent #next" do
-      @queue.next.should eql(nil)
+      @queue.next.should be_nil
     end
     
     it "should return empty?" do
-      @queue.empty?.should eql(true)
+      @queue.empty?.should be_true
     end
   end
   
@@ -39,7 +39,7 @@ describe Containers::Queue do
     end
     
     it "should not return empty?" do
-      @queue.empty?.should eql(false)
+      @queue.empty?.should be_false
     end
     
     it "should iterate in FIFO order" do
@@ -49,10 +49,11 @@ describe Containers::Queue do
     end
     
     it "should return nil after all gets" do
-      @queue.pop
-      @queue.pop
-      @queue.pop.should eql(nil)
-      @queue.next.should eql(nil)
+      2.times do
+        @queue.pop
+      end
+      @queue.pop.should be_nil
+      @queue.next.should be_nil
     end
     
   end

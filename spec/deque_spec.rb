@@ -7,8 +7,8 @@ describe Containers::Deque do
   
   describe "(empty)" do
     it "should return nil when popping objects" do
-      @deque.pop_front.should eql(nil)
-      @deque.pop_back.should eql(nil)
+      @deque.pop_front.should be_nil
+      @deque.pop_back.should be_nil
     end
 
     it "should return a size of 1 when sent #push_front" do
@@ -22,12 +22,12 @@ describe Containers::Deque do
     end
     
     it "should return nil when sent #front and #back" do
-      @deque.front.should eql(nil)
-      @deque.back.should eql(nil)
+      @deque.front.should be_nil
+      @deque.back.should be_nil
     end
     
     it "should return empty?" do
-      @deque.empty?.should eql(true)
+      @deque.should be_empty
     end
   end
   
@@ -52,7 +52,7 @@ describe Containers::Deque do
     end
     
     it "should not be empty?" do
-      @deque.empty?.should eql(false)
+      @deque.should_not be_empty
     end
         
     it "should iterate in LIFO order" do
@@ -70,8 +70,8 @@ describe Containers::Deque do
     it "should return nil after all pops" do
       @deque.pop_back
       @deque.pop_back
-      @deque.pop_back.should eql(nil)
-      @deque.front.should eql(nil)
+      @deque.pop_back.should be_nil
+      @deque.front.should be_nil
     end
     
   end

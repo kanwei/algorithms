@@ -13,29 +13,29 @@ describe Containers::SuffixArray do
     end
   
     it "should has_substring? each possible substring" do
-      @s_array.has_substring?("a").should eql(true)
-      @s_array.has_substring?("abra").should eql(true)
-      @s_array.has_substring?("abracadabra").should eql(true)
-      @s_array.has_substring?("acadabra").should eql(true)
-      @s_array.has_substring?("adabra").should eql(true)
-      @s_array.has_substring?("bra").should eql(true)
-      @s_array.has_substring?("bracadabra").should eql(true)
-      @s_array.has_substring?("cadabra").should eql(true)
-      @s_array.has_substring?("dabra").should eql(true)
-      @s_array.has_substring?("ra").should eql(true)
-      @s_array.has_substring?("racadabra").should eql(true)
+      @s_array.has_substring?("a").should be_true
+      @s_array.has_substring?("abra").should be_true
+      @s_array.has_substring?("abracadabra").should be_true
+      @s_array.has_substring?("acadabra").should be_true
+      @s_array.has_substring?("adabra").should be_true
+      @s_array.has_substring?("bra").should be_true
+      @s_array.has_substring?("bracadabra").should be_true
+      @s_array.has_substring?("cadabra").should be_true
+      @s_array.has_substring?("dabra").should be_true
+      @s_array.has_substring?("ra").should be_true
+      @s_array.has_substring?("racadabra").should be_true
     end
     
     it "should not has_substring? substrings it does not have" do
-      @s_array.has_substring?("nope").should eql(false)
-      @s_array.has_substring?(nil).should eql(false)
+      @s_array.has_substring?("nope").should be_false
+      @s_array.has_substring?(nil).should be_false
     end
     
     it "should work with numbers (calls to_s)" do
       number = Containers::SuffixArray.new(123456789)
-      number[1].should eql(true)
-      number.has_substring?(12).should eql(true)
-      number.has_substring?(13).should eql(false)
+      number[1].should be_true
+      number.has_substring?(12).should be_true
+      number.has_substring?(13).should be_false
     end
   end
 end
