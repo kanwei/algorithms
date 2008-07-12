@@ -26,7 +26,7 @@ describe Containers::Deque do
       @deque.back.should be_nil
     end
     
-    it "should return empty?" do
+    it "should be empty" do
       @deque.should be_empty
     end
   end
@@ -47,33 +47,31 @@ describe Containers::Deque do
       @deque.pop_front.should eql("10")
     end
     
-    it "should return the size" do
+    it "should return a size greater than 0" do
       @deque.size.should eql(2)
     end
     
-    it "should not be empty?" do
+    it "should not be empty" do
       @deque.should_not be_empty
     end
         
-    it "should iterate in LIFO order" do
+    it "should iterate in LIFO order with #each_backward" do
       arr = []
       @deque.each_backward { |obj| arr << obj }
       arr.should eql(["10", 10])
     end
     
-    it "should iterate in FIFO order" do
+    it "should iterate in FIFO order with #each_forward" do
       arr = []
       @deque.each_forward { |obj| arr << obj }
       arr.should eql([10, "10"])
     end
     
-    it "should return nil after all pops" do
+    it "should return nil after everything's popped" do
       @deque.pop_back
       @deque.pop_back
       @deque.pop_back.should be_nil
       @deque.front.should be_nil
     end
-    
   end
-  
 end
