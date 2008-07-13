@@ -24,6 +24,12 @@ module Containers
       @size == 0
     end
     
+    # Removes all the objects in the Deque.
+    def clear
+      @front = @back = nil
+      @size = 0
+    end
+    
     # Return the number of items in the stack.
     #
     #   d = Containers::Deque.new([1, 2, 3])
@@ -31,6 +37,7 @@ module Containers
     def size
       @size
     end
+    alias :length :size
     
     # Returns the object at the front of the Deque but does not remove it.
     #
@@ -39,7 +46,7 @@ module Containers
     #   d.push_front(2)
     #   d.front #=> 2
     def front
-      @front ? @front.obj : nil
+      @front && @front.obj
     end
     
     # Returns the object at the back of the Deque but does not remove it.
@@ -49,7 +56,7 @@ module Containers
     #   d.push_front(2)
     #   d.back #=> 1
     def back
-      @back ? @back.obj : nil
+      @back && @back.obj
     end
     
     # Adds an object at the front of the Deque.
@@ -59,34 +66,30 @@ module Containers
     #   d.pop_front #=> 0
     def push_front(obj)
       node = Node.new(obj)
-      if @front.nil?
-        @front = @back = node
-      else
-        node.left = @front.left
-        node.right = @front.right
-        node.left.right = node
-        node.right.left = node
+      if @front
+        node.right = @front
+        @front.left = node
         @front = node
+      else
+        @front = @back = node
       end
       @size += 1
       obj
     end
     
-    # Adds an object at the front of the Deque.
+    # Adds an object at the back of the Deque.
     #
     #   d = Containers::Deque.new([1, 2, 3])
     #   d.push_back(4)
     #   d.pop_back #=> 4
     def push_back(obj)
       node = Node.new(obj)
-      if @back.nil?
-        @front = @back = node
-      else
-        node.left = @back.left
-        node.right = @back.right
-        node.left.right = node
-        node.right.left = node
+      if @back
+        node.left = @back
+        @back.right = node
         @back = node
+      else
+        @front = @back = node
       end
       @size += 1
       obj
@@ -103,11 +106,11 @@ module Containers
       return nil if @front.nil?
       node = @front
       if @size == 1
-        @front = @back = nil
+        clear
+        return node.obj
       else
-        @front.left.right = node.right
-        @front.right.left = node.left
-        @front = node.right
+        @front.right.left = nil
+        @front = @front.right
       end
       @size -= 1
       node.obj
@@ -121,14 +124,14 @@ module Containers
     #   d.pop_back #=> 1
     #   d.size #=> 1
     def pop_back
-      return nil if @back.nil?
+      return unless @back
       node = @back
       if @size == 1
-        @front = @back = nil
+        clear
+        return node.obj
       else
-        @back.left.right = node.right
-        @back.right.left = node.left
-        @back = node.left
+        @back.left.right = nil
+        @back = @back.left
       end
       @size -= 1
       node.obj
@@ -136,11 +139,10 @@ module Containers
     
     # Iterate over the Deque in FIFO order.
     def each_forward
-      return if @front.nil?
+      return unless @front
       node = @front
-      loop do
+      while node
         yield node.obj
-        break if node.right == @front
         node = node.right
       end
     end
@@ -150,21 +152,17 @@ module Containers
     def each_backward
       return if @back.nil?
       node = @back
-      loop do
+      while node
         yield node.obj
-        break if node.left == @back
         node = node.left
       end
     end
-    
-    private
-    
+
     class Node # :nodoc: all
       attr_accessor :left, :right, :obj
       
       def initialize(obj)
-        @left = self
-        @right = self
+        @left = @right = nil
         @obj = obj
       end
     end
