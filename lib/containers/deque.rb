@@ -103,7 +103,7 @@ module Containers
     #   d.pop_front #=> 2
     #   d.size #=> 1
     def pop_front
-      return nil if @front.nil?
+      return nil unless @front
       node = @front
       if @size == 1
         clear
@@ -124,7 +124,7 @@ module Containers
     #   d.pop_back #=> 1
     #   d.size #=> 1
     def pop_back
-      return unless @back
+      return nil unless @back
       node = @back
       if @size == 1
         clear
@@ -150,13 +150,14 @@ module Containers
     
     # Iterate over the Deque in LIFO order.
     def each_backward
-      return if @back.nil?
+      return unless @back
       node = @back
       while node
         yield node.obj
         node = node.left
       end
     end
+    alias :reverse_each :each_backward
 
     class Node # :nodoc: all
       attr_accessor :left, :right, :obj
