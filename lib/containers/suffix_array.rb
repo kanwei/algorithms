@@ -21,7 +21,7 @@ module Containers
     #   number[13] #=> false 
     def initialize(string)
       string = string.to_s
-      raise "SuffixArray needs to be initialized with a non-empty string" if string.empty?
+      raise ArgumentError, "SuffixArray needs to be initialized with a non-empty string" if string.empty?
       @original_string = string
       @suffixes = []
       string.size.times.each do |i|
