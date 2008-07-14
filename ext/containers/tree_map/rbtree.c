@@ -122,6 +122,7 @@ static rbtree_node* fixup(rbtree_node *h) {
 		
 	return set_num_nodes(h);
 }
+
 static rbtree* create_rbtree(int (*compare_function)(VALUE, VALUE)) {
 	rbtree *tree = ALLOC(rbtree);
 	tree->black_height = 0;
@@ -146,11 +147,6 @@ static rbtree_node* insert(rbtree *tree, rbtree_node *node, VALUE key, VALUE val
 		return new_node;
 	}
 	
-	// Do a top-down breaking of 4-nodes
-	if ( isred(node->left) && isred(node->right) ) {
-		colorflip(node);
-	}
-	
 	// Insert left or right, recursively
 	cmp = tree->compare_function(key, node->key);
 	if		(cmp == 0)	{ node->value = value; }
@@ -160,7 +156,9 @@ static rbtree_node* insert(rbtree *tree, rbtree_node *node, VALUE key, VALUE val
 	// Fix our tree to keep left-lean
 	if (isred(node->right)) { node = rotate_left(node); }
 	if (isred(node->left) && isred(node->left->left)) { node = rotate_right(node); }
-	
+	if ( isred(node->left) && isred(node->right) ) {
+		colorflip(node);
+	}
 	return set_num_nodes(node);
 }
 
@@ -192,7 +190,7 @@ static VALUE max_key(rbtree_node *node) {
 }
 
 static rbtree_node* delete_min(rbtree_node *h, rbtree_node* *deleted_node) {
-	if ( !(h->left) ) {
+	if ( !h->left ) {
 		*deleted_node = h;
 		return NULL;
 	}
@@ -209,7 +207,7 @@ static rbtree_node* delete_max(rbtree_node *h, rbtree_node* *deleted_node) {
 	if ( isred(h->left) )
 		h = rotate_right(h);
 
-	if ( !(h->right) ) {
+	if ( !h->right ) {
 		*deleted_node = h;
 		return NULL;
 	}
@@ -221,7 +219,6 @@ static rbtree_node* delete_max(rbtree_node *h, rbtree_node* *deleted_node) {
 
 	return fixup(h);
 }
-
 
 static rbtree_node* delete(rbtree *tree, rbtree_node *node, VALUE key, rbtree_node* *deleted_node) {
 	int cmp;
@@ -237,8 +234,9 @@ static rbtree_node* delete(rbtree *tree, rbtree_node *node, VALUE key, rbtree_no
 	else {
 		if ( isred(node->left) )
 			node = rotate_right(node);
-	
-		if ( (cmp == 0) && !(node->right) ) {
+		
+		cmp = tree->compare_function(key, node->key);
+		if ( (cmp == 0) && !node->right ) {
 			*deleted_node = node;
 			return NULL;
 		}
@@ -278,7 +276,6 @@ static rbtree* rbt_each(rbtree *tree, void (*each)(rbtree *tree, rbtree_node *no
 			rbtree_each_node(tree, tree->root, each, arguments);
 		return tree;
 }
-	
 
 // Methods to be called in Ruby
 
@@ -331,6 +328,7 @@ static VALUE rbtree_height(VALUE self) {
 
 static VALUE rbtree_has_key(VALUE self, VALUE key) {
 	rbtree *tree = get_tree_from_self(self);
+	if(!tree->root) { return Qfalse; }
 	if(get(tree, tree->root, key) == Qnil)
 		return Qfalse;
 	
@@ -366,7 +364,7 @@ static VALUE rbtree_delete(VALUE self, VALUE key) {
 	
 	if(deleted_node) {
 		deleted_value = deleted_node->value;
-		free(deleted_node);
+		// free(deleted_node);
 		return deleted_value;
 	}
 		
