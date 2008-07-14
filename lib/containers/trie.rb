@@ -34,7 +34,7 @@ module Containers
     def push(key, value)
       key = key.to_s
       return nil if key.empty?
-      @root = pushR(@root, key, 0, value)
+      @root = push_recursive(@root, key, 0, value)
       value
     end
     alias :[]= :push
@@ -46,7 +46,7 @@ module Containers
     def has_key?(key)
       key = key.to_s
       return false if key.empty?
-      !(getR(@root, key, 0).nil?)
+      !(get_recursive(@root, key, 0).nil?)
     end
     
     # Returns the value of the desired key, or nil if the key doesn't exist.
@@ -59,7 +59,7 @@ module Containers
     def get(key)
       key = key.to_s
       return nil if key.empty?
-      node = getR(@root, key, 0)
+      node = get_recursive(@root, key, 0)
       node ? node.last : nil
     end
     alias :[] :get
@@ -79,7 +79,7 @@ module Containers
     def longest_prefix(string)
       string = string.to_s
       return nil if string.empty?
-      len = prefixR(@root, string, 0)
+      len = prefix_recursive(@root, string, 0)
       string[0...len]
     end
     
@@ -99,12 +99,10 @@ module Containers
       string = string.to_s
       return nil if string.empty?
       ary = [] 
-      ary << wildcardR(@root, string, 0, "")
+      ary << wildcard_recursive(@root, string, 0, "")
       ary.flatten.compact.sort
     end
-    
-    private
-    
+
     class Node # :nodoc: all
       attr_accessor :left, :mid, :right, :char, :value, :end
       
@@ -115,53 +113,53 @@ module Containers
         @end = false
       end
       
-      def end?
+      def last?
         @end == true
       end
     end
     
-    def wildcardR(node, string, index, prefix)
+    def wildcard_recursive(node, string, index, prefix)
       return nil if node.nil? || index == string.length
       arr = []
       char = string[index]
       if (char.chr == "*" || char.chr == "." || char < node.char)
-        arr << wildcardR(node.left, string, index, prefix)
+        arr << wildcard_recursive(node.left, string, index, prefix)
       end
       if (char.chr == "*" || char.chr == "." || char > node.char)
-        arr << wildcardR(node.right, string, index, prefix)
+        arr << wildcard_recursive(node.right, string, index, prefix)
       end
       if (char.chr == "*" || char.chr == "." || char == node.char)
-        arr << "#{prefix}#{node.char.chr}" if node.end?
-        arr << wildcardR(node.mid, string, index+1, prefix + node.char.chr)
+        arr << "#{prefix}#{node.char.chr}" if node.last?
+        arr << wildcard_recursive(node.mid, string, index+1, prefix + node.char.chr)
       end
       arr
     end
     
-    def prefixR(node, string, index)
+    def prefix_recursive(node, string, index)
       return 0 if node.nil? || index == string.length
       len = 0
       rec_len = 0
       char = string[index]
       if (char < node.char)
-        rec_len = prefixR(node.left, string, index)
+        rec_len = prefix_recursive(node.left, string, index)
       elsif (char > node.char)
-        rec_len = prefixR(node.right, string, index)
+        rec_len = prefix_recursive(node.right, string, index)
       else
-        len = index+1 if node.end?
-        rec_len = prefixR(node.mid, string, index+1)
+        len = index+1 if node.last?
+        rec_len = prefix_recursive(node.mid, string, index+1)
       end
       len > rec_len ? len : rec_len
     end
     
-    def pushR(node, string, index, value)
+    def push_recursive(node, string, index, value)
       char = string[index]
       node = Node.new(char, value) if node.nil?
       if (char < node.char)
-        node.left = pushR(node.left, string, index, value)
+        node.left = push_recursive(node.left, string, index, value)
       elsif (char > node.char)
-        node.right = pushR(node.right, string, index, value)
+        node.right = push_recursive(node.right, string, index, value)
       elsif (index < string.length-1) # We're not at the end of the input string; add next char
-        node.mid = pushR(node.mid, string, index+1, value)
+        node.mid = push_recursive(node.mid, string, index+1, value)
       else
         node.end = true
         node.value = value
@@ -170,17 +168,17 @@ module Containers
     end
     
     # Returns [char, value] if found
-    def getR(node, string, index)
+    def get_recursive(node, string, index)
       return nil if node.nil?
       char = string[index]
       if (char < node.char)
-        return getR(node.left, string, index)
+        return get_recursive(node.left, string, index)
       elsif (char > node.char)
-        return getR(node.right, string, index)
+        return get_recursive(node.right, string, index)
       elsif (index < string.length-1) # We're not at the end of the input string; add next char
-        return getR(node.mid, string, index+1)
+        return get_recursive(node.mid, string, index+1)
       else
-        return node.end? ? [node.char, node.value] : nil
+        return node.last? ? [node.char, node.value] : nil
       end
     end
   end
