@@ -37,7 +37,7 @@ module Containers
     # Thus, smaller elements will be parent nodes. The heap defaults to a min-heap if no block
     # is given.
     def initialize(ary=[], &block)
-      @compare_fn = block_given? ? block : lambda { |x, y| (x <=> y) == -1 }
+      @compare_fn = block || lambda { |x, y| (x <=> y) == -1 }
       @next = nil
       @size = 0
       @stored = {}
@@ -60,7 +60,7 @@ module Containers
     #     heap.pop #=> "Cat"
     #     heap.pop #=> 2
     def push(key, value=key)
-      raise "Can't enter a key of nil" if key.nil?
+      raise ArgumentError, "Heap keys must not be nil." unless key
       node = Node.new(key, value)
       # Add new node to the left of the @next node
       if @next
@@ -115,8 +115,7 @@ module Containers
     #     minheap.next #=> 1
     #     minheap.size #=> 2
     def next
-      return nil if @next.nil?
-      @next.value
+      @next && @next.value
     end
     
     # call-seq:
@@ -129,6 +128,7 @@ module Containers
     def clear
       @next = nil
       @size = 0
+      @stored = {}
       nil
     end
     
@@ -153,9 +153,9 @@ module Containers
     #     heap.size #=> 8
     #     heap.pop #=> 1
     def merge!(otherheap)
-      raise "Trying to merge a heap with something not a heap" if !otherheap.kind_of? Heap
+      raise ArgumentError, "Trying to merge a heap with something not a heap" unless otherheap.kind_of? Heap
       other_root = otherheap.instance_variable_get("@next")
-      if !other_root.nil?
+      if other_root
         @stored = @stored.merge(otherheap.instance_variable_get("@stored")) { |key, a, b| (a << b).flatten }
         # Insert othernode's @next node to the left of current @next
         @next.left.right = other_root
@@ -164,9 +164,7 @@ module Containers
         ol.right = @next
         @next.left = ol
         
-        if @compare_fn[other_root.key, @next.key]
-          @next = other_root
-        end
+        @next = other_root if @compare_fn[other_root.key, @next.key]
       end
       @size += otherheap.size
     end
@@ -183,11 +181,10 @@ module Containers
     #     minheap.pop #=> 1
     #     minheap.size #=> 1
     def pop
-      return nil if @next.nil?
+      return nil unless @next
       popped = @next
       if @size == 1
-        @next = nil
-        @size = 0
+        clear
         return popped.value
       end
       # Merge the popped's children into root node
@@ -294,6 +291,12 @@ module Containers
     # Makes a copy of the heap and iterates over it in heap order, yielding the value.
     def each
       return if self.empty?
+      # @size.times do
+      #   node = Node.new(@next.key, @next.value)
+      #   self.pop
+      #   yield node.value
+      #   self.push(node.key, node.value)
+      # end
       # Can't just do a deep copy of 'self' because you can't dump Procs; @compare_fn raises "no marshal_dump is defined for class Proc"
       next_backup = Marshal.load(Marshal.dump(@next))
       size_backup = @size
@@ -302,8 +305,6 @@ module Containers
       @next, @size, @stored = next_backup, size_backup, stored_backup
       self
     end
-
-    private
     
     # Node class used internally
     class Node # :nodoc:
@@ -345,6 +346,7 @@ module Containers
       parent.degree += 1
       child.marked = false
     end
+    private :link_nodes
     
     # Makes sure the structure does not contain nodes in the root list with equal degrees
     def consolidate
@@ -384,6 +386,7 @@ module Containers
       end
       @next = min
     end
+    private :consolidate
     
     def cascading_cut(node)
       p = node.parent
@@ -396,6 +399,7 @@ module Containers
         end
       end
     end
+    private :cascading_cut
     
     # remove x from y's children and add x to the root list
     def cut(x, y)
@@ -414,6 +418,8 @@ module Containers
       x.parent = nil
       x.marked = false
     end
+    private :cut
+    
   end
   
   # A MaxHeap is a heap where the items are returned in descending order of key value.
