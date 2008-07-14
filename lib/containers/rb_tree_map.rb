@@ -50,8 +50,7 @@ module Containers
     #   map.push("GA", "Georgia")
     #   map.size #=> 2
     def size
-      return 0 if @root.nil?
-      @root.size
+      @root and @root.size or 0
     end
     
     # Return the height of the tree structure in the TreeMap.
@@ -63,8 +62,7 @@ module Containers
     #   map.push("GA", "Georgia")
     #   map.height #=> 2
     def height
-      return 0 if @root.nil?
-      @root.height
+      @root and @root.height or 0
     end
     
     # Return true if key is found in the TreeMap, false otherwise
@@ -89,7 +87,7 @@ module Containers
     #   map.push("GA", "Georgia")
     #   map.get("GA") #=> "Georgia"
     def get(key)
-      getR(@root, key)
+      get_recursive(@root, key)
     end
     alias :[] :get
     
@@ -102,7 +100,7 @@ module Containers
     #   map.push("GA", "Georgia")
     #   map.min_key #=> "GA"
     def min_key
-      @root.nil? ? nil : minR(@root)
+      @root.nil? ? nil : min_recursive(@root)
     end
     
     # Return the largest key in the map.
@@ -114,7 +112,7 @@ module Containers
     #   map.push("GA", "Georgia")
     #   map.max_key #=> "MA"
     def max_key
-      @root.nil? ? nil : maxR(@root)
+      @root.nil? ? nil : max_recursive(@root)
     end
     
     # Deletes the item and key if it's found, and returns the item. Returns nil
@@ -132,7 +130,7 @@ module Containers
     def delete(key)
       result = nil
       if @root
-        @root, result = deleteR(@root, key)
+        @root, result = delete_recursive(@root, key)
         @root.color = :black if @root
       end
       result
@@ -156,7 +154,7 @@ module Containers
     def delete_min
       result = nil
       if @root
-        @root, result = delete_minR(@root)
+        @root, result = delete_min_recursive(@root)
         @root.color = :black if @root
       end
       result
@@ -175,7 +173,7 @@ module Containers
     def delete_max
       result = nil
       if @root
-        @root, result = delete_maxR(@root)
+        @root, result = delete_max_recursive(@root)
         @root.color = :black if @root
       end
       result
@@ -183,10 +181,8 @@ module Containers
     
     # Iterates over the TreeMap from smallest to largest element
     def each(&block)
-      @root.nil? ? nil : eachR(@root, block)
+      @root.nil? ? nil : each_recursive(@root, block)
     end
-    
-    private
     
     class Node # :nodoc: all
       attr_accessor :color, :key, :value, :left, :right, :size, :height
@@ -278,18 +274,19 @@ module Containers
       end
     end
     
-    def eachR(node, block)
+    def each_recursive(node, block)
       return if node.nil?
       
-      eachR(node.left, block)
+      each_recursive(node.left, block)
       block[node.key, node.value]
-      eachR(node.right, block)
+      each_recursive(node.right, block)
     end
+    private :each_recursive
     
-    def deleteR(node, key)
+    def delete_recursive(node, key)
       if (key <=> node.key) == -1
         node.move_red_left if ( !isred(node.left) && !isred(node.left.left) )
-        node.left, result = deleteR(node.left, key)
+        node.left, result = delete_recursive(node.left, key)
       else
         node.rotate_right if isred(node.left)
         if ( ( (key <=> node.key) == 0) && node.right.nil? )
@@ -300,29 +297,31 @@ module Containers
         end
         if (key <=> node.key) == 0
           result = node.value
-          node.value = getR(node.right, minR(node.right))
-          node.key = minR(node.right)
-          node.right = delete_minR(node.right).first
+          node.value = get_recursive(node.right, min_recursive(node.right))
+          node.key = min_recursive(node.right)
+          node.right = delete_min_recursive(node.right).first
         else
-          node.right, result = deleteR(node.right, key)
+          node.right, result = delete_recursive(node.right, key)
         end
       end
       return node.fixup, result
     end
+    private :delete_recursive
     
-    def delete_minR(node)
+    def delete_min_recursive(node)
       if node.left.nil?
         return nil, node.value 
       end
       if ( !isred(node.left) && !isred(node.left.left) )
         node.move_red_left
       end
-      node.left, result = delete_minR(node.left)
+      node.left, result = delete_min_recursive(node.left)
       
       return node.fixup, result
     end
+    private :delete_min_recursive
     
-    def delete_maxR(node)
+    def delete_max_recursive(node)
       if (isred(node.left))
         node = node.rotate_right
       end
@@ -330,36 +329,38 @@ module Containers
       if ( !isred(node.right) && !isred(node.right.left) )
         node.move_red_right
       end
-      node.right, result = delete_maxR(node.right)
+      node.right, result = delete_max_recursive(node.right)
       
       return node.fixup, result
     end
+    private :delete_max_recursive
     
-    def getR(node, key)
+    def get_recursive(node, key)
       return nil if node.nil?
       case key <=> node.key
       when  0 then return node.value
-      when -1 then return getR(node.left, key)
-      when  1 then return getR(node.right, key)
+      when -1 then return get_recursive(node.left, key)
+      when  1 then return get_recursive(node.right, key)
       end
     end
+    private :get_recursive
     
-    def minR(node)
+    def min_recursive(node)
       return node.key if node.left.nil?
       
-      minR(node.left)
+      min_recursive(node.left)
     end
+    private :min_recursive
     
-    def maxR(node)
+    def max_recursive(node)
       return node.key if node.right.nil?
       
-      maxR(node.right)
+      max_recursive(node.right)
     end
+    private :max_recursive
     
     def insert(node, key, value)
-      if(node.nil?)
-        return Node.new(key, value)
-      end
+      return Node.new(key, value) unless node
       
       node.colorflip if (node.left && node.left.red? && node.right && node.right.red?)
       
@@ -374,13 +375,19 @@ module Containers
       
       node.update_size
     end
+    private :insert
     
     def isred(node)
       return false if node.nil?
       
       node.color == :red
     end
-
   end
-  
+end
+
+begin
+  require 'CRBTreeMap'
+  Containers::RBTreeMap = Containers::CRBTreeMap
+rescue LoadError # C Version could not be found, try ruby version
+  Containers::RBTreeMap = Containers::RubyRBTreeMap
 end
