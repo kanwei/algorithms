@@ -39,7 +39,7 @@ module Containers
     def push(obj)
       @container.push_back(obj)
     end
-    alias :<< :push
+    alias_method :<<, :push
     
     # Removes the next item from the stack and returns it.
     #

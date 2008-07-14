@@ -37,7 +37,7 @@ module Containers
       @root = push_recursive(@root, key, 0, value)
       value
     end
-    alias :[]= :push
+    alias_method :[]=, :push
     
     # Returns true if the key is contained in the Trie.
     #
@@ -62,7 +62,7 @@ module Containers
       node = get_recursive(@root, key, 0)
       node ? node.last : nil
     end
-    alias :[] :get
+    alias_method :[], :get
     
     # Returns the longest key that has a prefix in common with the parameter string. If
     # no match is found, the blank string "" is returned.

@@ -55,7 +55,7 @@ module Containers
       @size += 1
       value
     end
-    alias :[]= :push
+    alias_method :[]=, :push
     
     # Return the number of items in the SplayTreeMap.
     #
@@ -116,7 +116,7 @@ module Containers
       splay(key)
       (@root.key <=> key) == 0 ? @root.value : nil
     end
-    alias :[] :get
+    alias_method :[], :get
     
     # Return the smallest [key, value] pair in the SplayTreeMap, or nil if the tree is empty.
     #

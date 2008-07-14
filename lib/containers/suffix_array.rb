@@ -65,6 +65,6 @@ module Containers
       end
       return false
     end
-    alias :[] :has_substring?
+    alias_method :[], :has_substring?
   end
 end
