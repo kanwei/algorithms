@@ -18,9 +18,7 @@ module Containers
     
     # Create and initialize a new empty SplayTreeMap.
     def initialize
-      @root = nil
-      @header = Node.new(nil, nil)
-      @size = 0
+      clear
     end
     
     # Insert an item with an associated key into the SplayTreeMap, and returns the item inserted
@@ -88,7 +86,7 @@ module Containers
     #   map.push("GA", "Georgia")
     #   map.height #=> 2
     def height
-      heightR(@root)
+      height_recursive(@root)
     end
     
     # Return true if key is found in the SplayTreeMap, false otherwise.
@@ -184,12 +182,10 @@ module Containers
       deleted
     end
     
-    # Iterates over the SplayTreeMap in increasing order.
+    # Iterates over the SplayTreeMap in ascending order.
     def each(&block)
-      @root.nil? ? nil : eachR(@root, block)
+      @root.nil? ? nil : each_recursive(@root, block)
     end
-    
-    private
     
     class Node # :nodoc: all
       attr_accessor :key, :value, :left, :right
@@ -246,25 +242,28 @@ module Containers
       t.right = @header.left
       @root = t
     end
+    private :splay
     
     # Recursively determine height
-    def heightR(node)
+    def height_recursive(node)
       return 0 if node.nil?
       
-      left_height   = 1 + heightR(node.left)
-      right_height  = 1 + heightR(node.right)
+      left_height   = 1 + height_recursive(node.left)
+      right_height  = 1 + height_recursive(node.right)
       
       left_height > right_height ? left_height : right_height
     end
+    private :height_recursive
     
     # Recursively iterate over elements in ascending order
-    def eachR(node, block)
+    def each_recursive(node, block)
       return if node.nil?
       
-      eachR(node.left, block)
+      each_recursive(node.left, block)
       block[node.key, node.value]
-      eachR(node.right, block)
+      each_recursive(node.right, block)
     end
+    private :each_recursive
   end
   
 end
