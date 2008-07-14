@@ -361,9 +361,7 @@ module Containers
     
     def insert(node, key, value)
       return Node.new(key, value) unless node
-      
-      node.colorflip if (node.left && node.left.red? && node.right && node.right.red?)
-      
+
       case key <=> node.key
       when  0 then node.value = value
       when -1 then node.left = insert(node.left, key, value)
@@ -372,7 +370,7 @@ module Containers
       
       node.rotate_left if (node.right && node.right.red?)
       node = node.rotate_right if (node.left && node.left.red? && node.left.left && node.left.left.red?)
-      
+      node.colorflip if (node.left && node.left.red? && node.right && node.right.red?)
       node.update_size
     end
     private :insert
