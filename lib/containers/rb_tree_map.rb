@@ -369,7 +369,7 @@ module Containers
       end
       
       node.rotate_left if (node.right && node.right.red?)
-      node = node.rotate_right if (node.left && node.left.red? && node.left.left && node.left.left.red?)
+      node.rotate_right if (node.left && node.left.red? && node.left.left && node.left.left.red?)
       node.colorflip if (node.left && node.left.red? && node.right && node.right.red?)
       node.update_size
     end
