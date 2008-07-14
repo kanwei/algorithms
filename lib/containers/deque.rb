@@ -37,7 +37,7 @@ module Containers
     def size
       @size
     end
-    alias :length :size
+    alias_method :length, :size
     
     # Returns the object at the front of the Deque but does not remove it.
     #
@@ -146,7 +146,7 @@ module Containers
         node = node.right
       end
     end
-    alias :each :each_forward
+    alias_method :each, :each_forward
     
     # Iterate over the Deque in LIFO order.
     def each_backward
@@ -157,7 +157,7 @@ module Containers
         node = node.left
       end
     end
-    alias :reverse_each :each_backward
+    alias_method :reverse_each, :each_backward
 
     class Node # :nodoc: all
       attr_accessor :left, :right, :obj

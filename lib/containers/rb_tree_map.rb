@@ -41,7 +41,7 @@ module Containers
       @root.color = :black
       value
     end
-    alias :[]= :push
+    alias_method :[]=, :push
     
     # Return the number of items in the TreeMap.
     #
@@ -89,7 +89,7 @@ module Containers
     def get(key)
       get_recursive(@root, key)
     end
-    alias :[] :get
+    alias_method :[], :get
     
     # Return the smallest key in the map.
     #

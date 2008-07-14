@@ -20,7 +20,7 @@ module Containers
     def size
       @size
     end
-    alias :length :size
+    alias_method :length, :size
     
     # call-seq:
     #     Heap.new(optional_array) { |x, y| optional_comparison_fn } -> new_heap
@@ -87,7 +87,7 @@ module Containers
       @stored[key] << node
       value
     end
-    alias :<< :push
+    alias_method :<<, :push
     
     # call-seq:
     #     has_key?(key) -> true or false
@@ -223,7 +223,7 @@ module Containers
       @size -= 1
       popped.value
     end
-    alias :next! :pop
+    alias_method :next!, :pop
     
     # call-seq:
     #     change_key(key, new_key) -> [new_key, value]

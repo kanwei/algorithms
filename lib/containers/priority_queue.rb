@@ -30,7 +30,7 @@ module Containers
     def size
       @heap.size
     end
-    alias :length :size
+    alias_method :length, :size
 
     # Add an object to the queue with associated priority.
     # 
@@ -102,7 +102,7 @@ module Containers
     def pop
       @heap.pop
     end
-    alias :next! :pop
+    alias_method :next!, :pop
 
     # call-seq:
     #     delete(priority) -> object
