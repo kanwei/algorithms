@@ -33,7 +33,7 @@ end
 
 describe "(non-empty rbtree)", :shared => true do
   before(:each) do
-    @num_items = 100
+    @num_items = 1000
     @random_array = []
     @num_items.times { @random_array << rand(@num_items) }
     @random_array.each { |x| @tree[x] = x }
@@ -60,8 +60,6 @@ describe "(non-empty rbtree)", :shared => true do
   end
   
   it "should remove all keys" do
-    # Following used to fail (still fails for CMap)
-    # @random_array = [43, 48, 55, 27,28, 39,31, 30, 34, 36, 35, 18, 37, 62, 38, 33, 47, 21, 10, 11, 17]
     ordered = []
     @random_array.uniq.each do |key|
       @tree.has_key?(key).should eql(true)
@@ -93,21 +91,21 @@ describe "(non-empty rbtree)", :shared => true do
   end
 end
 
-# describe Containers::CRBTreeMap do
-#   describe "empty" do
-#     before(:each) do
-#       @tree = Containers::CRBTreeMap.new
-#     end
-#     it_should_behave_like "(empty rbtree)"
-#   end
-#   
-#   describe "full" do
-#     before(:each) do
-#       @tree = Containers::CRBTreeMap.new
-#     end
-#     it_should_behave_like "(non-empty rbtree)"
-#   end
-# end
+describe Containers::CRBTreeMap do
+  describe "empty" do
+    before(:each) do
+      @tree = Containers::CRBTreeMap.new
+    end
+    it_should_behave_like "(empty rbtree)"
+  end
+  
+  describe "full" do
+    before(:each) do
+      @tree = Containers::CRBTreeMap.new
+    end
+    it_should_behave_like "(non-empty rbtree)"
+  end
+end
 
 describe Containers::RubyRBTreeMap do
   describe "empty" do
