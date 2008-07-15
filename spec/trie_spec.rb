@@ -1,4 +1,5 @@
-require 'lib/containers/trie'
+$: << File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
+require 'algorithms'
 
 describe Containers::Trie do
   describe "(empty)" do
