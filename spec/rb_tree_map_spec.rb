@@ -1,5 +1,5 @@
-require 'lib/containers/rb_tree_map'
-require 'lib/CRBTreeMap'
+$: << File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
+require 'algorithms'
   
 describe "(empty rbtree)", :shared => true do
   it "should let you push stuff in" do

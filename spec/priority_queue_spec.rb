@@ -1,4 +1,5 @@
-require 'lib/containers/priority_queue'
+$: << File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
+require 'algorithms'
 
 describe Containers::PriorityQueue do
   before(:each) do

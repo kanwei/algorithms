@@ -26,7 +26,9 @@
   * Sort algorithms
   * String algorithms    
 =end
-$: << File.expand_path(File.dirname(__FILE__))
+
+module Containers; end
+
 require 'containers/heap'
 require 'containers/stack'
 require 'containers/deque'
@@ -36,10 +38,3 @@ require 'containers/rb_tree_map'
 require 'containers/splay_tree_map'
 require 'containers/suffix_array'
 require 'containers/trie'
-
-begin
-  require 'CRBTreeMap'
-  Containers::RBTreeMap = Containers::CRBTreeMap
-rescue LoadError # C Version could not be found, try ruby version
-  Containers::RBTreeMap = Containers::RubyRBTreeMap
-end

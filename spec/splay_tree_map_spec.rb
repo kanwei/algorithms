@@ -1,4 +1,5 @@
-require 'lib/containers/splay_tree_map'
+$: << File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
+require 'algorithms'
   
 describe "(empty splay)", :shared => true do
   it "should let you push stuff in" do

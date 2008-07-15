@@ -1,4 +1,5 @@
-require 'lib/containers/deque'
+$: << File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
+require 'algorithms'
 
 describe Containers::Deque do
   before(:each) do
