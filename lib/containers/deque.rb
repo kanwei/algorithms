@@ -4,7 +4,7 @@
 
     This implementation uses a doubly-linked list, guaranteeing O(1) complexity for all operations.
 =end
-class Containers::Deque
+class Containers::RubyDeque
   include Enumerable
   # Create a new stack. Takes an optional array argument to initialize the stack.
   #
@@ -166,4 +166,11 @@ class Containers::Deque
       @obj = obj
     end
   end
+end
+
+begin
+  require 'CDeque'
+  Containers::Deque = Containers::CDeque
+rescue LoadError # C Version could not be found, try ruby version
+  Containers::Deque = Containers::RubyDeque
 end

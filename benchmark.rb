@@ -20,6 +20,14 @@ include Benchmark
 #   end
 # end
 
+# Benchmark Deque
+deque = Containers::Deque.new
+array = []
+benchmark do |bench|
+  bench.report("Array:\t ") { 1000000.times  { |x| array << x } }
+  bench.report("Deque:\t ") { 1000000.times  { |x| deque.push_back(x) } }
+end
+
 # Benchmark Search trees
 @rb_tree = Containers::RubyRBTreeMap.new
 @splay_tree = Containers::SplayTreeMap.new

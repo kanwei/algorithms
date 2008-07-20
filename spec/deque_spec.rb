@@ -1,12 +1,7 @@
 $: << File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
 require 'algorithms'
 
-describe Containers::Deque do
-  before(:each) do
-    @deque = Containers::Deque.new
-  end
-  
-  describe "(empty)" do
+  describe "(empty deque)", :shared => true do
     it "should return nil when popping objects" do
       @deque.pop_front.should be_nil
       @deque.pop_back.should be_nil
@@ -32,7 +27,7 @@ describe Containers::Deque do
     end
   end
   
-  describe "(non-empty)" do
+  describe "(non-empty deque)", :shared => true do
     before(:each) do
       @deque.push_back(10)
       @deque.push_back("10")
@@ -74,5 +69,36 @@ describe Containers::Deque do
       @deque.pop_back.should be_nil
       @deque.front.should be_nil
     end
+  end
+
+describe Containers::RubyDeque do
+  describe "empty" do
+    before(:each) do
+      @deque = Containers::RubyDeque.new
+    end
+    it_should_behave_like "(empty deque)"
+  end
+  
+  describe "full" do
+    before(:each) do
+      @deque = Containers::RubyDeque.new
+    end
+    it_should_behave_like "(non-empty deque)"
+  end
+end
+
+describe Containers::CDeque do
+  describe "empty" do
+    before(:each) do
+      @deque = Containers::CDeque.new
+    end
+    it_should_behave_like "(empty deque)"
+  end
+  
+  describe "full" do
+    before(:each) do
+      @deque = Containers::CDeque.new
+    end
+    it_should_behave_like "(non-empty deque)"
   end
 end

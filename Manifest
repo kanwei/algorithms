@@ -1,10 +1,11 @@
 benchmark.rb
+ext/containers/deque/deque.c
+ext/containers/deque/extconf.rb
 ext/containers/tree_map/extconf.rb
 ext/containers/tree_map/Rakefile
 ext/containers/tree_map/rbtree.c
 History.txt
 lib/algorithms.rb
-lib/algorithms.rbc
 lib/containers/deque.rb
 lib/containers/heap.rb
 lib/containers/priority_queue.rb
