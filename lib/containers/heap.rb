@@ -285,24 +285,16 @@ class Containers::Heap
   end
   
   # call-seq:
-  #     each { |value| } -> heap
+  #     each { |key, value| } -> nil
   #
-  # Makes a copy of the heap and iterates over it in heap order, yielding the value.
+  # Iterates over the heap, NOT IN ORDER, yielding the key and value pair.
   def each
     return if self.empty?
-    # @size.times do
-    #   node = Node.new(@next.key, @next.value)
-    #   self.pop
-    #   yield node.value
-    #   self.push(node.key, node.value)
-    # end
-    # Can't just do a deep copy of 'self' because you can't dump Procs; @compare_fn raises "no marshal_dump is defined for class Proc"
-    next_backup = Marshal.load(Marshal.dump(@next))
-    size_backup = @size
-    stored_backup = Marshal.load(Marshal.dump(@stored))
-    yield self.pop until self.empty?
-    @next, @size, @stored = next_backup, size_backup, stored_backup
-    self
+    @stored.each do |key, ary|
+      ary.each do |node|
+        yield node.key, node.value
+      end
+    end
   end
   
   # Node class used internally
