@@ -8,8 +8,7 @@
 
     This implemention is based on a Ternary Search Tree.
 =end
-  class Containers::Trie
-  
+class Containers::Trie  
   # Create a new, empty Trie.
   #
   #   t = Containers::Trie.new

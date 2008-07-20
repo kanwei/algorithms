@@ -6,7 +6,7 @@ require 'containers/deque'
     This implementation uses a doubly-linked list, guaranteeing O(1) complexity for all operations.
 
 =end
-  class Containers::Stack
+class Containers::Stack
   include Enumerable
   # Create a new stack. Takes an optional array argument to initialize the stack.
   #
