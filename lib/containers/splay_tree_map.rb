@@ -1,3 +1,4 @@
+require 'containers/stack'
 =begin rdoc
     A SplayTreeMap is a map that is stored in ascending order of its keys, determined by applying
     the function <=> to compare keys. No duplicate values for keys are allowed, so new values of a key
@@ -12,7 +13,7 @@
     when keys are added in sorted order, causing the tree to have a height of the number of items added.
     
 =end
-  class Containers::SplayTreeMap
+class Containers::SplayTreeMap
   include Enumerable
   
   # Create and initialize a new empty SplayTreeMap.
@@ -181,9 +182,25 @@
     deleted
   end
   
-  # Iterates over the SplayTreeMap in ascending order.
-  def each(&block)
-    @root.nil? ? nil : each_recursive(@root, block)
+  # Iterates over the SplayTreeMap in ascending order. Uses an iterative, not recursive, approach.
+  def each
+    return nil unless @root
+    stack = Containers::Stack.new
+    cursor = @root
+    loop do
+      if cursor
+        stack.push(cursor)
+        cursor = cursor.left
+      else
+        unless stack.empty?
+          cursor = stack.pop
+          yield(cursor.key, cursor.value)
+          cursor = cursor.right
+        else
+          break
+        end
+      end
+    end
   end
   
   class Node # :nodoc: all
@@ -253,14 +270,5 @@
     left_height > right_height ? left_height : right_height
   end
   private :height_recursive
-  
-  # Recursively iterate over elements in ascending order
-  def each_recursive(node, block)
-    return if node.nil?
-    
-    each_recursive(node.left, block)
-    block[node.key, node.value]
-    each_recursive(node.right, block)
-  end
-  private :each_recursive
+
 end

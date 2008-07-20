@@ -1,3 +1,4 @@
+require 'containers/stack'
 =begin rdoc
     A RBTreeMap is a map that is stored in sorted order based on the order of its keys. This ordering is
     determined by applying the function <=> to compare the keys. No duplicate values for keys are allowed,
@@ -178,9 +179,25 @@ class Containers::RubyRBTreeMap
     result
   end
   
-  # Iterates over the TreeMap from smallest to largest element
-  def each(&block)
-    @root.nil? ? nil : each_recursive(@root, block)
+  # Iterates over the TreeMap from smallest to largest element. Iterative approach.
+  def each
+    return nil unless @root
+    stack = Containers::Stack.new
+    cursor = @root
+    loop do
+      if cursor
+        stack.push(cursor)
+        cursor = cursor.left
+      else
+        unless stack.empty?
+          cursor = stack.pop
+          yield(cursor.key, cursor.value)
+          cursor = cursor.right
+        else
+          break
+        end
+      end
+    end
   end
   
   class Node # :nodoc: all
@@ -272,16 +289,7 @@ class Containers::RubyRBTreeMap
       update_size
     end
   end
-  
-  def each_recursive(node, block)
-    return if node.nil?
-    
-    each_recursive(node.left, block)
-    block[node.key, node.value]
-    each_recursive(node.right, block)
-  end
-  private :each_recursive
-  
+
   def delete_recursive(node, key)
     if (key <=> node.key) == -1
       node.move_red_left if ( !isred(node.left) && !isred(node.left.left) )
