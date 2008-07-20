@@ -63,12 +63,12 @@ class Containers::PriorityQueue
     @heap.has_key?(priority)
   end
   
-  # Call the given block with each [object, priority] pair in the queue
+  # Call the given block with each |priority, object| pair in the queue
   #
   # A copy of the queue is used in this step so modifications will not modify the queue
   def each
     @heap.each do |priority, object|
-      yield(object, priority)
+      yield(priority, object)
     end
   end
   

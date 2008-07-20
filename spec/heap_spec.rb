@@ -58,10 +58,10 @@ describe Containers::Heap do
       ordered.should eql( @random_array )
     end
     
-    it "should let you iterate" do
-      ordered = []
-      @heap.each { |v| ordered << v }
-      ordered.should eql(@random_array.sort.reverse)
+    it "should let you iterate (not in order)" do
+      unordered = []
+      @heap.each { |k, v| unordered << v }
+      unordered.sort.should eql(@random_array.sort)
     end
 
     it "should be in max->min order" do
