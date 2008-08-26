@@ -10,20 +10,27 @@
     tree = RBTreeMap.new
   
   Done so far:
-  * Heaps (Maximum, Minimum)
-  * Priority Queue
-  * Stack
-  * Queue
-  * Deque
-  * Red-Black Trees
-  * Splay Trees
-  * Tries (Ternary Search Tree)
-  * Suffix Array
+  * Heaps           - Containers::Heap, Containers::MaxHeap, Containers::MinHeap
+  * Priority Queue  - Containers::PriorityQueue
+  * Stack           - Containers::Stack
+  * Queue           - Containers::Queue
+  * Deque           - Containers::Deque, Containers::CDeque (C extension), Containers::RubyDeque
+  * Red-Black Trees - Containers::RBTreeMap, Containers::CRBTreeMap (C extension), Containers::RubyRBTreeMap
+  * Splay Trees     - Containers::SplayTreeMap
+  * Tries           - Containers::Trie
+  * Suffix Array    - Containers::SuffixArray
 
-  Upcoming:
   * Search algorithms
+    - Binary Search         - Algorithms::Search.binary_search
+    - Knuth-Morris-Pratt    - Algorithms::Search.kmp_search
   * Sort algorithms
-  * String algorithms    
+    - Bubble sort           - Algorithms::Sort.bubble_sort
+    - Selection sort        - Algorithms::Sort.selection_sort
+    - Heapsort              - Algorithms::Sort.heapsort
+    - Insertion sort        - Algorithms::Sort.insertion_sort
+    - Shell sort            - Algorithms::Sort.shell_sort
+    - Quicksort             - Algorithms::Sort.quicksort
+    - Mergesort             - Algorithms::Sort.mergesort
 =end
 
 module Algorithms; end
