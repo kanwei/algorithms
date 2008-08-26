@@ -5,7 +5,18 @@
 
 == DESCRIPTION:
 
-Using the right data structure or algorithm for the situation is an important aspect of programming. In computer science literature, many data structures and algorithms have been researched and extensively documented. However, there is still no standard library in Ruby implementing useful structures and algorithms like Red/Black Trees, tries, graphs, different sorting algorithms, etc. This project will create such a library with documentation on when to use a particular structure/algorithm. It will also come with a benchmark suite to compare performance in different situations.
+This is a Google Summer of Code 2008 project
+
+Written by Kanwei Li, mentored by Austin Ziegler
+
+Using the right data structure or algorithm for the situation is an important
+aspect of programming. In computer science literature, many data structures
+and algorithms have been researched and extensively documented. However, there
+is still no standard library in Ruby implementing useful structures and
+algorithms like Red/Black Trees, tries, different sorting algorithms, etc.
+This project will create such a library with documentation on when to use a
+particular structure/algorithm. It will also come with a benchmark suite to
+compare performance in different situations.
 
 == FEATURES/PROBLEMS:
 
@@ -19,24 +30,23 @@ Done so far:
 * Splay Trees
 * Tries (Ternary Search Tree)
 * Suffix Array
-
-Upcoming:
-* Graphs, graph algorithms
 * Search algorithms
 * Sort algorithms
-* String algorithms
 
 == SYNOPSIS:
 
   require 'rubygems'
   require 'algorithms'
   
+  max_heap = Containers::MaxHeap.new
+  
+  # To not have to type "Containers::" before each class, use:
   include Containers
   max_heap = MaxHeap.new
 
 == REQUIREMENTS:
 
-* Ruby 1.8
+* Ruby 1.8 compatible Ruby, or Ruby 1.9
 * C compiler for extensions (optional)
 
 == INSTALL:
