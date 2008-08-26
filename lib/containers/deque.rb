@@ -15,7 +15,7 @@ class Containers::RubyDeque
     @front = nil
     @back = nil
     @size = 0
-    ary.each { |obj| push_back(obj) }
+    ary.to_a.each { |obj| push_back(obj) }
   end
   
   # Returns true if the Deque is empty, false otherwise.

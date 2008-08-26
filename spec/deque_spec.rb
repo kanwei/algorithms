@@ -25,6 +25,10 @@ require 'algorithms'
     it "should be empty" do
       @deque.should be_empty
     end
+    
+    it "should raise ArgumentError if passed more than one argument" do
+      lambda { @deque.class.send("new", Time.now, []) }.should raise_error
+    end
   end
   
   describe "(non-empty deque)", :shared => true do
