@@ -192,12 +192,17 @@ static VALUE deque_init(int argc, VALUE *argv, VALUE self)
 	if(argc == 0) {
 		return self;
 	}
+	else if(argc > 1) {
+		rb_raise(rb_eArgError, "wrong number of arguments");
+	}
 	else {
-		rb_scan_args(argc, argv, "01", &ary);
-		deque *deque = get_deque_from_self(self);
-		len = RARRAY(ary)->len;
-		for (i = 0; i < len; i++) {
-			deque_push_back(self, RARRAY(ary)->ptr[i]);
+		ary = rb_check_array_type(argv[0]);
+		if(!NIL_P(ary)) {
+			deque *deque = get_deque_from_self(self);
+			len = RARRAY(ary)->len;
+			for (i = 0; i < len; i++) {
+				deque_push_back(self, RARRAY(ary)->ptr[i]);
+			}
 		}
 	}
 	return self;
