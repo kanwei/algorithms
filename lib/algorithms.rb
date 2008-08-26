@@ -21,14 +21,16 @@
   * Suffix Array
 
   Upcoming:
-  * Graphs, graph algorithms
   * Search algorithms
   * Sort algorithms
   * String algorithms    
 =end
 
+module Algorithms; end
 module Containers; end
 
+require 'algorithms/search'
+require 'algorithms/sort'
 require 'containers/heap'
 require 'containers/stack'
 require 'containers/deque'
