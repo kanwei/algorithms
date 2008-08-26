@@ -6,7 +6,7 @@
 =end
 class Containers::RubyDeque
   include Enumerable
-  # Create a new stack. Takes an optional array argument to initialize the stack.
+  # Create a new Deque. Takes an optional array argument to initialize the Deque.
   #
   #   d = Containers::Deque.new([1, 2, 3])
   #   d.front #=> 1
@@ -29,7 +29,7 @@ class Containers::RubyDeque
     @size = 0
   end
   
-  # Return the number of items in the stack.
+  # Return the number of items in the Deque.
   #
   #   d = Containers::Deque.new([1, 2, 3])
   #   d.size #=> 3
