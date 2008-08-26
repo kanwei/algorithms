@@ -15,7 +15,7 @@ class Containers::PriorityQueue
   # Create a new, empty PriorityQueue
   def initialize(&block)
     # We default to a priority queue that returns the largest value
-    block = lambda { |x, y| (x <=> y) == 1 } unless block_given?
+    block ||= lambda { |x, y| (x <=> y) == 1 }
     @heap = Containers::Heap.new(&block)
   end
   
