@@ -1,4 +1,4 @@
-require 'containers/heap'
+require 'containers/heap' # for heapsort
 
 =begin rdoc
     This module implements sorting algorithms. Documentation is provided for each algorithm.
@@ -12,13 +12,11 @@ module Algorithms::Sort
   # Space Complexity: О(n) total, O(1) auxiliary
   # Stable: Yes
   # 
-  #   class Array; include Algorithms::Sort; end
-  #   [5, 4, 3, 1, 2].bubble_sort => [1, 2, 3, 4, 5]
-  def bubble_sort
-    container = self.dup
+  #   Algorithms::Sort.bubble_sort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
+  def self.bubble_sort(container)
     loop do
       swapped = false
-      (size-1).times do |i|
+      (container.size-1).times do |i|
         if (container[i] <=> container[i+1]) == 1
           container[i], container[i+1] = container[i+1], container[i] # Swap
           swapped = true
@@ -37,13 +35,11 @@ module Algorithms::Sort
   # Space Complexity: О(n) total, O(1) auxiliary
   # Stable: Yes
   # 
-  #   class Array; include Algorithms::Sort; end
-  #   [5, 4, 3, 1, 2].selection_sort => [1, 2, 3, 4, 5]
-  def selection_sort
-    container = self.dup
-    0.upto(size-1) do |i|
+  #   Algorithms::Sort.selection_sort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
+  def self.selection_sort(container)
+    0.upto(container.size-1) do |i|
       min = i
-      (i+1).upto(size-1) do |j|
+      (i+1).upto(container.size-1) do |j|
         min = j if (container[j] <=> container[min]) == -1
       end
       container[i], container[min] = container[min], container[i] # Swap
@@ -57,10 +53,9 @@ module Algorithms::Sort
   # Space Complexity: О(n) total, O(1) auxiliary
   # Stable: Yes
   # 
-  #   class Array; include Algorithms::Sort; end
-  #   [5, 4, 3, 1, 2].heapsort => [1, 2, 3, 4, 5]
-  def heapsort
-    heap = Containers::Heap.new(self)
+  #   Algorithms::Sort.heapsort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
+  def self.heapsort(container)
+    heap = Containers::Heap.new(container)
     ary = []
     ary << heap.pop until heap.empty?
     ary
@@ -73,11 +68,9 @@ module Algorithms::Sort
   # Space Complexity: О(n) total, O(1) auxiliary
   # Stable: Yes
   # 
-  #   class Array; include Algorithms::Sort; end
-  #   [5, 4, 3, 1, 2].insertion_sort => [1, 2, 3, 4, 5]
-  def insertion_sort
-    container = self.dup
-    1.upto(size-1).each do |i|
+  #   Algorithms::Sort.insertion_sort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
+  def self.insertion_sort(container)
+    1.upto(container.size-1).each do |i|
       value = container[i]
       j = i-1
       while j >= 0 and container[j] > value do
@@ -96,13 +89,11 @@ module Algorithms::Sort
   # Space Complexity: О(n) total, O(1) auxiliary
   # Stable: Yes
   # 
-  #   class Array; include Algorithms::Sort; end
-  #   [5, 4, 3, 1, 2].shell_sort => [1, 2, 3, 4, 5]
-  def shell_sort
-    container = self.dup
-    increment = size/2
+  #   Algorithms::Sort.shell_sort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
+  def self.shell_sort(container)
+    increment = container.size/2
     while increment > 0 do
-      (increment..size-1).each do |i|
+      (increment..container.size-1).each do |i|
         temp = container[i]
         j = i
         while j >= increment && container[j - increment] > temp do
@@ -122,20 +113,13 @@ module Algorithms::Sort
   # Space Complexity: О(n) auxiliary
   # Stable: No
   # 
-  #   class Array; include Algorithms::Sort; end
-  #   [5, 4, 3, 1, 2].quicksort => [1, 2, 3, 4, 5]
-  def quicksort
-    container = self.dup
-    qsort(container)
-  end
-  
-  def qsort(container)
+  #   Algorithms::Sort.quicksort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
+  def self.quicksort(container)
     return container if container.size <= 1
     pivot = container.pop
     left, right = container.partition { |n| n < pivot }
-    qsort(left) + [pivot] + qsort(right)
+    self.quicksort(left) + [pivot] + self.quicksort(right)
   end
-  private :qsort
   
   # Mergesort: A stable divide-and-conquer sort that sorts small chunks of the container and then merges them together.
   # Returns an array of the sorted elements.
@@ -144,33 +128,21 @@ module Algorithms::Sort
   # Space Complexity: О(n) auxiliary
   # Stable: Yes
   # 
-  #   class Array; include Algorithms::Sort; end
-  #   [5, 4, 3, 1, 2].mergesort => [1, 2, 3, 4, 5]
-  def mergesort
-    container = self.dup
-    mergesort_recursive(container)
-  end
-  
-  def mergesort_recursive(container)
+  #   Algorithms::Sort.mergesort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
+  def self.mergesort(container)
     return container if container.size <= 1
     mid   = container.size / 2
-    left  = container[0, mid]
-    right = container[mid, container.size]
-    merge(mergesort_recursive(left), mergesort_recursive(right))
+    left  = container[0...mid]
+    right = container[mid...container.size]
+    merge(mergesort(left), mergesort(right))
   end
-  private :mergesort_recursive
 
-  def merge(left, right)
+  def self.merge(left, right)
     sorted = []
     until left.empty? or right.empty?
-      if left.first <= right.first
-        sorted << left.shift
-      else
-        sorted << right.shift
-      end
+      left.first <= right.first ? sorted << left.shift : sorted << right.shift
     end
-    sorted.concat(left).concat(right)
+    sorted + left + right
   end
-  private :merge  
 
 end

@@ -1,7 +1,6 @@
 $: << File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
 require 'algorithms'
-class Array; include Algorithms::Sort; end # Add the sorting functions to arrays
-class Containers::RBTreeMap; include Algorithms::Sort; end # Add the sorting functions to RBTreeMaps
+include Algorithms
 
 describe Algorithms::Sort do
   before(:each) do
@@ -10,32 +9,20 @@ describe Algorithms::Sort do
     
   it "should work for empty containers" do
     empty_array = []
-    @sorts.each { |sort| empty_array.send(sort).should eql([]) }
+    @sorts.each { |sort| Sort.send(sort, empty_array).should eql([]) }
   end
   
   it "should work for a container of size 1" do
-    one_array = ["Just One"]
-    @sorts.each { |sort| one_array.send(sort).should eql(one_array) }
+    one_array = [1]
+    @sorts.each { |sort| Sort.send(sort, one_array).should eql(one_array) }
   end
     
-  it "should work for random arrays" do
-    n = 1000
+  it "should work for random arrays of numbers" do
+    n = 500
     rand_array = Array.new(n) { rand(n) }
     sorted_array = rand_array.sort
     
-    @sorts.each { |sort| rand_array.send(sort).should eql(sorted_array) }
-  end
-  
-  it "should work for RBTreeMaps" do
-    n = 1000
-    rand_array = Array.new(n) { rand(n) }
-    sorted_array = rand_array.sort
-    
-    treemap = Containers::RBTreeMap.new
-    rand_array.each { |n| treemap.push(n, n) }
-    
-    @sorts.each { |sort| treemap.send(sort).should eql(sorted_array) }
-  end
-    
+    @sorts.each { |sort| Sort.send(sort, rand_array.dup).should eql(sorted_array) }
+  end    
   
 end
