@@ -420,6 +420,7 @@ class Containers::MaxHeap < Containers::Heap
   #     MaxHeap.new(ary) -> new_heap
   #
   # Creates a new MaxHeap with an optional array parameter of items to insert into the heap.
+  # A MaxHeap is created by calling Heap.new { |x, y| (x <=> y) == 1 }, so this is a convenience class.
   #
   #     maxheap = MaxHeap.new([1, 2, 3, 4])
   #     maxheap.pop #=> 4
@@ -461,6 +462,7 @@ class Containers::MinHeap < Containers::Heap
   #     MinHeap.new(ary) -> new_heap
   #
   # Creates a new MinHeap with an optional array parameter of items to insert into the heap.
+  # A MinHeap is created by calling Heap.new { |x, y| (x <=> y) == -1 }, so this is a convenience class.
   #
   #     minheap = MinHeap.new([1, 2, 3, 4])
   #     minheap.pop #=> 1
