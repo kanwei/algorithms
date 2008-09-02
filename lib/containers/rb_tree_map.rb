@@ -387,6 +387,7 @@ class Containers::RubyRBTreeMap
     
     node.color == :red
   end
+  private :isred
 end
 
 begin

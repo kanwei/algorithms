@@ -1,3 +1,8 @@
+=== September 1, 2008
+
+  * Switched to Hanna rdoc template
+  * RBTree#isred now private
+
 === August 20, 2008
 
   * Implemented Knuth-Morris-Pratt substring algorithm
