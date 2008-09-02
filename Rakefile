@@ -21,3 +21,9 @@ task :push do
   sh "git push gt" # Gitorious
   sh "git push gh" # Github
 end
+
+task :doc do
+  sh "rm -fr doc"
+  sh "hanna -SN lib/ -m Algorithms"
+end
+
