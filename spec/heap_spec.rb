@@ -6,6 +6,11 @@ describe Containers::Heap do
     @heap = Containers::MaxHeap.new
   end
   
+  it "should not let you merge with non-heaps" do
+    lambda { @heap.merge!(nil) }.should raise_error
+    lambda { @heap.merge!([]) }.should raise_error
+  end
+  
   describe "(empty)" do
   
     it "should return nil when getting the maximum" do
