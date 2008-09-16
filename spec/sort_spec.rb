@@ -4,7 +4,7 @@ include Algorithms
 
 describe Algorithms::Sort do
   before(:each) do
-    @sorts = %w(bubble_sort selection_sort heapsort insertion_sort shell_sort quicksort mergesort)
+    @sorts = %w(bubble_sort comb_sort selection_sort heapsort insertion_sort shell_sort quicksort mergesort)
   end
     
   it "should work for empty containers" do
