@@ -35,6 +35,7 @@
     - Knuth-Morris-Pratt    - Algorithms::Search.kmp_search
   * Sort algorithms
     - Bubble sort           - Algorithms::Sort.bubble_sort
+    - Comb sort             - Algorithms::Sort.comb_sort
     - Selection sort        - Algorithms::Sort.selection_sort
     - Heapsort              - Algorithms::Sort.heapsort
     - Insertion sort        - Algorithms::Sort.insertion_sort
