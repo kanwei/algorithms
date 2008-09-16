@@ -27,6 +27,34 @@ module Algorithms::Sort
     container
   end
   
+  # Comb sort: A variation on bubble sort that dramatically improves performance.
+  # Source: http://yagni.com/combsort/
+  # Requirements: Needs to be able to compare elements with <=>, and the [] []= methods should
+  # be implemented for the container.
+  # Time Complexity: О(n^2)
+  # Space Complexity: О(n) total, O(1) auxiliary
+  # Stable: Yes
+  # 
+  #   Algorithms::Sort.comb_sort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
+  def self.comb_sort(container)
+    container
+    gap = container.size
+    loop do
+      gap = gap * 10/13
+      gap = 11 if gap == 9 || gap == 10
+      gap = 1 if gap < 1
+      swapped = false
+      (container.size - gap).times do |i|
+        if (container[i] <=> container[i + gap]) == 1
+          container[i], container[i+gap] = container[i+gap], container[i] # Swap
+          swapped = true
+        end
+      end
+      break if !swapped && gap == 1
+    end
+    container
+  end
+  
   # Selection sort: A naive sort that goes through the container and selects the smallest element,
   # putting it at the beginning. Repeat until the end is reached.
   # Requirements: Needs to be able to compare elements with <=>, and the [] []= methods should
@@ -115,12 +143,13 @@ module Algorithms::Sort
   # 
   #   Algorithms::Sort.quicksort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
   def self.quicksort(container)
-    return container if container.size <= 1
-    pivot = container.pop
-    left, right = container.partition { |n| n < pivot }
-    self.quicksort(left) + [pivot] + self.quicksort(right)
+    return [] if container.empty?
+    
+    x, *xs = container
+
+    quicksort(xs.select { |i| i <  x }) + [x] + quicksort(xs.select { |i| i >= x })
   end
-  
+
   # Mergesort: A stable divide-and-conquer sort that sorts small chunks of the container and then merges them together.
   # Returns an array of the sorted elements.
   # Requirements: Container should implement []
