@@ -23,7 +23,7 @@ class Containers::SuffixArray
     raise ArgumentError, "SuffixArray needs to be initialized with a non-empty string" if string.empty?
     @original_string = string
     @suffixes = []
-    string.size.times.each do |i|
+    string.length.times do |i|
       @suffixes << string[i..-1]
     end
 
