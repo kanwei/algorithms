@@ -1,7 +1,9 @@
 $: << File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
 require 'algorithms'
 
-describe Algorithms::Search do
+class String; include Algorithms::Search; end
+
+describe "search algorithms" do
   it "should binary search sorted arrays" do
     n = 1000
     @rand_array = Array.new(n) { rand(n) }.sort
@@ -21,7 +23,6 @@ describe Algorithms::Search do
   end
   
   it "should let you include Search in String to enable instance methods" do
-    class String; include Algorithms::Search; end
     "ABC ABCDAB ABCDABCDABDE".kmp_search("ABCDABD").should eql(15)
   end
 end
