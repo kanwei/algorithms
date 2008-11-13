@@ -220,6 +220,7 @@ class Containers::Heap
       raise "Couldn't delete node from stored nodes hash" 
     end
     @size -= 1
+    
     popped.value
   end
   alias_method :next!, :pop
@@ -282,19 +283,6 @@ class Containers::Heap
   #     minheap.size #=> 1
   def delete(key)
     pop if change_key(key, nil, true)
-  end
-  
-  # call-seq:
-  #     each { |key, value| } -> nil
-  #
-  # Iterates over the heap, NOT IN ORDER, yielding the key and value pair.
-  def each
-    return if self.empty?
-    @stored.each do |key, ary|
-      ary.each do |node|
-        yield node.key, node.value
-      end
-    end
   end
   
   # Node class used internally
