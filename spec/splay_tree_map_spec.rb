@@ -85,18 +85,18 @@ end
 #   end
 # end
 
-describe Containers::SplayTreeMap do
-  describe "empty" do
+# describe Containers::SplayTreeMap do
+  describe "empty splaytreemap" do
     before(:each) do
       @tree = Containers::SplayTreeMap.new
     end
     it_should_behave_like "(empty splay)"
   end
   
-  describe "full" do
+  describe "full splaytreemap" do
     before(:each) do
       @tree = Containers::SplayTreeMap.new
     end
     it_should_behave_like "(non-empty splay)"
   end
-end
+# end
