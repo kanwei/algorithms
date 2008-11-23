@@ -74,7 +74,6 @@ static Node *treeMaximum (Node *root) {
   return x;
 }
 
-// I do not fully understand this method.
 static Node *nodeSuccessor (Node *root,Node *x) {
   if (x->right) return treeMinimum(x->right);
   Node *y = x->parent;
