@@ -180,12 +180,12 @@ static VALUE mContainers;
 void Init_cbst() {
   id_compare_operator = rb_intern("<=>");
   mContainers = rb_define_module("Containers");
-  VALUE packet_bst_class = rb_define_class_under(mContainers,"CBst",rb_cObject);
-  rb_define_alloc_func(packet_bst_class,bst_alloc);
-  rb_define_method(packet_bst_class,"initialize",bst_initialize,0);
-  rb_define_method(packet_bst_class,"insert",rb_bst_insert_value,2);
-  rb_define_method(packet_bst_class,"each", rb_bst_each,0);
-  rb_define_method(packet_bst_class,"delete",rb_bst_delete,1);
+  VALUE cbst_class = rb_define_class_under(mContainers,"CBst",rb_cObject);
+  rb_define_alloc_func(cbst_class,bst_alloc);
+  rb_define_method(cbst_class,"initialize",bst_initialize,0);
+  rb_define_method(cbst_class,"insert",rb_bst_insert_value,2);
+  rb_define_method(cbst_class,"each", rb_bst_each,0);
+  rb_define_method(cbst_class,"delete",rb_bst_delete,1);
 }
 
 

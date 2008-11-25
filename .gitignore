@@ -1,6 +1,7 @@
 *.rbc
 *.bundle
 *.o
+*.so
 Makefile
 .DS_Store
 *.gemspec
