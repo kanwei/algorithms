@@ -204,4 +204,10 @@ void Init_cbst() {
   rb_define_method(cbst_class,"size",rb_bst_size,0);
 }
 
-
+/*
+  Local Variables:
+  mode:c
+  indent-tabs-mode:nil
+  c-basic-offset:4
+  End:
+*/
