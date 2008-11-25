@@ -10,50 +10,58 @@
 #define RSTRING_LEN(s) (RSTRING(s)->len)
 #endif
 
-typedef struct Node {
-  int key;
+typedef struct struct_bst_node {
+  VALUE key;
   VALUE data;
-  struct Node *left;
-  struct Node *right;
-  struct Node *parent;
-} Node;
+  struct struct_bst_node *left;
+  struct struct_bst_node *right;
+  struct struct_bst_node *parent;
+} bst_node;
 
 
 typedef struct cBst {
-  Node *head;
+  bst_node *head;
 } cBst;
 
 static VALUE bst_initialize(VALUE self) {
   return self;
 }
 
-static void inOrderDisplay (Node *root) {
+static void in_order_display (bst_node *root) {
   if (root) {
-    inOrderDisplay(root->left);
-    rb_yield(rb_assoc_new(INT2FIX(root->key),root->data));
-    inOrderDisplay(root->right);
+    in_order_display(root->left);
+    rb_yield(rb_assoc_new(root->key,root->data));
+    in_order_display(root->right);
   }
 }
 
-static void insertElement(Node **root,Node *newElement) {
-  Node *y = NULL;
-  Node *x = *root;
+static int id_compare_operator;
+
+static int rb_key_compare(VALUE a, VALUE b) {
+  return FIX2INT(rb_funcall((VALUE) a, id_compare_operator, 1, (VALUE) b));
+}
+
+static void insert_element(bst_node **root,bst_node *newElement) {
+  bst_node *y = NULL;
+  bst_node *x = *root;
   while (x != NULL) {
     y = x;
-    if (newElement->key < x->key) x = x->left;
+    //if (newElement->key < x->key) x = x->left;
+    if (rb_key_compare(newElement->key,x->key) < 0) x = x->left;
     else x = x->right;
   }
   newElement->parent = y;
   if (y == NULL) *root = newElement;
-  else if (newElement->key < y->key) y->left = newElement;
+  //else if (newElement->key < y->key) y->left = newElement;
+  else if (rb_key_compare(newElement->key,y->key) < 0) y->left = newElement;
   else y->right = newElement;
 }
 
-static Node *createElement(VALUE key_data,VALUE data) {
-  int key = FIX2INT(key_data);
-  Node *arbit = malloc(sizeof(Node));
+
+static bst_node *create_element(VALUE key_data,VALUE data) {
+  bst_node *arbit = malloc(sizeof(bst_node));
   arbit->data = data;
-  arbit->key = key;
+  arbit->key = key_data;
   arbit->left = NULL;
   arbit->right = NULL;
   arbit->parent = NULL;
@@ -61,22 +69,22 @@ static Node *createElement(VALUE key_data,VALUE data) {
 }
 
 
-static Node *treeMinimum (Node *root) {
-  Node *x = root;
+static bst_node *tree_minimum (bst_node *root) {
+  bst_node *x = root;
   while (x->left) x = x->left;
   return x;
 }
 
 
-static Node *treeMaximum (Node *root) {
-  Node *x = root;
+static bst_node *tree_maximum (bst_node *root) {
+  bst_node *x = root;
   while (x->right) x = x->right;
   return x;
 }
 
-static Node *nodeSuccessor (Node *root,Node *x) {
-  if (x->right) return treeMinimum(x->right);
-  Node *y = x->parent;
+static bst_node *node_successor (bst_node *root,bst_node *x) {
+  if (x->right) return tree_minimum(x->right);
+  bst_node *y = x->parent;
   while (y && x == y->right) {
     x = y;
     y = x->parent;
@@ -85,11 +93,11 @@ static Node *nodeSuccessor (Node *root,Node *x) {
 }
 
 
-Node *deleteNode (Node **root,Node *tobeDeleted) {
-  Node *y,*x;
+bst_node *delete_node (bst_node **root,bst_node *tobeDeleted) {
+  bst_node *y,*x;
   
   if ((tobeDeleted->left == NULL) || (tobeDeleted->right == NULL)) y = tobeDeleted;
-  else y = nodeSuccessor(*root,tobeDeleted);
+  else y = node_successor(*root,tobeDeleted);
   
   if (y->left) x = y->left;
   else x = y->right;
@@ -109,26 +117,28 @@ Node *deleteNode (Node **root,Node *tobeDeleted) {
   return y;
 }
 
-Node *searchNode (Node *root,int key) {
-  Node *x = root;
+bst_node *search_node (bst_node *root,VALUE key) {
+  bst_node *x = root;
   while (x) {
-    if (x->key == key) return x;
-    else if (key < x->key) x = x->left;
+    //if (x->key == key) return x;
+    if (rb_key_compare(x->key,key) == 0) return x;
+    //else if (key < x->key) x = x->left;
+    else if (rb_key_compare(key,x->key) < 0) x = x->left;
     else x = x->right;
   }
 }
 
-void deleteNodesRecur(Node *root) {
+void delete_nodes_recur(bst_node *root) {
   if(root) {
-    deleteNodesRecur(root->left);
+    delete_nodes_recur(root->left);
     if(root) free(root);
-    deleteNodesRecur(root->right);
+    delete_nodes_recur(root->right);
   }
 }
 
 static void bst_free_node(void *p) {
   cBst *headNode = (cBst *)p;
-  deleteNodesRecur(headNode->head);
+  delete_nodes_recur(headNode->head);
 }
 
 static VALUE bst_alloc(VALUE klass) {
@@ -143,7 +153,7 @@ static VALUE bst_alloc(VALUE klass) {
 static VALUE rb_bst_insert_value(VALUE self,VALUE key,VALUE data) {
   cBst *headNode;
   Data_Get_Struct(self,cBst,headNode);
-  insertElement(&(headNode->head),createElement(key,data));
+  insert_element(&(headNode->head),create_element(key,data));
   return self;
 }
 
@@ -152,22 +162,23 @@ static VALUE rb_bst_each(VALUE self)
 {
   cBst *headNode;
   Data_Get_Struct(self,cBst,headNode);
-  inOrderDisplay(headNode->head);
+  in_order_display(headNode->head);
   return Qnil;
 }
 
 static VALUE rb_bst_delete(VALUE self,VALUE keyVal) {
-  int key = FIX2INT(keyVal);
+  //int key = FIX2INT(keyVal);
   cBst *headNode;
   Data_Get_Struct(self,cBst,headNode);
-  Node *tobeDeleted = searchNode(headNode->head,key);
-  Node *deletedNode = deleteNode(&(headNode->head),tobeDeleted);
+  bst_node *tobeDeleted = search_node(headNode->head,keyVal);
+  bst_node *deletedNode = delete_node(&(headNode->head),tobeDeleted);
   return deletedNode->data;
 }
 
 static VALUE mContainers;
 
-void Init_CBst() {
+void Init_cbst() {
+  id_compare_operator = rb_intern("<=>");
   mContainers = rb_define_module("Containers");
   VALUE packet_bst_class = rb_define_class_under(mContainers,"CBst",rb_cObject);
   rb_define_alloc_func(packet_bst_class,bst_alloc);
