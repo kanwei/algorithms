@@ -1,24 +1,24 @@
 =begin rdoc
   The 'Algorithms and Containers' library is an effort to provide a set of commonly used
   algorithms and containers to Ruby programmers.
-  
+
   This is a Google Summer of Code 2008 project
 
   Written by Kanwei Li, mentored by Austin Ziegler
 
   To avoid typing Containers::xxx to initialize containers, include the Containers module.
-    
+
     require 'algorithms'
     include Containers
-    
+
     tree = RBTreeMap.new
-  
+
   instead of:
-  
+
     require 'algorithms'
-    
+
     tree = Containers::RBTreeMap.new
-  
+
   Done so far:
   * Heaps           - Containers::Heap, Containers::MaxHeap, Containers::MinHeap
   * Priority Queue  - Containers::PriorityQueue
@@ -44,6 +44,7 @@
     - Mergesort             - Algorithms::Sort.mergesort
 =end
 
+dir = File.dirname(__FILE__)
 module Algorithms; end
 module Containers; end
 
@@ -58,3 +59,8 @@ require 'containers/rb_tree_map'
 require 'containers/splay_tree_map'
 require 'containers/suffix_array'
 require 'containers/trie'
+
+module Containers
+  autoload :CBst, File.join(dir,"..","ext","containers","bst","cbst.so")
+end
+
