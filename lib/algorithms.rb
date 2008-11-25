@@ -44,7 +44,6 @@
     - Mergesort             - Algorithms::Sort.mergesort
 =end
 
-dir = File.dirname(__FILE__)
 module Algorithms; end
 module Containers; end
 
@@ -61,6 +60,9 @@ require 'containers/suffix_array'
 require 'containers/trie'
 
 module Containers
-  autoload :CBst, File.join(dir,"..","ext","containers","bst","cbst.so")
+  dir = File.dirname(__FILE__)
+  autoload :CBst, File.join(dir,"..","ext","containers","bst","cbst")
 end
+
+
 
