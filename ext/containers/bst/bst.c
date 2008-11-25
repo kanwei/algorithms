@@ -19,9 +19,10 @@ typedef struct struct_bst_node {
 } bst_node;
 
 
-typedef struct cBst {
-  bst_node *head;
-} cBst;
+typedef struct struct_bst_head {
+  bst_node *head; 
+  unsigned int size; 
+} bst_head;
 
 static VALUE bst_initialize(VALUE self) {
   return self;
@@ -126,6 +127,7 @@ bst_node *search_node (bst_node *root,VALUE key) {
     else if (rb_key_compare(key,x->key) < 0) x = x->left;
     else x = x->right;
   }
+  return NULL;
 }
 
 void delete_nodes_recur(bst_node *root) {
@@ -137,42 +139,55 @@ void delete_nodes_recur(bst_node *root) {
 }
 
 static void bst_free_node(void *p) {
-  cBst *headNode = (cBst *)p;
+  bst_head *headNode = (bst_head *)p;
   delete_nodes_recur(headNode->head);
 }
 
 static VALUE bst_alloc(VALUE klass) {
-  cBst *headNode = ALLOC(cBst);
+  bst_head *headNode = ALLOC(bst_head);
   headNode->head = NULL;
+  headNode->size = 0;
   VALUE obj;
   obj = Data_Wrap_Struct(klass,NULL,bst_free_node,headNode);
   return obj;
 }
 
-
 static VALUE rb_bst_insert_value(VALUE self,VALUE key,VALUE data) {
-  cBst *headNode;
-  Data_Get_Struct(self,cBst,headNode);
+  bst_head *headNode;
+  Data_Get_Struct(self,bst_head,headNode);
   insert_element(&(headNode->head),create_element(key,data));
+  headNode->size++;
   return self;
 }
 
 /* data structure builds up a stack for traversal, delete can be harmful */
 static VALUE rb_bst_each(VALUE self)
 {
-  cBst *headNode;
-  Data_Get_Struct(self,cBst,headNode);
+  bst_head *headNode;
+  Data_Get_Struct(self,bst_head,headNode);
   in_order_display(headNode->head);
   return Qnil;
 }
 
 static VALUE rb_bst_delete(VALUE self,VALUE keyVal) {
   //int key = FIX2INT(keyVal);
-  cBst *headNode;
-  Data_Get_Struct(self,cBst,headNode);
+  bst_head *headNode;
+  Data_Get_Struct(self,bst_head,headNode);
   bst_node *tobeDeleted = search_node(headNode->head,keyVal);
-  bst_node *deletedNode = delete_node(&(headNode->head),tobeDeleted);
-  return deletedNode->data;
+  if(tobeDeleted) { 
+    headNode->size = headNode->size - 1;
+    bst_node *deletedNode = delete_node(&(headNode->head),tobeDeleted);
+    return deletedNode->data;
+  } else { 
+    rb_raise(rb_eArgError, "Key was not found");
+    return Qnil;
+  }
+}
+
+static VALUE rb_bst_size(VALUE self) { 
+  bst_head *headNode;
+  Data_Get_Struct(self,bst_head,headNode);
+  return INT2FIX(headNode->size);
 }
 
 static VALUE mContainers;
@@ -186,6 +201,7 @@ void Init_cbst() {
   rb_define_method(cbst_class,"insert",rb_bst_insert_value,2);
   rb_define_method(cbst_class,"each", rb_bst_each,0);
   rb_define_method(cbst_class,"delete",rb_bst_delete,1);
+  rb_define_method(cbst_class,"size",rb_bst_size,0);
 }
 
 
