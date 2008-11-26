@@ -63,6 +63,3 @@ module Containers
   dir = File.dirname(__FILE__)
   autoload :CBst, File.join(dir,"..","ext","containers","bst","cbst")
 end
-
-
-
