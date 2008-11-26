@@ -22,8 +22,9 @@ task :push do
   sh "git push gh" # Github
 end
 
-task :doc do
+task :hanna do
   sh "rm -fr doc"
   sh "hanna -SN lib/ -m Algorithms"
+  sh "scp -rq doc/* kanwei@rubyforge.org:/var/www/gforge-projects/algorithms"
 end
 

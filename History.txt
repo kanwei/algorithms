@@ -1,3 +1,7 @@
+=== November 25, 2008
+
+  * Checked in gnufied's C BST
+  
 === November 13, 2008
 
   * Removed #each for Hash and Priority Queue (Feature)
