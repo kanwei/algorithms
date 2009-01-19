@@ -1,3 +1,7 @@
+=== January 19, 2009
+
+  * kd-tree for points in multi-dimensional space
+
 === November 25, 2008
 
   * Checked in gnufied's C BST
