@@ -75,7 +75,7 @@ class Containers::KDTree
   
     # See if we have to check other side
     if further
-      if @nearest.size < 4 || (target[axis] - node.coords[axis])**2 < @nearest.last[0]
+      if @nearest.size < k_nearest || (target[axis] - node.coords[axis])**2 < @nearest.last[0]
         nearest(further, target, k_nearest, depth+1)
       end
     end
