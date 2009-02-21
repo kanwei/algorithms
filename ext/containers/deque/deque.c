@@ -198,10 +198,9 @@ static VALUE deque_init(int argc, VALUE *argv, VALUE self)
 	else {
 		ary = rb_check_array_type(argv[0]);
 		if(!NIL_P(ary)) {
-			deque *deque = get_deque_from_self(self);
-			len = RARRAY(ary)->len;
+			len = RARRAY_LEN(ary);
 			for (i = 0; i < len; i++) {
-				deque_push_back(self, RARRAY(ary)->ptr[i]);
+				deque_push_back(self, RARRAY_PTR(ary)[i]);
 			}
 		}
 	}

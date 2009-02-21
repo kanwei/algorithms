@@ -104,5 +104,5 @@ begin
     end
     it_should_behave_like "(non-empty deque)"
   end
-rescue NameError
+rescue Exception
 end

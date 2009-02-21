@@ -34,8 +34,7 @@ end
 describe "non-empty rbtree", :shared => true do
   before(:each) do
     @num_items = 1000
-    @random_array = []
-    @num_items.times { @random_array << rand(@num_items) }
+    @random_array = Array.new(@num_items) { rand(@num_items) }
     @random_array.each { |x| @tree[x] = x }
   end
 
@@ -120,5 +119,5 @@ begin
     end
     it_should_behave_like "non-empty rbtree"
   end
-rescue NameError
+rescue Exception
 end
