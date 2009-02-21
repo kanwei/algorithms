@@ -45,7 +45,12 @@
 =end
 
 module Algorithms; end
-module Containers; end
+module Containers
+  dir = File.dirname(__FILE__)
+  autoload :CBst, File.join(dir,"..","ext","containers","bst","CBst")
+  autoload :CDeque, File.join(dir,"..","ext","containers","deque","CDeque")
+  autoload :CRBTreeMap, File.join(dir,"..","ext","containers","tree_map","CRBTreeMap")
+end
 
 require 'algorithms/search'
 require 'algorithms/sort'
@@ -58,8 +63,4 @@ require 'containers/rb_tree_map'
 require 'containers/splay_tree_map'
 require 'containers/suffix_array'
 require 'containers/trie'
-
-module Containers
-  dir = File.dirname(__FILE__)
-  autoload :CBst, File.join(dir,"..","ext","containers","bst","cbst")
-end
+require 'containers/kd_tree'
