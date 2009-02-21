@@ -192,7 +192,7 @@ static VALUE rb_bst_size(VALUE self) {
 
 static VALUE mContainers;
 
-void Init_cbst() {
+void Init_CBst() {
   id_compare_operator = rb_intern("<=>");
   mContainers = rb_define_module("Containers");
   VALUE cbst_class = rb_define_class_under(mContainers,"CBst",rb_cObject);
@@ -203,11 +203,3 @@ void Init_cbst() {
   rb_define_method(cbst_class,"delete",rb_bst_delete,1);
   rb_define_method(cbst_class,"size",rb_bst_size,0);
 }
-
-/*
-  Local Variables:
-  mode:c
-  indent-tabs-mode:nil
-  c-basic-offset:4
-  End:
-*/
