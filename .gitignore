@@ -4,7 +4,6 @@
 *.so
 Makefile
 .DS_Store
-*.gemspec
 doc
 pkg
 *#
