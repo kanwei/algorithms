@@ -293,14 +293,33 @@ static VALUE rbtree_init(VALUE self)
 	return self;
 }
 
-static void rbtree_free(rbtree *tree) {
-	recursively_free_nodes(tree->root);
-	free(tree);
+static void recursively_mark_nodes(rbtree_node *node) {
+	if(node) {
+		rb_gc_mark(node->key);
+		rb_gc_mark(node->value);
+		recursively_mark_nodes(node->left);
+		recursively_mark_nodes(node->right);
+	}
+}
+
+static void rbtree_mark(void *ptr) {
+	if (ptr) {
+		rbtree *tree = ptr;
+		recursively_mark_nodes(tree->root);
+	}
+}
+
+static void rbtree_free(void *ptr) {
+	if (ptr) {
+		rbtree *tree = ptr;
+		recursively_free_nodes(tree->root);
+		free(tree);
+	}
 }
 
 static VALUE rbtree_alloc(VALUE klass) {
 	rbtree *tree = create_rbtree(&rbtree_compare_function);
-	return Data_Wrap_Struct(klass, NULL, rbtree_free, tree);
+	return Data_Wrap_Struct(klass, rbtree_mark, rbtree_free, tree);
 }
 
 static VALUE rbtree_push(VALUE self, VALUE key, VALUE value) {
