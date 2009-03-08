@@ -56,14 +56,28 @@ static deque_node* create_node(VALUE obj) {
 	return node;
 }
 
-static void deque_free(deque *deque) {
-	free_nodes(deque->front);
-	free(deque);
+static void deque_mark(void *ptr) {
+  if (ptr) {
+		deque *deque = ptr;
+		deque_node *node = deque->front;
+		while(node) {
+			rb_gc_mark(node->obj);
+			node = node->right;
+		}
+	}
+}
+
+static void deque_free(void *ptr) {
+	if (ptr) {
+		deque *deque = ptr;
+		free_nodes(deque->front);
+		free(deque);
+	}
 }
 
 static VALUE deque_alloc(VALUE klass) {
 	deque *deque = create_deque();
-	return Data_Wrap_Struct(klass, NULL, deque_free, deque);
+	return Data_Wrap_Struct(klass, deque_mark, deque_free, deque);
 }
 
 static VALUE deque_push_front(VALUE self, VALUE obj) {
