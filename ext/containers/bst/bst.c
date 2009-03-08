@@ -130,17 +130,35 @@ bst_node *search_node (bst_node *root,VALUE key) {
   return NULL;
 }
 
-void delete_nodes_recur(bst_node *root) {
+static void mark_nodes_recur(bst_node *root) {
   if(root) {
-    delete_nodes_recur(root->left);
-    if(root) free(root);
-    delete_nodes_recur(root->right);
+    rb_gc_mark(root->key);
+    rb_gc_mark(root->data);
+    mark_nodes_recur(root->left);
+    mark_nodes_recur(root->right);
   }
 }
 
-static void bst_free_node(void *p) {
-  bst_head *headNode = (bst_head *)p;
-  delete_nodes_recur(headNode->head);
+static void bst_mark_node(void *ptr) {
+  if (ptr) {
+    bst_head *headNode = ptr;
+    mark_nodes_recur(headNode->head);
+  }
+}
+
+void delete_nodes_recur(bst_node *root) {
+  if(root) {
+    delete_nodes_recur(root->left);
+    delete_nodes_recur(root->right);
+    free(root);
+  }
+}
+
+static void bst_free_node(void *ptr) {
+  if (ptr) {
+    bst_head *headNode = ptr;
+    delete_nodes_recur(headNode->head);
+  }
 }
 
 static VALUE bst_alloc(VALUE klass) {
@@ -148,7 +166,7 @@ static VALUE bst_alloc(VALUE klass) {
   headNode->head = NULL;
   headNode->size = 0;
   VALUE obj;
-  obj = Data_Wrap_Struct(klass,NULL,bst_free_node,headNode);
+  obj = Data_Wrap_Struct(klass,bst_mark_node,bst_free_node,headNode);
   return obj;
 }
 
