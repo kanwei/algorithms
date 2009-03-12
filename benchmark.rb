@@ -8,7 +8,7 @@ include Benchmark
 # Benchmark heap
 @random_array = []
 @num_items = 10000
-@num_items.times { |x| @random_array << rand(@num_items) }
+@num_items.times { |x| @random_array << rand(@num_items).to_s }
 # @heap = Containers::MaxHeap.new(@random_array)
 # 
 # benchmark do |bench|
@@ -29,15 +29,15 @@ benchmark do |bench|
 end
 
 # Benchmark Search trees
-@rb_tree = Containers::RubyRBTreeMap.new
+@rb_tree = Containers::RBTreeMap.new
 @splay_tree = Containers::SplayTreeMap.new
 @hash = Hash.new
 
 benchmark do |bench|
   puts "\nInsertion"
-  bench.report("RBTree: \t")    { @random_array.each  { |x| @rb_tree[x] = x } }
-  bench.report("SplayTree: \t") { @random_array.each  { |x| @splay_tree[x] = x } }
-  bench.report("Hash: \t\t")    { @hash.each          { |x| @hash[x] = x } }
+  bench.report("RBTree: \t")    { @random_array.each_with_index  { |x,index| @rb_tree[index] = x } }
+  bench.report("SplayTree: \t") { @random_array.each_with_index  { |x,index| @splay_tree[index] = x } }
+  bench.report("Hash: \t\t")    { @random_array.each_with_index  { |x,index| @hash[index] = x } }
   
   puts "\nTest has_key?" 
   bench.report("RBTree: \t")    { @num_items.times { |n| @rb_tree.has_key?(n) } }
