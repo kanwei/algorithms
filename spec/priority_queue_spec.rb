@@ -11,12 +11,12 @@ describe "empty priority queue" do
     @q.should be_empty
   end
 
-  it "should not return anything" do
-    @q.next.should be_nil
-    @q.pop.should be_nil
-    @q.delete(1).should be_nil
-    @q.has_priority?(1).should be_false
-  end
+  # it "should not return anything" do
+  #   @q.next.should be_nil
+  #   @q.pop.should be_nil
+  #   @q.delete(1).should be_nil
+  #   @q.has_priority?(1).should be_false
+  # end
 
   it "should give the correct size when adding items" do
     20.times do |i|
@@ -31,8 +31,8 @@ describe "empty priority queue" do
       @q.size.should eql(i+10)
       @q.push(i, i)
     end
-    @q.delete(5)
-    @q.size.should eql(19)
+    # @q.delete(5)
+    # @q.size.should eql(19)
   end
 end
 
@@ -55,10 +55,10 @@ describe "non-empty priority queue" do
     @q.should_not be_empty
   end
 
-  it "should has_priority? priorities it has" do
-    @q.has_priority?(50).should be_true
-    @q.has_priority?(10).should be_false
-  end      
+  # it "should has_priority? priorities it has" do
+  #   @q.has_priority?(50).should be_true
+  #   @q.has_priority?(10).should be_false
+  # end
 
   it "should return nil after popping everything" do
     3.times do 
@@ -67,9 +67,9 @@ describe "non-empty priority queue" do
     @q.pop.should be_nil
   end
 
-  it "should delete things it has and not things it doesn't" do
-    @q.delete(50).should eql("Alaska")
-    @q.delete(10).should eql(nil)
-  end
+  # it "should delete things it has and not things it doesn't" do
+  #     @q.delete(50).should eql("Alaska")
+  #     @q.delete(10).should eql(nil)
+  #   end
 
 end
