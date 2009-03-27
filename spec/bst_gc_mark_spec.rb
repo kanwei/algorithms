@@ -15,8 +15,11 @@ if defined? Containers::CBst
       # Mark and sweep
       ObjectSpace.garbage_collect
       # Check if any instances were swept
-      ObjectSpace.each_object(anon_key_class).count.should eql(100)
-      ObjectSpace.each_object(anon_val_class).count.should eql(100)
+      count = 0
+      ObjectSpace.each_object(anon_key_class) { |x| count += 1 }
+      count.should eql(100)
+      ObjectSpace.each_object(anon_val_class) { |x| count += 1 }
+      count.should eql(200)
     end
   end
 end
