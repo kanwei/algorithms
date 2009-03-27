@@ -39,6 +39,17 @@ static void in_order_display (bst_node *root) {
 static int id_compare_operator;
 
 static int rb_key_compare(VALUE a, VALUE b) {
+  if (a == b) return 0;
+  if (FIXNUM_P(a) && FIXNUM_P(b)) {
+    long x = FIX2LONG(a), y = FIX2LONG(b);
+    if (x == y) return 0;
+    if (x > y) return 1;
+    return -1;
+  }
+  if (TYPE(a) == T_STRING && RBASIC(a)->klass == rb_cString &&
+      TYPE(b) == T_STRING && RBASIC(b)->klass == rb_cString) {
+    return rb_str_cmp(a, b);
+  }
   return FIX2INT(rb_funcall((VALUE) a, id_compare_operator, 1, (VALUE) b));
 }
 
