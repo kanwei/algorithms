@@ -39,7 +39,6 @@ class Containers::Heap
     @compare_fn = block || lambda { |x, y| (x <=> y) == -1 }
     @next = nil
     @size = 0
-    @stored = {}
     
     ary.each { |n| push(n) } unless ary.empty?
   end
@@ -74,33 +73,9 @@ class Containers::Heap
       @next = node
     end
     @size += 1
-    
-    arr = []
-    w = @next.right
-    until w == @next do
-      arr << w.value
-      w = w.right
-    end
-    arr << @next.value
-    @stored[key] ||= []
-    @stored[key] << node
     value
   end
   alias_method :<<, :push
-  
-  # call-seq:
-  #     has_key?(key) -> true or false
-  #
-  # Returns true if heap contains the key.
-  #
-  # Complexity: O(1)
-  #
-  #     minheap = MinHeap.new([1, 2])
-  #     minheap.has_key?(2) #=> true
-  #     minheap.has_key?(4) #=> false
-  def has_key?(key)
-    @stored[key] && !@stored[key].empty? ? true : false
-  end
   
   # call-seq:
   #     next -> value
@@ -127,7 +102,6 @@ class Containers::Heap
   def clear
     @next = nil
     @size = 0
-    @stored = {}
     nil
   end
   
@@ -151,22 +125,22 @@ class Containers::Heap
   #     heap.merge!(otherheap)
   #     heap.size #=> 8
   #     heap.pop #=> 1
-  def merge!(otherheap)
-    raise ArgumentError, "Trying to merge a heap with something not a heap" unless otherheap.kind_of? Containers::Heap
-    other_root = otherheap.instance_variable_get("@next")
-    if other_root
-      @stored = @stored.merge(otherheap.instance_variable_get("@stored")) { |key, a, b| (a << b).flatten }
-      # Insert othernode's @next node to the left of current @next
-      @next.left.right = other_root
-      ol = other_root.left
-      other_root.left = @next.left
-      ol.right = @next
-      @next.left = ol
-      
-      @next = other_root if @compare_fn[other_root.key, @next.key]
-    end
-    @size += otherheap.size
-  end
+  # def merge!(otherheap)
+  #   raise ArgumentError, "Trying to merge a heap with something not a heap" unless otherheap.kind_of? Containers::Heap
+  #   other_root = otherheap.instance_variable_get("@next")
+  #   if other_root
+  #     @stored = @stored.merge(otherheap.instance_variable_get("@stored")) { |key, a, b| (a << b).flatten }
+  #     # Insert othernode's @next node to the left of current @next
+  #     @next.left.right = other_root
+  #     ol = other_root.left
+  #     other_root.left = @next.left
+  #     ol.right = @next
+  #     @next.left = ol
+  #     
+  #     @next = other_root if @compare_fn[other_root.key, @next.key]
+  #   end
+  #   @size += otherheap.size
+  # end
   
   # call-seq:
   #     pop -> value
@@ -215,10 +189,6 @@ class Containers::Heap
       @next = @next.right
     end
     consolidate
-    
-    unless @stored[popped.key].delete(popped)
-      raise "Couldn't delete node from stored nodes hash" 
-    end
     @size -= 1
     
     popped.value
@@ -243,31 +213,29 @@ class Containers::Heap
   #     minheap.change_key(2, 0) #=> [0, 2]
   #     minheap.pop #=> 2
   #     minheap.pop #=> 1
-  def change_key(key, new_key, delete=false)
-    return if @stored[key].nil? || @stored[key].empty? || (key == new_key)
-    
-    # Must maintain heap property
-    raise "Changing this key would not maintain heap property!" unless (delete || @compare_fn[new_key, key])
-    node = @stored[key].shift
-    if node
-      node.key = new_key
-      @stored[new_key] ||= []
-      @stored[new_key] << node
-      parent = node.parent
-      if parent
-        # if heap property is violated
-        if delete || @compare_fn[new_key, parent.key]
-          cut(node, parent)
-          cascading_cut(parent)
-        end
-      end
-      if delete || @compare_fn[node.key, @next.key]
-        @next = node
-      end
-      return [node.key, node.value]
-    end
-    nil
-  end
+  # def change_key(key, new_key, delete=false)
+  #   return if @stored[key].nil? || @stored[key].empty? || (key == new_key)
+  #   
+  #   # Must maintain heap property
+  #   raise "Changing this key would not maintain heap property!" unless (delete || @compare_fn[new_key, key])
+  #   node = @stored[key].shift
+  #   if node
+  #     node.key = new_key
+  #     parent = node.parent
+  #     if parent
+  #       # if heap property is violated
+  #       if delete || @compare_fn[new_key, parent.key]
+  #         cut(node, parent)
+  #         cascading_cut(parent)
+  #       end
+  #     end
+  #     if delete || @compare_fn[node.key, @next.key]
+  #       @next = node
+  #     end
+  #     return [node.key, node.value]
+  #   end
+  #   nil
+  # end
   
   # call-seq:
   #     delete(key) -> value
