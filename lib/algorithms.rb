@@ -45,11 +45,12 @@
 =end
 
 module Algorithms; end
-module Containers
-  dir = File.dirname(__FILE__)
-  autoload :CBst, File.join(dir,"..","ext","containers","bst","CBst")
-  autoload :CDeque, File.join(dir,"..","ext","containers","deque","CDeque")
-  autoload :CRBTreeMap, File.join(dir,"..","ext","containers","tree_map","CRBTreeMap")
+module Containers; end
+
+begin
+  require 'CBst'
+  Containers::Bst = Containers::CBst
+rescue LoadError # C Version could not be found
 end
 
 require 'algorithms/search'
