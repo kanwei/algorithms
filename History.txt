@@ -2,6 +2,8 @@
 
 	* Implemented SplayTree in C
 	* Made recursively_free_nodes methods static to fix a SEGFAULT
+	* Improved CBst
+	* Moved to Markdown for README
 
 === January 19, 2009
 
