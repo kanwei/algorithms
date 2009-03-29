@@ -154,20 +154,6 @@ static VALUE get(splaytree *tree, VALUE key) {
 	return Qnil;
 }
 
-static VALUE min_key(splaytree_node *node) {
-	if (!node->left)
-		return node->key;
-		
-	return min_key(node->left);
-}
-
-static VALUE max_key(splaytree_node *node) {
-	if (!node->right)
-		return node->key;
-	
-	return max_key(node->right);
-}
-
 static VALUE delete(splaytree *tree, VALUE key) {
 	int cmp;
 	splaytree_node *x, *deleted_root;
@@ -304,18 +290,30 @@ static VALUE splaytree_has_key(VALUE self, VALUE key) {
 
 static VALUE splaytree_min_key(VALUE self) {
 	splaytree *tree = get_tree_from_self(self);
+	splaytree_node *node;
+	
 	if(!tree->root)
 		return Qnil;
 	
-	return min_key(tree->root);
+	node = tree->root;
+	while (node->left)
+		node = node->left;
+	
+	return node->key;
 }
 
 static VALUE splaytree_max_key(VALUE self) {
 	splaytree *tree = get_tree_from_self(self);
+	splaytree_node *node;
+	
 	if(!tree->root)
 		return Qnil;
 	
-	return max_key(tree->root);
+	node = tree->root;
+	while (node->right)
+		node = node->right;
+	
+	return node->key;
 }
 
 static VALUE splaytree_delete(VALUE self, VALUE key) {

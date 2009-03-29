@@ -176,17 +176,17 @@ static VALUE get(rbtree *tree, rbtree_node *node, VALUE key) {
 }
 
 static VALUE min_key(rbtree_node *node) {
-	if (!node->left)
-		return node->key;
+	while (node->left)
+		node = node->left;
 		
-	return min_key(node->left);
+	return node->key;
 }
 
 static VALUE max_key(rbtree_node *node) {
-	if (!node->right)
-		return node->key;
+	while (node->right)
+		node = node->right;
 	
-	return max_key(node->right);
+	return node->key;
 }
 
 static rbtree_node* delete_min(rbtree_node *h, VALUE *deleted_value) {
