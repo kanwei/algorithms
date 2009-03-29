@@ -14,7 +14,7 @@ typedef struct {
 	splaytree_node *header;
 } splaytree;
 
-void recursively_free_nodes(splaytree_node *node) {
+static void recursively_free_nodes(splaytree_node *node) {
 	if(node) {
 		recursively_free_nodes(node->left);
 		recursively_free_nodes(node->right);
@@ -29,7 +29,7 @@ static splaytree* get_tree_from_self(VALUE self) {
 	return tree;
 }
 
-static VALUE splay(splaytree *tree, VALUE key) {
+static void splay(splaytree *tree, VALUE key) {
 	int cmp, cmp2;
 	splaytree_node *l, *r, *t, *y;
 	
@@ -77,7 +77,7 @@ static VALUE splay(splaytree *tree, VALUE key) {
 	r->left = t->right;
 	t->left = tree->header->right;
     t->right = tree->header->left;
-	tree->root = t;	
+	tree->root = t;
 }
 
 static int height(splaytree_node *h) {
