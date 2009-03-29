@@ -60,11 +60,11 @@ Done so far:
 ## REQUIREMENTS:
 
 * Ruby 1.8 compatible Ruby, or Ruby 1.9
-* C compiler for C extensions (optional)
+* C compiler for C extensions (optional, but very much recommended for vast performance benefits)
 
 ## INSTALL:
 
-* sudo gem install
+* sudo gem install algorithms
 
 ## LICENSE:
 
