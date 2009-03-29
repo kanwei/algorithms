@@ -1,7 +1,7 @@
 $: << File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
 require 'algorithms'
   
-describe "(empty splay)", :shared => true do
+describe "empty splaytree", :shared => true do
   it "should let you push stuff in" do
     100.times { |x| @tree[x] = x }
     @tree.size.should eql(100)
@@ -21,7 +21,7 @@ describe "(empty splay)", :shared => true do
   end
 end
 
-describe "(non-empty splay)", :shared => true do
+describe "non-empty splaytree", :shared => true do
   before(:each) do
     @num_items = 100
     @random_array = []
@@ -69,34 +69,34 @@ describe "(non-empty splay)", :shared => true do
   end
 end
 
-# describe Containers::CRBTreeMap do
-#   describe "empty" do
-#     before(:each) do
-#       @tree = Containers::CRBTreeMap.new
-#     end
-#     it_should_behave_like "(empty)"
-#   end
-#   
-#   describe "full" do
-#     before(:each) do
-#       @tree = Containers::CRBTreeMap.new
-#     end
-#     it_should_behave_like "(non-empty)"
-#   end
-# end
+describe "empty splaytreemap" do
+  before(:each) do
+    @tree = Containers::RubySplayTreeMap.new
+  end
+  it_should_behave_like "empty splaytree"
+end
 
-# describe Containers::SplayTreeMap do
-  describe "empty splaytreemap" do
-    before(:each) do
-      @tree = Containers::SplayTreeMap.new
-    end
-    it_should_behave_like "(empty splay)"
+describe "full splaytreemap" do
+  before(:each) do
+    @tree = Containers::RubySplayTreeMap.new
   end
-  
-  describe "full splaytreemap" do
+  it_should_behave_like "non-empty splaytree"
+end
+
+begin
+  Containers::CSplayTreeMap
+  describe "empty csplaytreemap" do
     before(:each) do
-      @tree = Containers::SplayTreeMap.new
+      @tree = Containers::CSplayTreeMap.new
     end
-    it_should_behave_like "(non-empty splay)"
+    it_should_behave_like "empty splaytree"
   end
-# end
+
+  describe "full csplaytreemap" do
+    before(:each) do
+      @tree = Containers::CSplayTreeMap.new
+    end
+    it_should_behave_like "non-empty splaytree"
+  end
+rescue Exception
+end

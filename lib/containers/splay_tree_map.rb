@@ -13,7 +13,7 @@ require 'containers/stack'
     when keys are added in sorted order, causing the tree to have a height of the number of items added.
     
 =end
-class Containers::SplayTreeMap
+class Containers::RubySplayTreeMap
   include Enumerable
   
   # Create and initialize a new empty SplayTreeMap.
@@ -270,5 +270,11 @@ class Containers::SplayTreeMap
     left_height > right_height ? left_height : right_height
   end
   private :height_recursive
+end
 
+begin
+  require 'CSplayTreeMap'
+  Containers::SplayTreeMap = Containers::CSplayTreeMap
+rescue LoadError # C Version could not be found, try ruby version
+  Containers::SplayTreeMap = Containers::RubySplayTreeMap
 end
