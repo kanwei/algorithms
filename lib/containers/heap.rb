@@ -1,4 +1,3 @@
-require 'containers/stack'
 =begin rdoc
     A Heap is a container that satisfies the heap property that nodes are always smaller in
     value than their parent node.
@@ -12,8 +11,6 @@ require 'containers/stack'
 =end
 class Containers::Heap
   include Enumerable
-  
-  Node = Struct.new(:key, :value, :degree, :marked, :parent, :child, :left, :right)
   
   # call-seq:
   #     size -> int
@@ -42,6 +39,7 @@ class Containers::Heap
     @compare_fn = block || lambda { |x, y| (x <=> y) == -1 }
     @next = nil
     @size = 0
+    @stored = {}
     
     ary.each { |n| push(n) } unless ary.empty?
   end
@@ -62,14 +60,12 @@ class Containers::Heap
   #     heap.pop #=> 2
   def push(key, value=key)
     raise ArgumentError, "Heap keys must not be nil." unless key
-    node = Node.new(key, value, 0, false)
-    node.left = node
-    node.right = node
+    node = Node.new(key, value)
     # Add new node to the left of the @next node
     if @next
       node.right = @next
       node.left = @next.left
-      @next.left.right = node
+      node.left.right = node
       @next.left = node
       if @compare_fn[key, @next.key]
         @next = node
@@ -78,9 +74,33 @@ class Containers::Heap
       @next = node
     end
     @size += 1
+    
+    arr = []
+    w = @next.right
+    until w == @next do
+      arr << w.value
+      w = w.right
+    end
+    arr << @next.value
+    @stored[key] ||= []
+    @stored[key] << node
     value
   end
   alias_method :<<, :push
+  
+  # call-seq:
+  #     has_key?(key) -> true or false
+  #
+  # Returns true if heap contains the key.
+  #
+  # Complexity: O(1)
+  #
+  #     minheap = MinHeap.new([1, 2])
+  #     minheap.has_key?(2) #=> true
+  #     minheap.has_key?(4) #=> false
+  def has_key?(key)
+    @stored[key] && !@stored[key].empty? ? true : false
+  end
   
   # call-seq:
   #     next -> value
@@ -107,6 +127,7 @@ class Containers::Heap
   def clear
     @next = nil
     @size = 0
+    @stored = {}
     nil
   end
   
@@ -130,22 +151,22 @@ class Containers::Heap
   #     heap.merge!(otherheap)
   #     heap.size #=> 8
   #     heap.pop #=> 1
-  # def merge!(otherheap)
-  #   raise ArgumentError, "Trying to merge a heap with something not a heap" unless otherheap.kind_of? Containers::Heap
-  #   other_root = otherheap.instance_variable_get("@next")
-  #   if other_root
-  #     @stored = @stored.merge(otherheap.instance_variable_get("@stored")) { |key, a, b| (a << b).flatten }
-  #     # Insert othernode's @next node to the left of current @next
-  #     @next.left.right = other_root
-  #     ol = other_root.left
-  #     other_root.left = @next.left
-  #     ol.right = @next
-  #     @next.left = ol
-  #     
-  #     @next = other_root if @compare_fn[other_root.key, @next.key]
-  #   end
-  #   @size += otherheap.size
-  # end
+  def merge!(otherheap)
+    raise ArgumentError, "Trying to merge a heap with something not a heap" unless otherheap.kind_of? Containers::Heap
+    other_root = otherheap.instance_variable_get("@next")
+    if other_root
+      @stored = @stored.merge(otherheap.instance_variable_get("@stored")) { |key, a, b| (a << b).flatten }
+      # Insert othernode's @next node to the left of current @next
+      @next.left.right = other_root
+      ol = other_root.left
+      other_root.left = @next.left
+      ol.right = @next
+      @next.left = ol
+      
+      @next = other_root if @compare_fn[other_root.key, @next.key]
+    end
+    @size += otherheap.size
+  end
   
   # call-seq:
   #     pop -> value
@@ -194,6 +215,10 @@ class Containers::Heap
       @next = @next.right
     end
     consolidate
+    
+    unless @stored[popped.key].delete(popped)
+      raise "Couldn't delete node from stored nodes hash" 
+    end
     @size -= 1
     
     popped.value
@@ -219,12 +244,6 @@ class Containers::Heap
   #     minheap.pop #=> 2
   #     minheap.pop #=> 1
   def change_key(key, new_key, delete=false)
-    stack = Containers::Stack.new
-    stack.push @next
-    until stack.empty?
-      
-    end
-    
     return if @stored[key].nil? || @stored[key].empty? || (key == new_key)
     
     # Must maintain heap property
@@ -232,6 +251,8 @@ class Containers::Heap
     node = @stored[key].shift
     if node
       node.key = new_key
+      @stored[new_key] ||= []
+      @stored[new_key] << node
       parent = node.parent
       if parent
         # if heap property is violated
@@ -243,7 +264,7 @@ class Containers::Heap
       if delete || @compare_fn[node.key, @next.key]
         @next = node
       end
-      return node.key, node.value
+      return [node.key, node.value]
     end
     nil
   end
@@ -262,6 +283,25 @@ class Containers::Heap
   #     minheap.size #=> 1
   def delete(key)
     pop if change_key(key, nil, true)
+  end
+  
+  # Node class used internally
+  class Node # :nodoc:
+    attr_accessor :parent, :child, :left, :right, :key, :value, :degree, :marked
+
+    def initialize(key, value)
+      @key = key
+      @value = value
+      @degree = 0
+      @marked = false
+      @right = self
+      @left = self
+    end
+    
+    def marked?
+      @marked == true
+    end
+    
   end
   
   # make node a child of a parent node
@@ -328,7 +368,8 @@ class Containers::Heap
   private :consolidate
   
   def cascading_cut(node)
-    if p = node.parent
+    p = node.parent
+    if p
       if node.marked?
         cut(node, p)
         cascading_cut(p)
