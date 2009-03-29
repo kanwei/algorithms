@@ -1,6 +1,7 @@
 === March 28, 2009
 
 	* Implemented SplayTree in C
+	* Made recursively_free_nodes methods static to fix a SEGFAULT
 
 === January 19, 2009
 

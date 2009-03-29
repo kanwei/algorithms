@@ -22,7 +22,7 @@ typedef struct {
 	rbtree_node *root;
 } rbtree;
 
-void recursively_free_nodes(rbtree_node *node) {
+static void recursively_free_nodes(rbtree_node *node) {
 	if(node) {
 		recursively_free_nodes(node->left);
 		recursively_free_nodes(node->right);
@@ -37,7 +37,7 @@ static rbtree* get_tree_from_self(VALUE self) {
 	return tree;
 }
 
-int isred(rbtree_node *node) {
+static int isred(rbtree_node *node) {
 	if(!node) { return FALSE; }
 	
 	if(node->color == RED) { return TRUE; }
