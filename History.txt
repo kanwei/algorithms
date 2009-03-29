@@ -4,6 +4,7 @@
 	* Made recursively_free_nodes methods static to fix a SEGFAULT
 	* Improved CBst
 	* Moved to Markdown for README
+	* 0.2.0 release
 
 === January 19, 2009
 

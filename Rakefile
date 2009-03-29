@@ -6,7 +6,7 @@ Echoe.new('algorithms') do |p|
   p.email                = 'kanwei@gmail.com'
   p.summary              = 'A library of algorithms and containers.'
   p.url                  = 'http://rubyforge.org/projects/algorithms/'
-  p.version              = "0.1.0"
+  p.version              = "0.2.0"
   p.runtime_dependencies = []
 end
 
