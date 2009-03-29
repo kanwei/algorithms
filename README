@@ -5,7 +5,7 @@
 
 == DESCRIPTION:
 
-This is a Google Summer of Code 2008 project
+Started as a Google Summer of Code 2008 project
 
 Written by Kanwei Li, mentored by Austin Ziegler
 
@@ -23,11 +23,11 @@ compare performance in different situations.
 Done so far:
 * Heaps           - Containers::Heap, Containers::MaxHeap, Containers::MinHeap
 * Priority Queue  - Containers::PriorityQueue
-* Stack           - Containers::Stack
-* Queue           - Containers::Queue
 * Deque           - Containers::Deque, Containers::CDeque (C extension), Containers::RubyDeque
+* Stack           - Containers::Stack (uses Deque)
+* Queue           - Containers::Queue (uses Deque)
 * Red-Black Trees - Containers::RBTreeMap, Containers::CRBTreeMap (C extension), Containers::RubyRBTreeMap
-* Splay Trees     - Containers::SplayTreeMap
+* Splay Trees     - Containers::SplayTreeMap, Containers::CSplayTreeMap (C extension), Containers::RubySplayTreeMap
 * Tries           - Containers::Trie
 * Suffix Array    - Containers::SuffixArray
 
@@ -58,7 +58,7 @@ Done so far:
 == REQUIREMENTS:
 
 * Ruby 1.8 compatible Ruby, or Ruby 1.9
-* C compiler for extensions (optional)
+* C compiler for C extensions (optional)
 
 == INSTALL:
 
@@ -68,7 +68,7 @@ Done so far:
 
 (The MIT License)
 
-Algorithms and Containers project is Copyright (c) 2008 Kanwei Li
+Algorithms and Containers project is Copyright (c) 2009 Kanwei Li
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

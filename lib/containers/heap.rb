@@ -64,7 +64,7 @@ class Containers::Heap
     if @next
       node.right = @next
       node.left = @next.left
-      node.left.right = node
+      @next.left.right = node
       @next.left = node
       if @compare_fn[key, @next.key]
         @next = node
@@ -213,29 +213,29 @@ class Containers::Heap
   #     minheap.change_key(2, 0) #=> [0, 2]
   #     minheap.pop #=> 2
   #     minheap.pop #=> 1
-  # def change_key(key, new_key, delete=false)
-  #   return if @stored[key].nil? || @stored[key].empty? || (key == new_key)
-  #   
-  #   # Must maintain heap property
-  #   raise "Changing this key would not maintain heap property!" unless (delete || @compare_fn[new_key, key])
-  #   node = @stored[key].shift
-  #   if node
-  #     node.key = new_key
-  #     parent = node.parent
-  #     if parent
-  #       # if heap property is violated
-  #       if delete || @compare_fn[new_key, parent.key]
-  #         cut(node, parent)
-  #         cascading_cut(parent)
-  #       end
-  #     end
-  #     if delete || @compare_fn[node.key, @next.key]
-  #       @next = node
-  #     end
-  #     return [node.key, node.value]
-  #   end
-  #   nil
-  # end
+  def change_key(key, new_key, delete=false)
+    return if @stored[key].nil? || @stored[key].empty? || (key == new_key)
+    
+    # Must maintain heap property
+    raise "Changing this key would not maintain heap property!" unless (delete || @compare_fn[new_key, key])
+    node = @stored[key].shift
+    if node
+      node.key = new_key
+      parent = node.parent
+      if parent
+        # if heap property is violated
+        if delete || @compare_fn[new_key, parent.key]
+          cut(node, parent)
+          cascading_cut(parent)
+        end
+      end
+      if delete || @compare_fn[node.key, @next.key]
+        @next = node
+      end
+      return [node.key, node.value]
+    end
+    nil
+  end
   
   # call-seq:
   #     delete(key) -> value

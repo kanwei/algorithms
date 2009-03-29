@@ -1,3 +1,7 @@
+=== March 28, 2009
+
+	* Implemented SplayTree in C
+
 === January 19, 2009
 
   * kd-tree for points in multi-dimensional space
