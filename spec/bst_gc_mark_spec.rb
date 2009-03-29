@@ -11,7 +11,7 @@ if defined? Containers::CBst
       end
       anon_val_class = Class.new
       @bst = Containers::CBst.new
-      100.times { |x| @bst.insert(anon_key_class.new(x), anon_val_class.new) }
+      100.times { |x| @bst.push(anon_key_class.new(x), anon_val_class.new) }
       # Mark and sweep
       ObjectSpace.garbage_collect
       # Check if any instances were swept
