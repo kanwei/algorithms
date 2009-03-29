@@ -17,8 +17,9 @@ task :spec do
 end
 
 task :push do
+  sh "git push"    # Rubyforge
   sh "git push --tags"    # Rubyforge
-  sh "git push gt --tags" # Gitorious
+  sh "git push gh" # Github
   sh "git push gh --tags" # Github
 end
 
