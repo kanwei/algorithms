@@ -6,6 +6,9 @@
 =end
 class Containers::RubyDeque
   include Enumerable
+  
+  Node = Struct.new(:left, :right, :obj)
+  
   # Create a new Deque. Takes an optional array argument to initialize the Deque.
   #
   #   d = Containers::Deque.new([1, 2, 3])
@@ -158,7 +161,6 @@ class Containers::RubyDeque
   end
   alias_method :reverse_each, :each_backward
 
-  Node = Struct.new(:left, :right, :obj)
 end
 
 begin

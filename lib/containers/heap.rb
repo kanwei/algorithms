@@ -1,3 +1,4 @@
+require 'containers/stack'
 =begin rdoc
     A Heap is a container that satisfies the heap property that nodes are always smaller in
     value than their parent node.
@@ -11,6 +12,8 @@
 =end
 class Containers::Heap
   include Enumerable
+  
+  Node = Struct.new(:key, :value, :degree, :marked, :parent, :child, :left, :right)
   
   # call-seq:
   #     size -> int
@@ -59,7 +62,9 @@ class Containers::Heap
   #     heap.pop #=> 2
   def push(key, value=key)
     raise ArgumentError, "Heap keys must not be nil." unless key
-    node = Node.new(key, value)
+    node = Node.new(key, value, 0, false)
+    node.left = node
+    node.right = node
     # Add new node to the left of the @next node
     if @next
       node.right = @next
@@ -214,6 +219,12 @@ class Containers::Heap
   #     minheap.pop #=> 2
   #     minheap.pop #=> 1
   def change_key(key, new_key, delete=false)
+    stack = Containers::Stack.new
+    stack.push @next
+    until stack.empty?
+      
+    end
+    
     return if @stored[key].nil? || @stored[key].empty? || (key == new_key)
     
     # Must maintain heap property
@@ -232,7 +243,7 @@ class Containers::Heap
       if delete || @compare_fn[node.key, @next.key]
         @next = node
       end
-      return [node.key, node.value]
+      return node.key, node.value
     end
     nil
   end
@@ -251,25 +262,6 @@ class Containers::Heap
   #     minheap.size #=> 1
   def delete(key)
     pop if change_key(key, nil, true)
-  end
-  
-  # Node class used internally
-  class Node # :nodoc:
-    attr_accessor :parent, :child, :left, :right, :key, :value, :degree, :marked
-
-    def initialize(key, value)
-      @key = key
-      @value = value
-      @degree = 0
-      @marked = false
-      @right = self
-      @left = self
-    end
-    
-    def marked?
-      @marked == true
-    end
-    
   end
   
   # make node a child of a parent node
@@ -336,8 +328,7 @@ class Containers::Heap
   private :consolidate
   
   def cascading_cut(node)
-    p = node.parent
-    if p
+    if p = node.parent
       if node.marked?
         cut(node, p)
         cascading_cut(p)
