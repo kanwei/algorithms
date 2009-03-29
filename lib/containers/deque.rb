@@ -64,7 +64,7 @@ class Containers::RubyDeque
   #   d.push_front(0)
   #   d.pop_front #=> 0
   def push_front(obj)
-    node = Node.new(obj)
+    node = Node.new(nil, nil, obj)
     if @front
       node.right = @front
       @front.left = node
@@ -82,7 +82,7 @@ class Containers::RubyDeque
   #   d.push_back(4)
   #   d.pop_back #=> 4
   def push_back(obj)
-    node = Node.new(obj)
+    node = Node.new(nil, nil, obj)
     if @back
       node.left = @back
       @back.right = node
@@ -158,14 +158,7 @@ class Containers::RubyDeque
   end
   alias_method :reverse_each, :each_backward
 
-  class Node # :nodoc: all
-    attr_accessor :left, :right, :obj
-    
-    def initialize(obj)
-      @left = @right = nil
-      @obj = obj
-    end
-  end
+  Node = Struct.new(:left, :right, :obj)
 end
 
 begin

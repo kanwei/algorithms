@@ -16,8 +16,11 @@ require 'containers/stack'
 class Containers::RubySplayTreeMap
   include Enumerable
   
+  Node = Struct.new(:key, :value, :left, :right)
+  
   # Create and initialize a new empty SplayTreeMap.
   def initialize
+    @size = 0
     clear
   end
   
@@ -30,7 +33,7 @@ class Containers::RubySplayTreeMap
   #   map.get("MA") #=> "Massachusetts"
   def push(key, value)
     if @root.nil?
-      @root = Node.new(key, value)
+      @root = Node.new(key, value, nil, nil)
       @size = 1
       return value
     end
@@ -41,7 +44,7 @@ class Containers::RubySplayTreeMap
       @root.value = value
       return value
     end
-    node = Node.new(key, value)
+    node = Node.new(key, value, nil, nil)
     if cmp < 1
       node.left = @root.left
       node.right = @root
@@ -74,7 +77,7 @@ class Containers::RubySplayTreeMap
   def clear
     @root = nil
     @size = 0
-    @header = Node.new(nil, nil)
+    @header = Node.new(nil, nil, nil, nil)
   end
   
   # Return the height of the tree structure in the SplayTreeMap.
@@ -200,20 +203,6 @@ class Containers::RubySplayTreeMap
           break
         end
       end
-    end
-  end
-  
-  class Node # :nodoc: all
-    attr_accessor :key, :value, :left, :right
-    def initialize(key, value)
-      @key = key
-      @value = value
-      @left = nil
-      @right = nil
-    end
-    
-    def size
-      self.num_nodes
     end
   end
   
