@@ -167,15 +167,14 @@ static splaytree_node* insert(splaytree *tree, splaytree_node *n, VALUE key, VAL
 
 static VALUE get(splaytree *tree, VALUE key) {
 	int cmp;
-	splaytree_node *n;
 	
 	if (!tree->root)
 		return Qnil;
 		
-	n = splay(tree, tree->root, key);
-	cmp = tree->compare_function(key, n->key);
+	tree->root = splay(tree, tree->root, key);
+	cmp = tree->compare_function(key, tree->root->key);
 	if (cmp == 0) {
-		return n->value;
+		return tree->root->value;
 	}
 	return Qnil;
 }
