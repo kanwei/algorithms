@@ -55,6 +55,7 @@ static splaytree_node* splay(splaytree *tree, splaytree_node *n, VALUE key) {
 				y = n->left;
 				n->left = y->right;
 				y->right = n;
+				n->size = node_size(n->left) + node_size(n->right) + 1;
 				n = y;
           		if (!n->left) break;
 			}
@@ -69,6 +70,7 @@ static splaytree_node* splay(splaytree *tree, splaytree_node *n, VALUE key) {
 				y = n->right;
 				n->right = y->left;
 				y->left = n;
+				n->size = node_size(n->left) + node_size(n->right) + 1;
 				n = y;
           		if (!n->right) break;
 			}
