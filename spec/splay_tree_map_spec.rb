@@ -19,6 +19,10 @@ describe "empty splaytree", :shared => true do
   it "should return nil for #delete" do
     @tree.delete(:non_existing).should be_nil
   end
+  
+  it "should return nil for #get" do
+    @tree[4235].should be_nil
+  end
 end
 
 describe "non-empty splaytree", :shared => true do
