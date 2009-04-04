@@ -1,7 +1,22 @@
 =begin rdoc
 
-    A kd-tree allows searching of points in multi-dimensional space, increasing
-    efficiency for nearest-neighbor searching in particular.
+    A kd-tree is a binary tree that allows one to store points (of any space dimension: 2D, 3D, etc). 
+    The structure of the resulting tree makes it so that large portions of the tree are pruned
+    during queries.
+    
+    One very good use of the tree is to allow nearest neighbor searching. Let's say you have a number
+    of points in 2D space, and you want to find the nearest 2 points from a specific point:
+    
+    First, put the points into the tree:
+    
+      kd = Containers::KDTree.new([ [4, 3], [3, 4], [-1, 2], [6, 4], [3, -5], [-2, -5] ])
+    
+    Then, query on the tree:
+    
+      puts kd.find_nearest([0, 0], 2) => [[0, 6], [0, 3]]
+      
+    Note that the point queried on does not have to exist in the tree. However, if it does exist,
+    it will be returned.
 
 =end
 
@@ -48,6 +63,7 @@ class Containers::KDTree
     end
     nearest
   end
+  private :check_nearest
   
   # Find k closest points to given coordinates 
   def find_nearest(target, k_nearest)

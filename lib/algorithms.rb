@@ -29,6 +29,7 @@
   * Splay Trees     - Containers::SplayTreeMap
   * Tries           - Containers::Trie
   * Suffix Array    - Containers::SuffixArray
+  * kd Tree         - Containers::KDTree
 
   * Search algorithms
     - Binary Search         - Algorithms::Search.binary_search

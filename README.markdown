@@ -31,6 +31,7 @@ Done so far:
 		* Splay Trees        Containers::SplayTreeMap, Containers::CSplayTreeMap (C extension), Containers::RubySplayTreeMap
 		* Tries              Containers::Trie
 		* Suffix Array       Containers::SuffixArray
+		* kd Tree   				 Containers::KDTree
 
 		* Search algorithms
 		  - Binary Search            Algorithms::Search.binary_search
