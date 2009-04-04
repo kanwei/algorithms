@@ -1,3 +1,7 @@
+=== April 3, 2009
+
+	* Finished C refactorization of SplayTree
+
 === March 28, 2009
 
 	* Implemented SplayTree in C
