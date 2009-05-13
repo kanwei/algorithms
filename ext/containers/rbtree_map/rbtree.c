@@ -292,8 +292,8 @@ static int rbtree_compare_function(VALUE a, VALUE b) {
 		if (x > y) return 1;
 		return -1;
 	}
-	if (TYPE(a) == T_STRING && RBASIC(a)->klass == rb_cString &&
-			TYPE(b) == T_STRING && RBASIC(b)->klass == rb_cString) {
+	if (TYPE(a) == T_STRING && rb_obj_is_kind_of(a, rb_cString) &&
+            TYPE(b) == T_STRING && rb_obj_is_kind_of(b, rb_cString)) {
 		return rb_str_cmp(a, b);
 	}
 	return FIX2INT(rb_funcall((VALUE) a, id_compare_operator, 1, (VALUE) b));
