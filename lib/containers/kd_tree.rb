@@ -9,11 +9,14 @@
     
     First, put the points into the tree:
     
-      kd = Containers::KDTree.new([ [4, 3], [3, 4], [-1, 2], [6, 4], [3, -5], [-2, -5] ])
+      kdtree = Containers::KDTree.new( {0 => [4, 3], 1 => [3, 4], 2 => [-1, 2], 3 => [6, 4],
+                                       4 => [3, -5], 5 => [-2, -5] })
     
     Then, query on the tree:
     
-      puts kd.find_nearest([0, 0], 2) => [[0, 6], [0, 3]]
+      puts kd.find_nearest([0, 0], 2) => [[5, 2], [9, 1]]
+      
+    The result is an array of [distance, id] pairs. There seems to be a bug in this version.
       
     Note that the point queried on does not have to exist in the tree. However, if it does exist,
     it will be returned.
@@ -23,21 +26,30 @@
 class Containers::KDTree
   Node = Struct.new(:id, :coords, :left, :right)
   
+  # Points is a hash of id => [coord, coord] pairs.
   def initialize(points)
-    @root = build_tree(points)
+    raise "must pass in a hash" unless points.kind_of?(Hash)
+    @dimensions = points[ points.keys.first ].size
+    @root = build_tree(points.to_a)
     @nearest = []
   end
   
-  # Build a kd-tree
+  # Find k closest points to given coordinates 
+  def find_nearest(target, k_nearest)
+    @nearest = []
+    nearest(@root, target, k_nearest, 0)
+  end
+  
+  # points is an array
   def build_tree(points, depth=0)
     return if points.empty?
-  
-    axis = depth % 2
-  
-    points.sort! { |a, b| a[1][axis] <=> b[1][axis] }
+    
+    axis = depth % @dimensions
+    
+    points.sort! { |a, b| a.last[axis] <=> b.last[axis] }
     median = points.size / 2
-  
-    node = Node.new(points[median][0], points[median][1], nil, nil)
+    
+    node = Node.new(points[median].first, points[median].last, nil, nil)
     node.left = build_tree(points[0...median], depth+1)
     node.right = build_tree(points[median+1..-1], depth+1)
     node
@@ -65,14 +77,9 @@ class Containers::KDTree
   end
   private :check_nearest
   
-  # Find k closest points to given coordinates 
-  def find_nearest(target, k_nearest)
-    @nearest = []
-    nearest(@root, target, k_nearest, 0)
-  end
-    
+  # Recursively find nearest coordinates, going down the appropriate branch as needed
   def nearest(node, target, k_nearest, depth)
-    axis = depth % 2
+    axis = depth % @dimensions
   
     if node.left.nil? && node.right.nil? # Leaf node
       @nearest = check_nearest(@nearest, node, target, k_nearest)
