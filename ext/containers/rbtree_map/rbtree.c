@@ -22,6 +22,11 @@ typedef struct {
 	rbtree_node *root;
 } rbtree;
 
+typedef struct struct_ll_node {
+	rbtree_node *node;
+	struct struct_ll_node *next;
+} ll_node;
+
 static void recursively_free_nodes(rbtree_node *node) {
 	if(node) {
 		recursively_free_nodes(node->left);
@@ -304,19 +309,39 @@ static VALUE rbtree_init(VALUE self)
 	return self;
 }
 
-static void recursively_mark_nodes(rbtree_node *node) {
-	if(node) {
-		rb_gc_mark(node->key);
-		rb_gc_mark(node->value);
-		recursively_mark_nodes(node->left);
-		recursively_mark_nodes(node->right);
-	}
-}
-
 static void rbtree_mark(void *ptr) {
+	ll_node *current, *new, *last, *old;
 	if (ptr) {
 		rbtree *tree = ptr;
-		recursively_mark_nodes(tree->root);
+		
+		if (tree->root) {
+			current = ALLOC(ll_node);
+			last = current;
+			current->node = tree->root;
+			current->next = NULL;
+
+			while(current) {
+				rb_gc_mark(current->node->key);
+				rb_gc_mark(current->node->value);
+				if (current->node->left) {
+					new = ALLOC(ll_node);
+					new->node = current->node->left;
+					new->next = NULL;
+					last->next = new;
+					last = new;
+				} 
+				if (current->node->right) {
+					new = ALLOC(ll_node);
+					new->node = current->node->right;
+					new->next = NULL;
+					last->next = new;
+					last = new;
+				}
+				old = current;
+				current = current->next;
+				free(old);
+			}
+		}
 	}
 }
 

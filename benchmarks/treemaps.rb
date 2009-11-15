@@ -13,7 +13,7 @@ RBench.run(2) do
   splaytree = SplayTreeMap.new
   hash = Hash.new
   
-  random_array = Array.new(200000) { |i| rand(i) }
+  random_array = Array.new(300000) { |i| rand(i) }
   
   report "Insertion" do
     rbtree { random_array.each_with_index  { |x,index| rbtree[index] = x } }
