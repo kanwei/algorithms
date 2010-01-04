@@ -43,19 +43,16 @@
     - Shell sort            - Algorithms::Sort.shell_sort
     - Quicksort             - Algorithms::Sort.quicksort
     - Mergesort             - Algorithms::Sort.mergesort
+  * String algorithms
+    - Levenshtein distance  - Algorithms::String.levenshtein_dist
 =end
 
 module Algorithms; end
 module Containers; end
 
-begin
-  require 'CBst'
-  Containers::Bst = Containers::CBst
-rescue LoadError # C Version could not be found
-end
-
 require 'algorithms/search'
 require 'algorithms/sort'
+require 'algorithms/string'
 require 'containers/heap'
 require 'containers/stack'
 require 'containers/deque'

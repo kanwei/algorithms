@@ -1,3 +1,7 @@
+=== Jan 3, 2009
+
+    * Levenshtein distance in C
+
 === April 3, 2009
 
 	* Finished C refactorization of SplayTree

@@ -10,12 +10,6 @@ Echoe.new('algorithms') do |p|
   p.runtime_dependencies = []
 end
 
-task :default => :spec
-
-task :spec do
-  sh "spec spec/*.rb --color"
-end
-
 task :push do
   sh "git push"    # Rubyforge
   sh "git push --tags"    # Rubyforge

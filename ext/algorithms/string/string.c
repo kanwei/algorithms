@@ -1,0 +1,68 @@
+#include "ruby.h"
+
+int min(int a, int b, int c) {
+	int min = a;
+	if (b < min)
+		min = b;
+	if( c < min)
+		min = c;
+	return min;
+}
+
+int levenshtein_distance(VALUE str1, VALUE str2) {
+	int i, j, s1_len, s2_len, *d;
+	char * s = RSTRING(str1)->ptr;
+	char * t = RSTRING(str2)->ptr;
+	s1_len = RSTRING(str1)->len; 
+	s2_len = RSTRING(str2)->len;
+	
+	if (s1_len == 0) {
+		return s2_len;
+	} else if (s2_len == 0) {
+		return s1_len;
+	}
+	
+	// We need one extra col and row for the matrix for starting values
+	s1_len++;
+	s2_len++;
+	
+	d = malloc(sizeof(int) * (s1_len) * (s2_len));
+	
+	for (i = 0; i < s1_len; i++) {
+		d[i] = i; // d[i, 0] = i
+	}
+	for (j = 0; j < s2_len; j++) {
+		d[j*s1_len] = j; // d[0, j] = j
+	}
+	
+	for (i = 1; i < s1_len; i++) {
+		for (j = 1; j < s2_len; j++) {
+			if (s[i-1] == t[j-1]) {
+				d[j * s1_len + i] = d[(j-1) * s1_len + (i-1)];
+			} else {
+				d[j * s1_len + i] = min(
+					d[j * s1_len + (i-1)],
+					d[(j-1) * s1_len + i],
+					d[(j-1) * s1_len + (i-1)]
+				) + 1;
+			}
+		}
+	}
+	i = d[s1_len * s2_len -1];
+	free(d);
+	return i;
+}
+
+static VALUE lev_dist(VALUE self, VALUE str1, VALUE str2) {
+	return INT2FIX(levenshtein_distance( str1, str2 ));
+}
+
+static VALUE mAlgorithms;
+static VALUE mString;
+
+void Init_CString() {	
+	mAlgorithms = rb_define_module("Algorithms");
+	mString = rb_define_module_under(mAlgorithms, "String");
+	rb_define_singleton_method(mString, "levenshtein_dist", lev_dist, 2);
+}
+
