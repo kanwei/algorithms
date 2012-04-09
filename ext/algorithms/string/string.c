@@ -11,10 +11,10 @@ int min(int a, int b, int c) {
 
 int levenshtein_distance(VALUE str1, VALUE str2) {
 	int i, j, s1_len, s2_len, *d;
-	char * s = RSTRING(str1)->ptr;
-	char * t = RSTRING(str2)->ptr;
-	s1_len = RSTRING(str1)->len; 
-	s2_len = RSTRING(str2)->len;
+	char * s = RSTRING_PTR(str1);
+	char * t = RSTRING_PTR(str2);
+	s1_len = RSTRING_LEN(str1); 
+	s2_len = RSTRING_LEN(str2);
 	
 	if (s1_len == 0) {
 		return s2_len;
