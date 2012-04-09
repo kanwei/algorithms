@@ -46,6 +46,11 @@ describe Containers::Heap do
       @heap.size.should eql(@num_items)
     end
     
+    it "should have a next value" do
+      @heap.next.should be_true
+      @heap.next_key.should be_true
+    end
+    
     it "should delete random keys" do
       @heap.delete(@random_array[0]).should eql(@random_array[0])
       @heap.delete(@random_array[1]).should eql(@random_array[1])
