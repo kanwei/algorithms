@@ -3,6 +3,7 @@
     * Pulled in fix for ruby 1.9 compilation error (sorry!!)
     * Fix specs that broke with new rspec
     * Migration to rubygems.org
+    * 0.4.0 release
 
 === Jan 3, 2009
 

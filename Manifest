@@ -1,4 +1,4 @@
-History.txt
+CHANGELOG.markdown
 Manifest
 README.markdown
 Rakefile
@@ -8,6 +8,8 @@ benchmarks/sorts.rb
 benchmarks/treemaps.rb
 ext/algorithms/string/extconf.rb
 ext/algorithms/string/string.c
+ext/containers/bst/bst.c
+ext/containers/bst/extconf.rb
 ext/containers/deque/deque.c
 ext/containers/deque/extconf.rb
 ext/containers/rbtree_map/extconf.rb
@@ -28,6 +30,8 @@ lib/containers/splay_tree_map.rb
 lib/containers/stack.rb
 lib/containers/suffix_array.rb
 lib/containers/trie.rb
+spec/bst_gc_mark_spec.rb
+spec/bst_spec.rb
 spec/deque_gc_mark_spec.rb
 spec/deque_spec.rb
 spec/heap_spec.rb
