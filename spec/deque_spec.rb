@@ -1,7 +1,7 @@
 $: << File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
 require 'algorithms'
 
-describe "(empty deque)", :shared => true do
+shared_examples "(empty deque)" do
   it "should return nil when popping objects" do
     @deque.pop_front.should be_nil
     @deque.pop_back.should be_nil
@@ -31,7 +31,7 @@ describe "(empty deque)", :shared => true do
   end
 end
 
-describe "(non-empty deque)", :shared => true do
+shared_examples "(non-empty deque)" do
   before(:each) do
     @deque.push_back(10)
     @deque.push_back("10")
