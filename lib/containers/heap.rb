@@ -118,6 +118,22 @@ class Containers::Heap
   end
   
   # call-seq:
+  #     next_key -> key
+  #     next_key -> nil
+  #
+  # Returns the key associated with the next item in heap order, but does not remove the value.
+  #
+  # Complexity: O(1)
+  #
+  #     minheap = MinHeap.new
+  #     minheap.push(1, :a)
+  #     minheap.next_key #=> 1
+  #
+  def next_key
+    @next && @next.key
+  end
+  
+  # call-seq:
   #     clear -> nil
   #
   # Removes all elements from the heap, destructively.
