@@ -287,7 +287,7 @@ static rbtree* rbt_each(rbtree *tree, void (*each)(rbtree *tree, rbtree_node *no
 
 // Methods to be called in Ruby
 
-static int id_compare_operator;
+static VALUE id_compare_operator;
 
 static int rbtree_compare_function(VALUE a, VALUE b) {
 	if (a == b) return 0;

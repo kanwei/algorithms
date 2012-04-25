@@ -230,7 +230,7 @@ static splaytree* splay_each(splaytree *tree, void (*each)(splaytree *tree, spla
 
 // Methods to be called in Ruby
 
-static int id_compare_operator;
+static VALUE id_compare_operator;
 
 static int splaytree_compare_function(VALUE a, VALUE b) {
 	if (a == b) return 0;

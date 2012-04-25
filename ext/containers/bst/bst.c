@@ -44,7 +44,7 @@ static bst* bst_each(bst *tree, void (*each)(bst *tree, bst_node *node, void *ar
 	return tree;
 }
 
-static int id_compare_operator;
+static VALUE id_compare_operator;
 
 static int bst_compare_function(VALUE a, VALUE b) {
 	if (a == b) return 0;

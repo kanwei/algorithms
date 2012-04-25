@@ -200,7 +200,7 @@ static VALUE deque_each_backward(VALUE self) {
 
 static VALUE deque_init(int argc, VALUE *argv, VALUE self)
 {
-	int len, i;
+	long len, i;
 	VALUE ary;
 	
 	if(argc == 0) {
