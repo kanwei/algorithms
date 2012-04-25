@@ -1,7 +1,7 @@
 #include "ruby.h"
 
-int min(int a, int b, int c) {
-	int min = a;
+long min_three(long a, long b, long c) {
+	long min = a;
 	if (b < min)
 		min = b;
 	if( c < min)
@@ -9,11 +9,11 @@ int min(int a, int b, int c) {
 	return min;
 }
 
-int levenshtein_distance(VALUE str1, VALUE str2) {
-	int i, j, s1_len, s2_len, *d;
+long levenshtein_distance(VALUE str1, VALUE str2) {
+	long i, j, s1_len, s2_len, *d;
 	char * s = RSTRING_PTR(str1);
 	char * t = RSTRING_PTR(str2);
-	s1_len = RSTRING_LEN(str1); 
+	s1_len = RSTRING_LEN(str1);
 	s2_len = RSTRING_LEN(str2);
 	
 	if (s1_len == 0) {
@@ -26,7 +26,7 @@ int levenshtein_distance(VALUE str1, VALUE str2) {
 	s1_len++;
 	s2_len++;
 	
-	d = malloc(sizeof(int) * (s1_len) * (s2_len));
+	d = malloc(sizeof(typeof(d)) * (s1_len) * (s2_len));
 	
 	for (i = 0; i < s1_len; i++) {
 		d[i] = i; // d[i, 0] = i
@@ -40,11 +40,11 @@ int levenshtein_distance(VALUE str1, VALUE str2) {
 			if (s[i-1] == t[j-1]) {
 				d[j * s1_len + i] = d[(j-1) * s1_len + (i-1)];
 			} else {
-				d[j * s1_len + i] = min(
+				d[j * s1_len + i] = 1 + min_three(
 					d[j * s1_len + (i-1)],
 					d[(j-1) * s1_len + i],
 					d[(j-1) * s1_len + (i-1)]
-				) + 1;
+				);
 			}
 		}
 	}
@@ -54,7 +54,7 @@ int levenshtein_distance(VALUE str1, VALUE str2) {
 }
 
 static VALUE lev_dist(VALUE self, VALUE str1, VALUE str2) {
-	return INT2FIX(levenshtein_distance( str1, str2 ));
+	return LONG2FIX(levenshtein_distance( str1, str2 ));
 }
 
 static VALUE mAlgorithms;
