@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = "algorithms"
-  s.version = "0.4.0"
+  s.version = "0.5.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kanwei Li"]
-  s.date = "2012-04-19"
+  s.date = "2012-04-25"
   s.description = "A library of algorithms and data structures (containers)."
   s.email = "kanwei@gmail.com"
   s.extensions = ["ext/algorithms/string/extconf.rb", "ext/containers/bst/extconf.rb", "ext/containers/deque/extconf.rb", "ext/containers/rbtree_map/extconf.rb", "ext/containers/splaytree_map/extconf.rb"]

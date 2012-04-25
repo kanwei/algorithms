@@ -1,3 +1,9 @@
+=== April 15, 2012
+
+    * Use long instead of int for string methods
+    * Use VALUE instead of int for comparison vars
+    * Now compiles without warnings (OS X 10.7)
+
 === April 19, 2012
 
     * Pulled in fix for ruby 1.9 compilation error (sorry!!)
