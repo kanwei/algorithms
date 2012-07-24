@@ -22,6 +22,7 @@ lib/algorithms/sort.rb
 lib/algorithms/string.rb
 lib/containers/deque.rb
 lib/containers/heap.rb
+lib/containers/binary_heap.rb
 lib/containers/kd_tree.rb
 lib/containers/priority_queue.rb
 lib/containers/queue.rb
