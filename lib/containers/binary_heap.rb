@@ -29,7 +29,7 @@ class Containers::BinaryHeap
   # equal key and value fields. Also, an optional block can be passed to define the function
   # that maintains heap property. For example, a min-heap can be created with:
   #
-  #     minheap = Heap.new { |x, y| (x <=> y) == -1 }
+  #     minheap = BinaryHeap.new { |x, y| (x <=> y) == -1 }
   #     minheap.push(6)
   #     minheap.push(10)
   #     minheap.pop #=> 6
@@ -52,7 +52,7 @@ class Containers::BinaryHeap
   #
   # Complexity: O(log n)
   #
-  #     heap = MinHeap.new
+  #     heap = MinBinaryHeap.new
   #     heap.push(1, "Cat")
   #     heap.push(2)
   #     heap.pop #=> "Cat"
@@ -73,7 +73,7 @@ class Containers::BinaryHeap
   #
   # Complexity: O(1)
   #
-  #     minheap = MinHeap.new([1, 2])
+  #     minheap = MinBinaryHeap.new([1, 2])
   #     minheap.next #=> 1
   #     minheap.size #=> 2
   def next
@@ -88,7 +88,7 @@ class Containers::BinaryHeap
   #
   # Complexity: O(1)
   #
-  #     minheap = MinHeap.new
+  #     minheap = MinBinaryHeap.new
   #     minheap.push(1, :a)
   #     minheap.next_key #=> 1
   #
@@ -122,10 +122,10 @@ class Containers::BinaryHeap
   #
   # Does a shallow merge of all the nodes in the other heap.
   #
-  # Complexity: O(1)
+  # Complexity: O(n+m)
   #
-  #     heap = MinHeap.new([5, 6, 7, 8])
-  #     otherheap = MinHeap.new([1, 2, 3, 4])
+  #     heap = MinBinaryHeap.new([5, 6, 7, 8])
+  #     otherheap = MinBinaryHeap.new([1, 2, 3, 4])
   #     heap.merge!(otherheap)
   #     heap.size #=> 8
   #     heap.pop #=> 1
@@ -142,9 +142,9 @@ class Containers::BinaryHeap
   #
   # Returns the value of the next item in heap order and removes it from the heap.
   #
-  # Complexity: O(1)
+  # Complexity: O(log n)
   #
-  #     minheap = MinHeap.new([1, 2])
+  #     minheap = MinBinaryHeap.new([1, 2])
   #     minheap.pop #=> 1
   #     minheap.size #=> 1
   def pop
@@ -155,6 +155,8 @@ class Containers::BinaryHeap
     return popped.value
   end
   alias_method :next!, :pop
+  
+  private
   
   def heapify!
     for i in (size/2).downto(1)
@@ -206,12 +208,13 @@ end
 class Containers::MaxBinaryHeap < Containers::BinaryHeap
   
   # call-seq:
-  #     MaxHeap.new(ary) -> new_heap
+  #     MaxBinaryHeap.new(ary) -> new_heap
   #
   # Creates a new MaxHeap with an optional array parameter of items to insert into the heap.
-  # A MaxHeap is created by calling Heap.new { |x, y| (x <=> y) == 1 }, so this is a convenience class.
+  # A MaxBinaryHeap is created by calling BinaryHeap.new { |x, y| (x <=> y) == 1 }, so this 
+  # is a convenience class.
   #
-  #     maxheap = MaxHeap.new([1, 2, 3, 4])
+  #     maxheap = MaxBinaryHeap.new([1, 2, 3, 4])
   #     maxheap.pop #=> 4
   #     maxheap.pop #=> 3
   def initialize(ary=[])
@@ -224,7 +227,7 @@ class Containers::MaxBinaryHeap < Containers::BinaryHeap
   #
   # Returns the item with the largest key, but does not remove it from the heap.
   #
-  #     maxheap = MaxHeap.new([1, 2, 3, 4])
+  #     maxheap = MaxBinaryHeap.new([1, 2, 3, 4])
   #     maxheap.max #=> 4
   def max
     self.next
@@ -236,7 +239,7 @@ class Containers::MaxBinaryHeap < Containers::BinaryHeap
   #
   # Returns the item with the largest key and removes it from the heap.
   #
-  #     maxheap = MaxHeap.new([1, 2, 3, 4])
+  #     maxheap = MaxBinaryHeap.new([1, 2, 3, 4])
   #     maxheap.max! #=> 4
   #     maxheap.size #=> 3
   def max!
@@ -248,12 +251,13 @@ end
 class Containers::MinBinaryHeap < Containers::BinaryHeap
   
   # call-seq:
-  #     MinHeap.new(ary) -> new_heap
+  #     MinBinaryHeap.new(ary) -> new_heap
   #
   # Creates a new MinHeap with an optional array parameter of items to insert into the heap.
-  # A MinHeap is created by calling Heap.new { |x, y| (x <=> y) == -1 }, so this is a convenience class.
+  # A MinHeap is created by calling BinaryHeap.new { |x, y| (x <=> y) == -1 }, so this is a 
+  # convenience class.
   #
-  #     minheap = MinHeap.new([1, 2, 3, 4])
+  #     minheap = MinBinaryHeap.new([1, 2, 3, 4])
   #     minheap.pop #=> 1
   #     minheap.pop #=> 2
   def initialize(ary=[])
@@ -266,7 +270,7 @@ class Containers::MinBinaryHeap < Containers::BinaryHeap
   #
   # Returns the item with the smallest key, but does not remove it from the heap.
   #
-  #     minheap = MinHeap.new([1, 2, 3, 4])
+  #     minheap = MinBinaryHeap.new([1, 2, 3, 4])
   #     minheap.min #=> 1
   def min
     self.next
@@ -278,7 +282,7 @@ class Containers::MinBinaryHeap < Containers::BinaryHeap
   #
   # Returns the item with the smallest key and removes it from the heap.
   #
-  #     minheap = MinHeap.new([1, 2, 3, 4])
+  #     minheap = MinBinaryHeap.new([1, 2, 3, 4])
   #     minheap.min! #=> 1
   #     minheap.size #=> 3
   def min!

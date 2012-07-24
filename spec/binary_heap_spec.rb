@@ -51,56 +51,10 @@ describe Containers::BinaryHeap do
       @heap.next_key.should be_true
     end
     
-    it "should delete random keys" do
-      @heap.delete(@random_array[0]).should eql(@random_array[0])
-      @heap.delete(@random_array[1]).should eql(@random_array[1])
-      ordered = []
-      ordered << @heap.max! until @heap.empty?
-      ordered.should eql( @random_array[2..-1].sort.reverse )
-    end
-    
-    it "should delete all keys" do
-      ordered = []
-      @random_array.size.times do |t|
-        ordered << @heap.delete(@random_array[t])
-      end
-      @heap.should be_empty
-      ordered.should eql( @random_array )
-    end
-
     it "should be in max->min order" do
       ordered = []
       ordered << @heap.max! until @heap.empty?
       ordered.should eql(@random_array.sort.reverse)
-    end
-    
-    it "should change certain keys" do
-      numbers = [1,2,3,4,5,6,7,8,9,10,100,101]
-      heap = Containers::MinBinaryHeap.new(numbers)
-      heap.change_key(101, 50)
-      heap.pop
-      heap.pop
-      heap.change_key(8, 0)
-      ordered = []
-      ordered << heap.min! until heap.empty?
-      ordered.should eql( [8,3,4,5,6,7,9,10,101,100] )
-    end
-    
-    it "should not delete keys it doesn't have" do
-      @heap.delete(:nonexisting).should be_nil
-      @heap.size.should eql(@num_items)
-    end
-    
-    it "should delete certain keys" do
-      numbers = [1,2,3,4,5,6,7,8,9,10,100,101]
-      heap = Containers::MinBinaryHeap.new(numbers)
-      heap.delete(5)
-      heap.pop
-      heap.pop
-      heap.delete(100)
-      ordered = []
-      ordered << heap.min! until heap.empty?
-      ordered.should eql( [3,4,6,7,8,9,10,101] )
     end
     
     it "should let you merge with another heap" do
