@@ -7,7 +7,7 @@ require 'rbench'
 
 RBench.run(5) do
   
-  sorts = %w(ruby comb_sort heapsort insertion_sort shell_sort quicksort mergesort)
+  sorts = %w(ruby comb_sort heapsort binaryheapsort insertion_sort shell_sort quicksort mergesort)
   sorts.each { |sort| self.send(:column, sort.intern) }
   
   n = 1000
@@ -16,6 +16,7 @@ RBench.run(5) do
     scope.ruby { ary.dup.sort }
     scope.comb_sort { Sort.comb_sort(ary.dup) }
     scope.heapsort { Sort.heapsort(ary.dup) }
+    scope.binaryheapsort { Sort.binaryheapsort(ary.dup) }
     scope.insertion_sort { Sort.insertion_sort(ary.dup) }
     scope.shell_sort { Sort.shell_sort(ary.dup) }
     scope.quicksort { Sort.quicksort(ary.dup) }

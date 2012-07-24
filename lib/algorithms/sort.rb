@@ -89,6 +89,21 @@ module Algorithms::Sort
     ary
   end
   
+  # Binary Heap sort: Uses a binary heap (implemented by the Containers module) to sort 
+  # the collection.
+  # Requirements: Needs to be able to compare elements with <=>
+  # Time Complexity: О(n log n)
+  # Space Complexity: О(n) total, O(1) auxiliary
+  # Stable: No
+  # 
+  #   Algorithms::Sort.binaryheapsort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
+  def self.binaryheapsort(container)
+    heap = Containers::BinaryHeap.new(container)
+    ary = []
+    ary << heap.pop until heap.empty?
+    ary
+  end
+  
   # Insertion sort: Elements are inserted sequentially into the right position.
   # Requirements: Needs to be able to compare elements with <=>, and the [] []= methods should
   # be implemented for the container.
