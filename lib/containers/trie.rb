@@ -13,7 +13,7 @@ class Containers::Trie
   #
   #   t = Containers::Trie.new
   #   t["hello"] = "world"
-  #   t["hello] #=> "world"
+  #   t["hello"] #=> "world"
   def initialize
     @root = nil
   end
