@@ -23,7 +23,7 @@ module Algorithms::Search
       elsif val < item
         low = mid + 1
       else
-        return val
+        return mid
       end
     end
     nil
