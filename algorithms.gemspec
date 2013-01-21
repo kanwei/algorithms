@@ -6,6 +6,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kanwei Li"]
+  s.licenses = ['MIT']
   s.date = "2012-04-25"
   s.description = "A library of algorithms and data structures (containers)."
   s.email = "kanwei@gmail.com"
