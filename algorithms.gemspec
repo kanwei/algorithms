@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.authors = ["Kanwei Li"]
   s.email = "kanwei@gmail.com"
   s.license = 'MIT'
-  s.date = "2012-04-25"
+  s.date = "2013-01-22"
   s.summary = "Useful algorithms and data structures for Ruby. Optional C extensions."
   s.description = "Heap, Priority Queue, Deque, Stack, Queue, Red-Black Trees, Splay Trees, sorting algorithms, and more"
   unless defined?(RUBY_ENGINE) && RUBY_ENGINE == 'jruby'
