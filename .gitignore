@@ -7,3 +7,5 @@ Makefile
 doc
 pkg
 *#
+Gemfile.lock
+*.gem
