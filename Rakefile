@@ -11,4 +11,4 @@ Rake::ExtensionTask.new('containers/splaytree_map') { |ext| ext.name = "CSplayTr
 
 RSpec::Core::RakeTask.new
 
-task :default => :spec
+task :default => [:compile, :spec]
