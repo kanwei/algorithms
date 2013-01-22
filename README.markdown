@@ -1,7 +1,6 @@
 # algorithms
 
-* Official homes are here on github, and at [rubyforge](http://rubyforge.org/projects/algorithms/)
-* Documentation: [http://algorithms.rubyforge.org/](http://algorithms.rubyforge.org/)
+[![Build Status](https://travis-ci.org/kanwei/algorithms.png)](https://travis-ci.org/kanwei/algorithms)
 
 ## DESCRIPTION:
 
@@ -18,54 +17,46 @@ This project will create such a library with documentation on when to use a
 particular structure/algorithm. It will also come with a benchmark suite to
 compare performance in different situations.
 
-## FEATURES:
+## COMPLETED:
 
-Done so far:
+* Heaps              Containers::Heap, Containers::MaxHeap, Containers::MinHeap
+* Priority Queue     Containers::PriorityQueue
+* Deque              Containers::Deque, Containers::CDeque (C extension), Containers::RubyDeque
+* Stack              Containers::Stack (uses Deque)
+* Queue              Containers::Queue (uses Deque)
+* Red-Black Trees    Containers::RBTreeMap, Containers::CRBTreeMap (C extension), Containers::RubyRBTreeMap
+* Splay Trees        Containers::SplayTreeMap, Containers::CSplayTreeMap (C extension), Containers::RubySplayTreeMap
+* Tries              Containers::Trie
+* Suffix Array       Containers::SuffixArray
 
-		* Heaps              Containers::Heap, Containers::MaxHeap, Containers::MinHeap
-		* Priority Queue     Containers::PriorityQueue
-		* Deque              Containers::Deque, Containers::CDeque (C extension), Containers::RubyDeque
-		* Stack              Containers::Stack (uses Deque)
-		* Queue              Containers::Queue (uses Deque)
-		* Red-Black Trees    Containers::RBTreeMap, Containers::CRBTreeMap (C extension), Containers::RubyRBTreeMap
-		* Splay Trees        Containers::SplayTreeMap, Containers::CSplayTreeMap (C extension), Containers::RubySplayTreeMap
-		* Tries              Containers::Trie
-		* Suffix Array       Containers::SuffixArray
-		* kd Tree   				 Containers::KDTree
-
-		* Search algorithms
-		  - Binary Search            Algorithms::Search.binary_search
-		  - Knuth-Morris-Pratt       Algorithms::Search.kmp_search
-		* Sort algorithms           
-		  - Bubble sort              Algorithms::Sort.bubble_sort
-		  - Comb sort                Algorithms::Sort.comb_sort
-		  - Selection sort           Algorithms::Sort.selection_sort
-		  - Heapsort                 Algorithms::Sort.heapsort
-		  - Insertion sort           Algorithms::Sort.insertion_sort
-		  - Shell sort               Algorithms::Sort.shell_sort
-		  - Quicksort                Algorithms::Sort.quicksort
-		  - Mergesort                Algorithms::Sort.mergesort
+* Search algorithms
+  - Binary Search            Algorithms::Search.binary_search
+  - Knuth-Morris-Pratt       Algorithms::Search.kmp_search
+* Sort algorithms           
+  - Bubble sort              Algorithms::Sort.bubble_sort
+  - Comb sort                Algorithms::Sort.comb_sort
+  - Selection sort           Algorithms::Sort.selection_sort
+  - Heapsort                 Algorithms::Sort.heapsort
+  - Insertion sort           Algorithms::Sort.insertion_sort
+  - Shell sort               Algorithms::Sort.shell_sort
+  - Quicksort                Algorithms::Sort.quicksort
+  - Mergesort                Algorithms::Sort.mergesort
 
 ## SYNOPSIS:
 
-		require 'rubygems'
-		require 'algorithms'
-		
-		max_heap = Containers::MaxHeap.new
-		
-		# To not have to type "Containers::" before each class, use:
-		include Containers
-		max_heap = MaxHeap.new
+    require 'rubygems'
+    require 'algorithms'
 
+    max_heap = Containers::MaxHeap.new
+
+    # To not have to type "Containers::" before each class, use:
+    include Containers
+    max_heap = MaxHeap.new
 
 ## REQUIREMENTS:
 
-* Ruby 1.8 compatible Ruby, or Ruby 1.9
-* C compiler for C extensions (optional, but very much recommended for vast performance benefits)
-
-## INSTALL:
-
-* sudo gem install algorithms
+* Ruby 1.8, Ruby 1.9, JRuby
+* C extensions (optional, but very much recommended for vast performance benefits)
 
 ## LICENSE:
 
