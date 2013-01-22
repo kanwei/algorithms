@@ -1,3 +1,7 @@
+=== January 22, 2013
+    
+    * JRuby support
+
 === April 15, 2012
 
     * Use long instead of int for string methods
