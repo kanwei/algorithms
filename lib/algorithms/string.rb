@@ -5,4 +5,5 @@
 
 begin
   require 'CString'
+rescue LoadError
 end

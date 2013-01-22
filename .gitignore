@@ -9,3 +9,4 @@ pkg
 *#
 Gemfile.lock
 *.gem
+.ruby-version

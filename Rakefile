@@ -11,4 +11,8 @@ Rake::ExtensionTask.new('containers/splaytree_map') { |ext| ext.name = "CSplayTr
 
 RSpec::Core::RakeTask.new
 
-task :default => [:compile, :spec]
+if defined?(RUBY_ENGINE) && RUBY_ENGINE == 'jruby'
+  task :default => [:spec]
+else
+  task :default => [:compile, :spec]
+end
