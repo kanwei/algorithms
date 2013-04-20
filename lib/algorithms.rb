@@ -43,6 +43,7 @@
     - Shell sort            - Algorithms::Sort.shell_sort
     - Quicksort             - Algorithms::Sort.quicksort
     - Mergesort             - Algorithms::Sort.mergesort
+    - Dual-Pivot Quicksort  - Algorithms::Sort.dualpivotquicksort
   * String algorithms
     - Levenshtein distance  - Algorithms::String.levenshtein_dist
 =end
