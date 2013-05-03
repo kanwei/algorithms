@@ -235,4 +235,134 @@ module Algorithms::Sort
     sorted + left + right
   end
 
+  # Dual-Pivot Quicksort is a variation of Quicksort by Vladimir Yaroslavskiy.
+  # This is an implementation of the algorithm as it was found in the original
+  # research paper:
+  # 
+  # http://iaroslavski.narod.ru/quicksort/DualPivotQuicksort.pdf
+  # 
+  # Mirror:
+  # http://codeblab.com/wp-content/uploads/2009/09/DualPivotQuicksort.pdf
+  #
+  # "This algorithm offers O(n log(n)) performance on many data sets that cause
+  # other quicksorts to degrade to quadratic performance, and is typically 
+  # faster than traditional (one-pivot) Quicksort implementations."
+  #   -- http://download.oracle.com/javase/7/docs/api/java/util/Arrays.html
+  #
+  # The algorithm was improved by Vladimir Yaroslavskiy, Jon Bentley, and 
+  # Joshua Bloch, and was implemented as the default sort algorithm for
+  # primatives in Java 7.
+  #
+  # Implementation in the Java JDK as of November, 2011:
+  # http://www.docjar.com/html/api/java/util/DualPivotQuicksort.java.html
+  #
+  # It is proved that for the Dual-Pivot Quicksort the average number 
+  # of comparisons is 2*n*ln(n), the average number of swaps is 
+  # 0.8*n*ln(n), whereas classical Quicksort algorithm has 2*n*ln(n) 
+  # and 1*n*ln(n) respectively. This has been fully examined mathematically
+  # and experimentally.
+  #
+  # Requirements: Container should implement #pop and include the Enumerable module.
+  # Time Complexity: О(n log n) average, О(n log n) worst-case
+  # Space Complexity: О(n) auxiliary
+  #
+  # Stable: No
+  # 
+  #   Algorithms::Sort.dualpivotquicksort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
+
+  def self.dualpivotquicksort(container)
+    return container if container.size <= 1
+    dualpivot(container, 0, container.size-1, 3)
+  end
+ 
+  def self.dualpivot(container, left=0, right=container.size-1, div=3)
+    length = right - left
+    if length < 27 # insertion sort for tiny array
+      container.each_with_index do |data,i|
+        j = i - 1
+        while j >= 0
+          break if container[j] <= data
+          container[j + 1] = container[j]
+          j = j - 1
+        end
+        container[j + 1] = data
+      end
+    else # full dual-pivot quicksort
+      third = length / div
+      # medians
+      m1 = left + third
+      m2 = right - third
+      if m1 <= left 
+        m1 = left + 1
+      end
+      if m2 >= right
+        m2 = right - 1
+      end
+      if container[m1] < container[m2]
+        dualpivot_swap(container, m1, left)
+        dualpivot_swap(container, m2, right)
+      else
+        dualpivot_swap(container, m1, right)
+        dualpivot_swap(container, m2, left)
+      end
+      # pivots
+      pivot1 = container[left]
+      pivot2 = container[right]
+      # pointers
+      less = left + 1
+      great = right -1
+      # sorting
+      k = less
+      while k <= great
+        if container[k] < pivot1
+          dualpivot_swap(container, k, less += 1)
+        elsif container[k] > pivot2
+          while k < great && container[great] > pivot2
+            great -= 1
+          end
+          dualpivot_swap(container, k, great -= 1)
+          if container[k] < pivot1
+            dualpivot_swap(container, k, less += 1)
+          end
+        end
+        k += 1
+      end
+      # swaps
+      dist = great - less
+      if dist < 13
+        div += 1
+      end
+      dualpivot_swap(container, less-1, left)
+      dualpivot_swap(container, great+1, right)
+      # subarrays
+      dualpivot(container, left, less-2, div)
+      dualpivot(container, great+2, right, div)
+      # equal elements
+      if dist > length - 13 && pivot1 != pivot2
+        for k in less..great do
+          if container[k] == pivot1
+            dualpivot_swap(container, k, less)
+            less += 1
+          elsif container[k] == pivot2
+            dualpivot_swap(container, k, great)
+            great -= 1
+            if container[k] == pivot1
+              dualpivot_swap(container, k, less)
+              less += 1
+            end
+          end
+        end
+      end
+      # subarray
+      if pivot1 < pivot2
+        dualpivot(container, less, great, div)
+      end
+      container
+    end
+  end
+
+  def self.dualpivot_swap(container, i, j)
+    container[i],  container[j] = container[j],  container[i]
+  end
 end
+

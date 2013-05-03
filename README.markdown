@@ -41,6 +41,7 @@ compare performance in different situations.
       - Shell sort               Algorithms::Sort.shell_sort
       - Quicksort                Algorithms::Sort.quicksort
       - Mergesort                Algorithms::Sort.mergesort
+      - Dual-Pivot Quicksort     Algorithms::Sort.dualpivotquicksort
 
 ## SYNOPSIS:
 
