@@ -16,3 +16,7 @@ if defined?(RUBY_ENGINE) && RUBY_ENGINE == 'jruby'
 else
   task :default => [:compile, :spec]
 end
+
+task :rdoc do
+    `rdoc -f hanna --main algorithms.rb -t "Ruby Algorithms and Containers Documentation"`
+end
