@@ -1,0 +1,390 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>Algorithms::Sort</title>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+    <link href='../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='class' id='wrapper'>
+      <div class='header'>
+        <h1 class='name'>
+          <span class='type'>module</span>
+          Algorithms::Sort
+        </h1>
+        <ol class='paths'>
+          <li>
+            <a target="docwin" href="../../files/lib/algorithms/sort_rb.html">lib/algorithms/sort.rb</a>
+          </li>
+        </ol>
+        <div class='parent'>
+          Parent:
+          <strong><a target="docwin" href="../Algorithms.html">Algorithms</a></strong>
+        </div>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='description'>
+            
+            <p>This module implements sorting algorithms. Documentation is provided for
+            each algorithm.</p>
+          </div>
+          <div id='method-list'>
+            <h2>Methods</h2>
+            <h3>Public Class</h3>
+            <ol>
+              <li><a target="docwin" href="#method-c-bubble_sort">bubble_sort</a></li>
+              <li><a target="docwin" href="#method-c-comb_sort">comb_sort</a></li>
+              <li><a target="docwin" href="#method-c-dualpivot">dualpivot</a></li>
+              <li><a target="docwin" href="#method-c-dualpivot_swap">dualpivot_swap</a></li>
+              <li><a target="docwin" href="#method-c-dualpivotquicksort">dualpivotquicksort</a></li>
+              <li><a target="docwin" href="#method-c-heapsort">heapsort</a></li>
+              <li><a target="docwin" href="#method-c-insertion_sort">insertion_sort</a></li>
+              <li><a target="docwin" href="#method-c-merge">merge</a></li>
+              <li><a target="docwin" href="#method-c-mergesort">mergesort</a></li>
+              <li><a target="docwin" href="#method-c-partition">partition</a></li>
+              <li><a target="docwin" href="#method-c-quicksort">quicksort</a></li>
+              <li><a target="docwin" href="#method-c-selection_sort">selection_sort</a></li>
+              <li><a target="docwin" href="#method-c-shell_sort">shell_sort</a></li>
+            </ol>
+          </div>
+          <div id='context'>
+          </div>
+          <div id='section'>
+            <div id='methods'>
+              <h2>Public Class methods</h2>
+              <div class='method public-class' id='method-method-c-bubble_sort'>
+                <a name='method-c-bubble_sort'></a>
+                <div class='synopsis'>
+                  <span class='name'>bubble_sort</span>
+                  <span class='arguments'>(container)</span>
+                </div>
+                <div class='description'>
+                  
+                  <p>Bubble sort: A very naive sort that keeps swapping elements until the
+                  container is sorted. Requirements: Needs to be able to compare elements
+                  with &lt;=&gt;, and the [] []= methods should be implemented for the
+                  container. Time Complexity: О(n^2) Space Complexity: О(n) total, O(1)
+                  auxiliary Stable: Yes</p>
+                  
+                  <pre class="ruby"><span class="ruby-constant">Algorithms</span><span class="ruby-operator">::</span><span class="ruby-constant">Sort</span>.<span class="ruby-identifier">bubble_sort</span> [<span class="ruby-value">5</span>, <span class="ruby-value">4</span>, <span class="ruby-value">3</span>, <span class="ruby-value">1</span>, <span class="ruby-value">2</span>] =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">1</span>, <span class="ruby-value">2</span>, <span class="ruby-value">3</span>, <span class="ruby-value">4</span>, <span class="ruby-value">5</span>]</pre>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-c-bubble_sort-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-c-bubble_sort-source'><span class="ruby-comment"># File lib/algorithms/sort.rb, line 16</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">bubble_sort</span>(<span class="ruby-identifier">container</span>)&#x000A;  <span class="ruby-identifier">loop</span> <span class="ruby-keyword">do</span>&#x000A;    <span class="ruby-identifier">swapped</span> = <span class="ruby-keyword">false</span>&#x000A;    (<span class="ruby-identifier">container</span>.<span class="ruby-identifier">size</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>).<span class="ruby-identifier">times</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>&#x000A;      <span class="ruby-keyword">if</span> (<span class="ruby-identifier">container</span>[<span class="ruby-identifier">i</span>] <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">container</span>[<span class="ruby-identifier">i</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>]) <span class="ruby-operator">==</span> <span class="ruby-value">1</span>&#x000A;        <span class="ruby-identifier">container</span>[<span class="ruby-identifier">i</span>], <span class="ruby-identifier">container</span>[<span class="ruby-identifier">i</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>] = <span class="ruby-identifier">container</span>[<span class="ruby-identifier">i</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>], <span class="ruby-identifier">container</span>[<span class="ruby-identifier">i</span>] <span class="ruby-comment"># Swap</span>&#x000A;        <span class="ruby-identifier">swapped</span> = <span class="ruby-keyword">true</span>&#x000A;      <span class="ruby-keyword">end</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;    <span class="ruby-keyword">break</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">swapped</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-identifier">container</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-class' id='method-method-c-comb_sort'>
+                <a name='method-c-comb_sort'></a>
+                <div class='synopsis'>
+                  <span class='name'>comb_sort</span>
+                  <span class='arguments'>(container)</span>
+                </div>
+                <div class='description'>
+                  
+                  <p>Comb sort: A variation on bubble sort that dramatically improves
+                  performance. Source: <a
+                  href="http://yagni.com/combsort/">yagni.com/combsort/</a> Requirements:
+                  Needs to be able to compare elements with &lt;=&gt;, and the [] []= methods
+                  should be implemented for the container. Time Complexity: О(n^2) Space
+                  Complexity: О(n) total, O(1) auxiliary Stable: Yes</p>
+                  
+                  <pre class="ruby"><span class="ruby-constant">Algorithms</span><span class="ruby-operator">::</span><span class="ruby-constant">Sort</span>.<span class="ruby-identifier">comb_sort</span> [<span class="ruby-value">5</span>, <span class="ruby-value">4</span>, <span class="ruby-value">3</span>, <span class="ruby-value">1</span>, <span class="ruby-value">2</span>] =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">1</span>, <span class="ruby-value">2</span>, <span class="ruby-value">3</span>, <span class="ruby-value">4</span>, <span class="ruby-value">5</span>]</pre>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-c-comb_sort-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-c-comb_sort-source'><span class="ruby-comment"># File lib/algorithms/sort.rb, line 39</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">comb_sort</span>(<span class="ruby-identifier">container</span>)&#x000A;  <span class="ruby-identifier">container</span>&#x000A;  <span class="ruby-identifier">gap</span> = <span class="ruby-identifier">container</span>.<span class="ruby-identifier">size</span>&#x000A;  <span class="ruby-identifier">loop</span> <span class="ruby-keyword">do</span>&#x000A;    <span class="ruby-identifier">gap</span> = <span class="ruby-identifier">gap</span> * <span class="ruby-value">10</span><span class="ruby-operator">/</span><span class="ruby-value">13</span>&#x000A;    <span class="ruby-identifier">gap</span> = <span class="ruby-value">11</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">gap</span> <span class="ruby-operator">==</span> <span class="ruby-value">9</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">gap</span> <span class="ruby-operator">==</span> <span class="ruby-value">10</span>&#x000A;    <span class="ruby-identifier">gap</span> = <span class="ruby-value">1</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">gap</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">1</span>&#x000A;    <span class="ruby-identifier">swapped</span> = <span class="ruby-keyword">false</span>&#x000A;    (<span class="ruby-identifier">container</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">gap</span>).<span class="ruby-identifier">times</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>&#x000A;      <span class="ruby-keyword">if</span> (<span class="ruby-identifier">container</span>[<span class="ruby-identifier">i</span>] <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">container</span>[<span class="ruby-identifier">i</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">gap</span>]) <span class="ruby-operator">==</span> <span class="ruby-value">1</span>&#x000A;        <span class="ruby-identifier">container</span>[<span class="ruby-identifier">i</span>], <span class="ruby-identifier">container</span>[<span class="ruby-identifier">i</span><span class="ruby-operator">+</span><span class="ruby-identifier">gap</span>] = <span class="ruby-identifier">container</span>[<span class="ruby-identifier">i</span><span class="ruby-operator">+</span><span class="ruby-identifier">gap</span>], <span class="ruby-identifier">container</span>[<span class="ruby-identifier">i</span>] <span class="ruby-comment"># Swap</span>&#x000A;        <span class="ruby-identifier">swapped</span> = <span class="ruby-keyword">true</span>&#x000A;      <span class="ruby-keyword">end</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;    <span class="ruby-keyword">break</span> <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">swapped</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">gap</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-identifier">container</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-class' id='method-method-c-dualpivot'>
+                <a name='method-c-dualpivot'></a>
+                <div class='synopsis'>
+                  <span class='name'>dualpivot</span>
+                  <span class='arguments'>(container, left=0, right=container.size-1, div=3)</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-c-dualpivot-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-c-dualpivot-source'><span class="ruby-comment"># File lib/algorithms/sort.rb, line 278</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">dualpivot</span>(<span class="ruby-identifier">container</span>, <span class="ruby-identifier">left</span>=<span class="ruby-value">0</span>, <span class="ruby-identifier">right</span>=<span class="ruby-identifier">container</span>.<span class="ruby-identifier">size</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>, <span class="ruby-identifier">div</span>=<span class="ruby-value">3</span>)&#x000A;  <span class="ruby-identifier">length</span> = <span class="ruby-identifier">right</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">left</span>&#x000A;  <span class="ruby-keyword">if</span> <span class="ruby-identifier">length</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">27</span> <span class="ruby-comment"># insertion sort for tiny array</span>&#x000A;    <span class="ruby-identifier">container</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">data</span>,<span class="ruby-identifier">i</span><span class="ruby-operator">|</span>&#x000A;      <span class="ruby-identifier">j</span> = <span class="ruby-identifier">i</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>&#x000A;      <span class="ruby-keyword">while</span> <span class="ruby-identifier">j</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">0</span>&#x000A;        <span class="ruby-keyword">break</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">container</span>[<span class="ruby-identifier">j</span>] <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">data</span>&#x000A;        <span class="ruby-identifier">container</span>[<span class="ruby-identifier">j</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>] = <span class="ruby-identifier">container</span>[<span class="ruby-identifier">j</span>]&#x000A;        <span class="ruby-identifier">j</span> = <span class="ruby-identifier">j</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>&#x000A;      <span class="ruby-keyword">end</span>&#x000A;      <span class="ruby-identifier">container</span>[<span class="ruby-identifier">j</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>] = <span class="ruby-identifier">data</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">else</span> <span class="ruby-comment"># full dual-pivot quicksort</span>&#x000A;    <span class="ruby-identifier">third</span> = <span class="ruby-identifier">length</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">div</span>&#x000A;    <span class="ruby-comment"># medians</span>&#x000A;    <span class="ruby-identifier">m1</span> = <span class="ruby-identifier">left</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">third</span>&#x000A;    <span class="ruby-identifier">m2</span> = <span class="ruby-identifier">right</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">third</span>&#x000A;    <span class="ruby-keyword">if</span> <span class="ruby-identifier">m1</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">left</span> &#x000A;      <span class="ruby-identifier">m1</span> = <span class="ruby-identifier">left</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;    <span class="ruby-keyword">if</span> <span class="ruby-identifier">m2</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">right</span>&#x000A;      <span class="ruby-identifier">m2</span> = <span class="ruby-identifier">right</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;    <span class="ruby-keyword">if</span> <span class="ruby-identifier">container</span>[<span class="ruby-identifier">m1</span>] <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">container</span>[<span class="ruby-identifier">m2</span>]&#x000A;      <span class="ruby-identifier">dualpivot_swap</span>(<span class="ruby-identifier">container</span>, <span class="ruby-identifier">m1</span>, <span class="ruby-identifier">left</span>)&#x000A;      <span class="ruby-identifier">dualpivot_swap</span>(<span class="ruby-identifier">container</span>, <span class="ruby-identifier">m2</span>, <span class="ruby-identifier">right</span>)&#x000A;    <span class="ruby-keyword">else</span>&#x000A;      <span class="ruby-identifier">dualpivot_swap</span>(<span class="ruby-identifier">container</span>, <span class="ruby-identifier">m1</span>, <span class="ruby-identifier">right</span>)&#x000A;      <span class="ruby-identifier">dualpivot_swap</span>(<span class="ruby-identifier">container</span>, <span class="ruby-identifier">m2</span>, <span class="ruby-identifier">left</span>)&#x000A;    <span class="ruby-keyword">end</span>&#x000A;    <span class="ruby-comment"># pivots</span>&#x000A;    <span class="ruby-identifier">pivot1</span> = <span class="ruby-identifier">container</span>[<span class="ruby-identifier">left</span>]&#x000A;    <span class="ruby-identifier">pivot2</span> = <span class="ruby-identifier">container</span>[<span class="ruby-identifier">right</span>]&#x000A;    <span class="ruby-comment"># pointers</span>&#x000A;    <span class="ruby-identifier">less</span> = <span class="ruby-identifier">left</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>&#x000A;    <span class="ruby-identifier">great</span> = <span class="ruby-identifier">right</span> <span class="ruby-value">-1</span>&#x000A;    <span class="ruby-comment"># sorting</span>&#x000A;    <span class="ruby-identifier">k</span> = <span class="ruby-identifier">less</span>&#x000A;    <span class="ruby-keyword">while</span> <span class="ruby-identifier">k</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">great</span>&#x000A;      <span class="ruby-keyword">if</span> <span class="ruby-identifier">container</span>[<span class="ruby-identifier">k</span>] <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">pivot1</span>&#x000A;        <span class="ruby-identifier">dualpivot_swap</span>(<span class="ruby-identifier">container</span>, <span class="ruby-identifier">k</span>, <span class="ruby-identifier">less</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>)&#x000A;      <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">container</span>[<span class="ruby-identifier">k</span>] <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">pivot2</span>&#x000A;        <span class="ruby-keyword">while</span> <span class="ruby-identifier">k</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">great</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">container</span>[<span class="ruby-identifier">great</span>] <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">pivot2</span>&#x000A;          <span class="ruby-identifier">great</span> <span class="ruby-operator">-=</span> <span class="ruby-value">1</span>&#x000A;        <span class="ruby-keyword">end</span>&#x000A;        <span class="ruby-identifier">dualpivot_swap</span>(<span class="ruby-identifier">container</span>, <span class="ruby-identifier">k</span>, <span class="ruby-identifier">great</span> <span class="ruby-operator">-=</span> <span class="ruby-value">1</span>)&#x000A;        <span class="ruby-keyword">if</span> <span class="ruby-identifier">container</span>[<span class="ruby-identifier">k</span>] <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">pivot1</span>&#x000A;          <span class="ruby-identifier">dualpivot_swap</span>(<span class="ruby-identifier">container</span>, <span class="ruby-identifier">k</span>, <span class="ruby-identifier">less</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>)&#x000A;        <span class="ruby-keyword">end</span>&#x000A;      <span class="ruby-keyword">end</span>&#x000A;      <span class="ruby-identifier">k</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;    <span class="ruby-comment"># swaps</span>&#x000A;    <span class="ruby-identifier">dist</span> = <span class="ruby-identifier">great</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">less</span>&#x000A;    <span class="ruby-keyword">if</span> <span class="ruby-identifier">dist</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">13</span>&#x000A;      <span class="ruby-identifier">div</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;    <span class="ruby-identifier">dualpivot_swap</span>(<span class="ruby-identifier">container</span>, <span class="ruby-identifier">less</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>, <span class="ruby-identifier">left</span>)&#x000A;    <span class="ruby-identifier">dualpivot_swap</span>(<span class="ruby-identifier">container</span>, <span class="ruby-identifier">great</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>, <span class="ruby-identifier">right</span>)&#x000A;    <span class="ruby-comment"># subarrays</span>&#x000A;    <span class="ruby-identifier">dualpivot</span>(<span class="ruby-identifier">container</span>, <span class="ruby-identifier">left</span>, <span class="ruby-identifier">less</span><span class="ruby-operator">-</span><span class="ruby-value">2</span>, <span class="ruby-identifier">div</span>)&#x000A;    <span class="ruby-identifier">dualpivot</span>(<span class="ruby-identifier">container</span>, <span class="ruby-identifier">great</span><span class="ruby-operator">+</span><span class="ruby-value">2</span>, <span class="ruby-identifier">right</span>, <span class="ruby-identifier">div</span>)&#x000A;    <span class="ruby-comment"># equal elements</span>&#x000A;    <span class="ruby-keyword">if</span> <span class="ruby-identifier">dist</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">length</span> <span class="ruby-operator">-</span> <span class="ruby-value">13</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">pivot1</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">pivot2</span>&#x000A;      <span class="ruby-keyword">for</span> <span class="ruby-identifier">k</span> <span class="ruby-keyword">in</span> <span class="ruby-identifier">less</span><span class="ruby-operator">..</span><span class="ruby-identifier">great</span> <span class="ruby-keyword">do</span>&#x000A;        <span class="ruby-keyword">if</span> <span class="ruby-identifier">container</span>[<span class="ruby-identifier">k</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">pivot1</span>&#x000A;          <span class="ruby-identifier">dualpivot_swap</span>(<span class="ruby-identifier">container</span>, <span class="ruby-identifier">k</span>, <span class="ruby-identifier">less</span>)&#x000A;          <span class="ruby-identifier">less</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>&#x000A;        <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">container</span>[<span class="ruby-identifier">k</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">pivot2</span>&#x000A;          <span class="ruby-identifier">dualpivot_swap</span>(<span class="ruby-identifier">container</span>, <span class="ruby-identifier">k</span>, <span class="ruby-identifier">great</span>)&#x000A;          <span class="ruby-identifier">great</span> <span class="ruby-operator">-=</span> <span class="ruby-value">1</span>&#x000A;          <span class="ruby-keyword">if</span> <span class="ruby-identifier">container</span>[<span class="ruby-identifier">k</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">pivot1</span>&#x000A;            <span class="ruby-identifier">dualpivot_swap</span>(<span class="ruby-identifier">container</span>, <span class="ruby-identifier">k</span>, <span class="ruby-identifier">less</span>)&#x000A;            <span class="ruby-identifier">less</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>&#x000A;          <span class="ruby-keyword">end</span>&#x000A;        <span class="ruby-keyword">end</span>&#x000A;      <span class="ruby-keyword">end</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;    <span class="ruby-comment"># subarray</span>&#x000A;    <span class="ruby-keyword">if</span> <span class="ruby-identifier">pivot1</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">pivot2</span>&#x000A;      <span class="ruby-identifier">dualpivot</span>(<span class="ruby-identifier">container</span>, <span class="ruby-identifier">less</span>, <span class="ruby-identifier">great</span>, <span class="ruby-identifier">div</span>)&#x000A;    <span class="ruby-keyword">end</span>&#x000A;    <span class="ruby-identifier">container</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-class' id='method-method-c-dualpivot_swap'>
+                <a name='method-c-dualpivot_swap'></a>
+                <div class='synopsis'>
+                  <span class='name'>dualpivot_swap</span>
+                  <span class='arguments'>(container, i, j)</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-c-dualpivot_swap-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-c-dualpivot_swap-source'><span class="ruby-comment"># File lib/algorithms/sort.rb, line 364</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">dualpivot_swap</span>(<span class="ruby-identifier">container</span>, <span class="ruby-identifier">i</span>, <span class="ruby-identifier">j</span>)&#x000A;  <span class="ruby-identifier">container</span>[<span class="ruby-identifier">i</span>],  <span class="ruby-identifier">container</span>[<span class="ruby-identifier">j</span>] = <span class="ruby-identifier">container</span>[<span class="ruby-identifier">j</span>],  <span class="ruby-identifier">container</span>[<span class="ruby-identifier">i</span>]&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-class' id='method-method-c-dualpivotquicksort'>
+                <a name='method-c-dualpivotquicksort'></a>
+                <div class='synopsis'>
+                  <span class='name'>dualpivotquicksort</span>
+                  <span class='arguments'>(container)</span>
+                </div>
+                <div class='description'>
+                  
+                  <p>Dual-Pivot Quicksort is a variation of Quicksort by Vladimir Yaroslavskiy.
+                  This is an implementation of the algorithm as it was found in the original
+                  research paper:</p>
+                  
+                  <p><a
+                  href="http://iaroslavski.narod.ru/quicksort/DualPivotQuicksort.pdf">iaroslavski.narod.ru/quicksort/DualPivotQuicksort.pdf</a></p>
+                  
+                  <p>Mirror: <a
+                  href="http://codeblab.com/wp-content/uploads/2009/09/DualPivotQuicksort.pdf">codeblab.com/wp-content/uploads/2009/09/DualPivotQuicksort.pdf</a></p>
+                  
+                  <p>“This algorithm offers O(n log(n)) performance on many data sets that cause
+                  other quicksorts to degrade to quadratic performance, and is typically 
+                  faster than traditional (one-pivot) Quicksort implementations.”</p>
+                  
+                  <pre>-- http://download.oracle.com/javase/7/docs/api/java/util/Arrays.html</pre>
+                  
+                  <p>The algorithm was improved by Vladimir Yaroslavskiy, Jon Bentley, and 
+                  Joshua Bloch, and was implemented as the default sort algorithm for
+                  primatives in Java 7.</p>
+                  
+                  <p>Implementation in the Java JDK as of November, 2011: <a
+                  href="http://www.docjar.com/html/api/java/util/DualPivotQuicksort.java.html">www.docjar.com/html/api/java/util/DualPivotQuicksort.java.html</a></p>
+                  
+                  <p>It is proved that for the Dual-Pivot Quicksort the average number  of
+                  comparisons is 2*n*ln(n), the average number of swaps is  0.8*n*ln(n),
+                  whereas classical Quicksort algorithm has 2*n*ln(n)  and 1*n*ln(n)
+                  respectively. This has been fully examined mathematically and
+                  experimentally.</p>
+                  
+                  <p>Requirements: Container should implement pop and include the Enumerable
+                  module. Time Complexity: О(n log n) average, О(n log n) worst-case Space
+                  Complexity: О(n) auxiliary</p>
+                  
+                  <p>Stable: No</p>
+                  
+                  <pre class="ruby"><span class="ruby-constant">Algorithms</span><span class="ruby-operator">::</span><span class="ruby-constant">Sort</span>.<span class="ruby-identifier">dualpivotquicksort</span> [<span class="ruby-value">5</span>, <span class="ruby-value">4</span>, <span class="ruby-value">3</span>, <span class="ruby-value">1</span>, <span class="ruby-value">2</span>] =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">1</span>, <span class="ruby-value">2</span>, <span class="ruby-value">3</span>, <span class="ruby-value">4</span>, <span class="ruby-value">5</span>]</pre>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-c-dualpivotquicksort-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-c-dualpivotquicksort-source'><span class="ruby-comment"># File lib/algorithms/sort.rb, line 273</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">dualpivotquicksort</span>(<span class="ruby-identifier">container</span>)&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-identifier">container</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">container</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-value">1</span>&#x000A;  <span class="ruby-identifier">dualpivot</span>(<span class="ruby-identifier">container</span>, <span class="ruby-value">0</span>, <span class="ruby-identifier">container</span>.<span class="ruby-identifier">size</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>, <span class="ruby-value">3</span>)&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-class' id='method-method-c-heapsort'>
+                <a name='method-c-heapsort'></a>
+                <div class='synopsis'>
+                  <span class='name'>heapsort</span>
+                  <span class='arguments'>(container)</span>
+                </div>
+                <div class='description'>
+                  
+                  <p>Heap sort: Uses a heap (implemented by the <a
+                  href="../Containers.html">Containers</a> module) to sort the collection.
+                  Requirements: Needs to be able to compare elements with &lt;=&gt; Time
+                  Complexity: О(n^2) Space Complexity: О(n) total, O(1) auxiliary Stable: Yes</p>
+                  
+                  <pre class="ruby"><span class="ruby-constant">Algorithms</span><span class="ruby-operator">::</span><span class="ruby-constant">Sort</span>.<span class="ruby-identifier">heapsort</span> [<span class="ruby-value">5</span>, <span class="ruby-value">4</span>, <span class="ruby-value">3</span>, <span class="ruby-value">1</span>, <span class="ruby-value">2</span>] =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">1</span>, <span class="ruby-value">2</span>, <span class="ruby-value">3</span>, <span class="ruby-value">4</span>, <span class="ruby-value">5</span>]</pre>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-c-heapsort-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-c-heapsort-source'><span class="ruby-comment"># File lib/algorithms/sort.rb, line 85</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">heapsort</span>(<span class="ruby-identifier">container</span>)&#x000A;  <span class="ruby-identifier">heap</span> = <span class="ruby-constant">Containers</span><span class="ruby-operator">::</span><span class="ruby-constant">Heap</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">container</span>)&#x000A;  <span class="ruby-identifier">ary</span> = []&#x000A;  <span class="ruby-identifier">ary</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">heap</span>.<span class="ruby-identifier">pop</span> <span class="ruby-keyword">until</span> <span class="ruby-identifier">heap</span>.<span class="ruby-identifier">empty?</span>&#x000A;  <span class="ruby-identifier">ary</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-class' id='method-method-c-insertion_sort'>
+                <a name='method-c-insertion_sort'></a>
+                <div class='synopsis'>
+                  <span class='name'>insertion_sort</span>
+                  <span class='arguments'>(container)</span>
+                </div>
+                <div class='description'>
+                  
+                  <p>Insertion sort: Elements are inserted sequentially into the right position.
+                  Requirements: Needs to be able to compare elements with &lt;=&gt;, and the
+                  [] []= methods should be implemented for the container. Time Complexity:
+                  О(n^2) Space Complexity: О(n) total, O(1) auxiliary Stable: Yes</p>
+                  
+                  <pre class="ruby"><span class="ruby-constant">Algorithms</span><span class="ruby-operator">::</span><span class="ruby-constant">Sort</span>.<span class="ruby-identifier">insertion_sort</span> [<span class="ruby-value">5</span>, <span class="ruby-value">4</span>, <span class="ruby-value">3</span>, <span class="ruby-value">1</span>, <span class="ruby-value">2</span>] =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">1</span>, <span class="ruby-value">2</span>, <span class="ruby-value">3</span>, <span class="ruby-value">4</span>, <span class="ruby-value">5</span>]</pre>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-c-insertion_sort-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-c-insertion_sort-source'><span class="ruby-comment"># File lib/algorithms/sort.rb, line 100</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">insertion_sort</span>(<span class="ruby-identifier">container</span>)&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-identifier">container</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">container</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">2</span>&#x000A;  (<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-identifier">container</span>.<span class="ruby-identifier">size</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>&#x000A;    <span class="ruby-identifier">value</span> = <span class="ruby-identifier">container</span>[<span class="ruby-identifier">i</span>]&#x000A;    <span class="ruby-identifier">j</span> = <span class="ruby-identifier">i</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>&#x000A;    <span class="ruby-keyword">while</span> <span class="ruby-identifier">j</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">0</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">container</span>[<span class="ruby-identifier">j</span>] <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">value</span> <span class="ruby-keyword">do</span>&#x000A;      <span class="ruby-identifier">container</span>[<span class="ruby-identifier">j</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>] = <span class="ruby-identifier">container</span>[<span class="ruby-identifier">j</span>]&#x000A;      <span class="ruby-identifier">j</span> = <span class="ruby-identifier">j</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;    <span class="ruby-identifier">container</span>[<span class="ruby-identifier">j</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>] = <span class="ruby-identifier">value</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-identifier">container</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-class' id='method-method-c-merge'>
+                <a name='method-c-merge'></a>
+                <div class='synopsis'>
+                  <span class='name'>merge</span>
+                  <span class='arguments'>(left, right)</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-c-merge-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-c-merge-source'><span class="ruby-comment"># File lib/algorithms/sort.rb, line 230</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">left</span>, <span class="ruby-identifier">right</span>)&#x000A;  <span class="ruby-identifier">sorted</span> = []&#x000A;  <span class="ruby-keyword">until</span> <span class="ruby-identifier">left</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">right</span>.<span class="ruby-identifier">empty?</span>&#x000A;    <span class="ruby-identifier">left</span>.<span class="ruby-identifier">first</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">right</span>.<span class="ruby-identifier">first</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">sorted</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">left</span>.<span class="ruby-identifier">shift</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">sorted</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">right</span>.<span class="ruby-identifier">shift</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-identifier">sorted</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">left</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">right</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-class' id='method-method-c-mergesort'>
+                <a name='method-c-mergesort'></a>
+                <div class='synopsis'>
+                  <span class='name'>mergesort</span>
+                  <span class='arguments'>(container)</span>
+                </div>
+                <div class='description'>
+                  
+                  <p>Mergesort: A stable divide-and-conquer sort that sorts small chunks of the
+                  container and then merges them together. Returns an array of the sorted
+                  elements. Requirements: Container should implement [] Time Complexity: О(n
+                  log n) average and worst-case Space Complexity: О(n) auxiliary Stable: Yes</p>
+                  
+                  <pre class="ruby"><span class="ruby-constant">Algorithms</span><span class="ruby-operator">::</span><span class="ruby-constant">Sort</span>.<span class="ruby-identifier">mergesort</span> [<span class="ruby-value">5</span>, <span class="ruby-value">4</span>, <span class="ruby-value">3</span>, <span class="ruby-value">1</span>, <span class="ruby-value">2</span>] =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">1</span>, <span class="ruby-value">2</span>, <span class="ruby-value">3</span>, <span class="ruby-value">4</span>, <span class="ruby-value">5</span>]</pre>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-c-mergesort-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-c-mergesort-source'><span class="ruby-comment"># File lib/algorithms/sort.rb, line 222</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">mergesort</span>(<span class="ruby-identifier">container</span>)&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-identifier">container</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">container</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-value">1</span>&#x000A;  <span class="ruby-identifier">mid</span>   = <span class="ruby-identifier">container</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">/</span> <span class="ruby-value">2</span>&#x000A;  <span class="ruby-identifier">left</span>  = <span class="ruby-identifier">container</span>[<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">mid</span>]&#x000A;  <span class="ruby-identifier">right</span> = <span class="ruby-identifier">container</span>[<span class="ruby-identifier">mid</span><span class="ruby-operator">...</span><span class="ruby-identifier">container</span>.<span class="ruby-identifier">size</span>]&#x000A;  <span class="ruby-identifier">merge</span>(<span class="ruby-identifier">mergesort</span>(<span class="ruby-identifier">left</span>), <span class="ruby-identifier">mergesort</span>(<span class="ruby-identifier">right</span>))&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-class' id='method-method-c-partition'>
+                <a name='method-c-partition'></a>
+                <div class='synopsis'>
+                  <span class='name'>partition</span>
+                  <span class='arguments'>(data, left, right)</span>
+                </div>
+                <div class='description'>
+                  
+                  <p>Quicksort: A divide-and-conquer sort that recursively partitions a
+                  container until it is sorted. Requirements: Container should implement pop
+                  and include the Enumerable module. Time Complexity: О(n log n) average,
+                  O(n^2) worst-case Space Complexity: О(n) auxiliary Stable: No</p>
+                  
+                  <pre class="ruby"><span class="ruby-constant">Algorithms</span><span class="ruby-operator">::</span><span class="ruby-constant">Sort</span>.<span class="ruby-identifier">quicksort</span> [<span class="ruby-value">5</span>, <span class="ruby-value">4</span>, <span class="ruby-value">3</span>, <span class="ruby-value">1</span>, <span class="ruby-value">2</span>] =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">1</span>, <span class="ruby-value">2</span>, <span class="ruby-value">3</span>, <span class="ruby-value">4</span>, <span class="ruby-value">5</span>]</pre>
+                  
+                  <p>def self.quicksort(container)</p>
+                  
+                  <pre class="ruby"><span class="ruby-keyword">return</span> [] <span class="ruby-keyword">if</span> <span class="ruby-identifier">container</span>.<span class="ruby-identifier">empty?</span>&#x000A;&#x000A;<span class="ruby-identifier">x</span>, *<span class="ruby-identifier">xs</span> = <span class="ruby-identifier">container</span>&#x000A;&#x000A;<span class="ruby-identifier">quicksort</span>(<span class="ruby-identifier">xs</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span> <span class="ruby-identifier">i</span> <span class="ruby-operator">&lt;</span>  <span class="ruby-identifier">x</span> }) <span class="ruby-operator">+</span> [<span class="ruby-identifier">x</span>] <span class="ruby-operator">+</span> <span class="ruby-identifier">quicksort</span>(<span class="ruby-identifier">xs</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span> <span class="ruby-identifier">i</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">x</span> })</pre>
+                  
+                  <p>end</p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-c-partition-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-c-partition-source'><span class="ruby-comment"># File lib/algorithms/sort.rb, line 154</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">partition</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">left</span>, <span class="ruby-identifier">right</span>)&#x000A;  <span class="ruby-identifier">pivot</span> = <span class="ruby-identifier">data</span>[<span class="ruby-identifier">front</span>]&#x000A;  <span class="ruby-identifier">left</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>&#x000A;&#x000A;  <span class="ruby-keyword">while</span> <span class="ruby-identifier">left</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">right</span> <span class="ruby-keyword">do</span>&#x000A;    <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>[<span class="ruby-identifier">frontUnknown</span>] <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">pivot</span>&#x000A;      <span class="ruby-identifier">back</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>&#x000A;      <span class="ruby-identifier">data</span>[<span class="ruby-identifier">frontUnknown</span>], <span class="ruby-identifier">data</span>[<span class="ruby-identifier">back</span>] = <span class="ruby-identifier">data</span>[<span class="ruby-identifier">back</span>], <span class="ruby-identifier">data</span>[<span class="ruby-identifier">frontUnknown</span>] <span class="ruby-comment"># Swap</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;&#x000A;    <span class="ruby-identifier">frontUnknown</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;&#x000A;  <span class="ruby-identifier">data</span>[<span class="ruby-identifier">front</span>], <span class="ruby-identifier">data</span>[<span class="ruby-identifier">back</span>] = <span class="ruby-identifier">data</span>[<span class="ruby-identifier">back</span>], <span class="ruby-identifier">data</span>[<span class="ruby-identifier">front</span>] <span class="ruby-comment"># Swap</span>&#x000A;  <span class="ruby-identifier">back</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-class' id='method-method-c-quicksort'>
+                <a name='method-c-quicksort'></a>
+                <div class='synopsis'>
+                  <span class='name'>quicksort</span>
+                  <span class='arguments'>(container)</span>
+                </div>
+                <div class='description'>
+                  
+                  <p>def self.quicksort(container, left = 0, right = container.size - 1)</p>
+                  
+                  <pre>if left &lt; right &#x000A;  middle = partition(container, left, right)&#x000A;  quicksort(container, left, middle - 1)&#x000A;  quicksort(container, middle + 1, right)&#x000A;end</pre>
+                  
+                  <p>end</p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-c-quicksort-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-c-quicksort-source'><span class="ruby-comment"># File lib/algorithms/sort.rb, line 180</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">quicksort</span>(<span class="ruby-identifier">container</span>)&#x000A;  <span class="ruby-identifier">bottom</span>, <span class="ruby-identifier">top</span> = [], []&#x000A;  <span class="ruby-identifier">top</span>[<span class="ruby-value">0</span>] = <span class="ruby-value">0</span>&#x000A;  <span class="ruby-identifier">bottom</span>[<span class="ruby-value">0</span>] = <span class="ruby-identifier">container</span>.<span class="ruby-identifier">size</span>&#x000A;  <span class="ruby-identifier">i</span> = <span class="ruby-value">0</span>&#x000A;  <span class="ruby-keyword">while</span> <span class="ruby-identifier">i</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">0</span> <span class="ruby-keyword">do</span>&#x000A;    <span class="ruby-identifier">l</span> = <span class="ruby-identifier">top</span>[<span class="ruby-identifier">i</span>]&#x000A;    <span class="ruby-identifier">r</span> = <span class="ruby-identifier">bottom</span>[<span class="ruby-identifier">i</span>] <span class="ruby-operator">-</span> <span class="ruby-value">1</span>;&#x000A;    <span class="ruby-keyword">if</span> <span class="ruby-identifier">l</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">r</span>&#x000A;      <span class="ruby-identifier">pivot</span> = <span class="ruby-identifier">container</span>[<span class="ruby-identifier">l</span>]&#x000A;      <span class="ruby-keyword">while</span> <span class="ruby-identifier">l</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">r</span> <span class="ruby-keyword">do</span>&#x000A;        <span class="ruby-identifier">r</span> <span class="ruby-operator">-=</span> <span class="ruby-value">1</span> <span class="ruby-keyword">while</span> (<span class="ruby-identifier">container</span>[<span class="ruby-identifier">r</span>] <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">pivot</span>  <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">l</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">r</span>)&#x000A;        <span class="ruby-keyword">if</span> (<span class="ruby-identifier">l</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">r</span>)&#x000A;          <span class="ruby-identifier">container</span>[<span class="ruby-identifier">l</span>] = <span class="ruby-identifier">container</span>[<span class="ruby-identifier">r</span>]&#x000A;          <span class="ruby-identifier">l</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>&#x000A;        <span class="ruby-keyword">end</span>&#x000A;        <span class="ruby-identifier">l</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> <span class="ruby-keyword">while</span> (<span class="ruby-identifier">container</span>[<span class="ruby-identifier">l</span>] <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">pivot</span>  <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">l</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">r</span>)&#x000A;        <span class="ruby-keyword">if</span> (<span class="ruby-identifier">l</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">r</span>)&#x000A;          <span class="ruby-identifier">container</span>[<span class="ruby-identifier">r</span>] = <span class="ruby-identifier">container</span>[<span class="ruby-identifier">l</span>]&#x000A;          <span class="ruby-identifier">r</span> <span class="ruby-operator">-=</span> <span class="ruby-value">1</span>&#x000A;        <span class="ruby-keyword">end</span>&#x000A;      <span class="ruby-keyword">end</span>&#x000A;      <span class="ruby-identifier">container</span>[<span class="ruby-identifier">l</span>] = <span class="ruby-identifier">pivot</span>&#x000A;      <span class="ruby-identifier">top</span>[<span class="ruby-identifier">i</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>] = <span class="ruby-identifier">l</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>&#x000A;      <span class="ruby-identifier">bottom</span>[<span class="ruby-identifier">i</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>] = <span class="ruby-identifier">bottom</span>[<span class="ruby-identifier">i</span>]&#x000A;      <span class="ruby-identifier">bottom</span>[<span class="ruby-identifier">i</span>] = <span class="ruby-identifier">l</span>&#x000A;      <span class="ruby-identifier">i</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>&#x000A;    <span class="ruby-keyword">else</span>&#x000A;      <span class="ruby-identifier">i</span> <span class="ruby-operator">-=</span> <span class="ruby-value">1</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-identifier">container</span>    &#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-class' id='method-method-c-selection_sort'>
+                <a name='method-c-selection_sort'></a>
+                <div class='synopsis'>
+                  <span class='name'>selection_sort</span>
+                  <span class='arguments'>(container)</span>
+                </div>
+                <div class='description'>
+                  
+                  <p>Selection sort: A naive sort that goes through the container and selects
+                  the smallest element, putting it at the beginning. Repeat until the end is
+                  reached. Requirements: Needs to be able to compare elements with &lt;=&gt;,
+                  and the [] []= methods should be implemented for the container. Time
+                  Complexity: О(n^2) Space Complexity: О(n) total, O(1) auxiliary Stable: Yes</p>
+                  
+                  <pre class="ruby"><span class="ruby-constant">Algorithms</span><span class="ruby-operator">::</span><span class="ruby-constant">Sort</span>.<span class="ruby-identifier">selection_sort</span> [<span class="ruby-value">5</span>, <span class="ruby-value">4</span>, <span class="ruby-value">3</span>, <span class="ruby-value">1</span>, <span class="ruby-value">2</span>] =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">1</span>, <span class="ruby-value">2</span>, <span class="ruby-value">3</span>, <span class="ruby-value">4</span>, <span class="ruby-value">5</span>]</pre>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-c-selection_sort-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-c-selection_sort-source'><span class="ruby-comment"># File lib/algorithms/sort.rb, line 67</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">selection_sort</span>(<span class="ruby-identifier">container</span>)&#x000A;  <span class="ruby-value">0</span>.<span class="ruby-identifier">upto</span>(<span class="ruby-identifier">container</span>.<span class="ruby-identifier">size</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>&#x000A;    <span class="ruby-identifier">min</span> = <span class="ruby-identifier">i</span>&#x000A;    (<span class="ruby-identifier">i</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>).<span class="ruby-identifier">upto</span>(<span class="ruby-identifier">container</span>.<span class="ruby-identifier">size</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">j</span><span class="ruby-operator">|</span>&#x000A;      <span class="ruby-identifier">min</span> = <span class="ruby-identifier">j</span> <span class="ruby-keyword">if</span> (<span class="ruby-identifier">container</span>[<span class="ruby-identifier">j</span>] <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">container</span>[<span class="ruby-identifier">min</span>]) <span class="ruby-operator">==</span> <span class="ruby-value">-1</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;    <span class="ruby-identifier">container</span>[<span class="ruby-identifier">i</span>], <span class="ruby-identifier">container</span>[<span class="ruby-identifier">min</span>] = <span class="ruby-identifier">container</span>[<span class="ruby-identifier">min</span>], <span class="ruby-identifier">container</span>[<span class="ruby-identifier">i</span>] <span class="ruby-comment"># Swap</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-identifier">container</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-class' id='method-method-c-shell_sort'>
+                <a name='method-c-shell_sort'></a>
+                <div class='synopsis'>
+                  <span class='name'>shell_sort</span>
+                  <span class='arguments'>(container)</span>
+                </div>
+                <div class='description'>
+                  
+                  <p>Shell sort: Similar approach as insertion sort but slightly better.
+                  Requirements: Needs to be able to compare elements with &lt;=&gt;, and the
+                  [] []= methods should be implemented for the container. Time Complexity:
+                  О(n^2) Space Complexity: О(n) total, O(1) auxiliary Stable: Yes</p>
+                  
+                  <pre class="ruby"><span class="ruby-constant">Algorithms</span><span class="ruby-operator">::</span><span class="ruby-constant">Sort</span>.<span class="ruby-identifier">shell_sort</span> [<span class="ruby-value">5</span>, <span class="ruby-value">4</span>, <span class="ruby-value">3</span>, <span class="ruby-value">1</span>, <span class="ruby-value">2</span>] =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">1</span>, <span class="ruby-value">2</span>, <span class="ruby-value">3</span>, <span class="ruby-value">4</span>, <span class="ruby-value">5</span>]</pre>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-c-shell_sort-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-c-shell_sort-source'><span class="ruby-comment"># File lib/algorithms/sort.rb, line 122</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">shell_sort</span>(<span class="ruby-identifier">container</span>)&#x000A;  <span class="ruby-identifier">increment</span> = <span class="ruby-identifier">container</span>.<span class="ruby-identifier">size</span><span class="ruby-operator">/</span><span class="ruby-value">2</span>&#x000A;  <span class="ruby-keyword">while</span> <span class="ruby-identifier">increment</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> <span class="ruby-keyword">do</span>&#x000A;    (<span class="ruby-identifier">increment</span><span class="ruby-operator">..</span><span class="ruby-identifier">container</span>.<span class="ruby-identifier">size</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>&#x000A;      <span class="ruby-identifier">temp</span> = <span class="ruby-identifier">container</span>[<span class="ruby-identifier">i</span>]&#x000A;      <span class="ruby-identifier">j</span> = <span class="ruby-identifier">i</span>&#x000A;      <span class="ruby-keyword">while</span> <span class="ruby-identifier">j</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">increment</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">container</span>[<span class="ruby-identifier">j</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">increment</span>] <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">temp</span> <span class="ruby-keyword">do</span>&#x000A;        <span class="ruby-identifier">container</span>[<span class="ruby-identifier">j</span>] = <span class="ruby-identifier">container</span>[<span class="ruby-identifier">j</span><span class="ruby-operator">-</span><span class="ruby-identifier">increment</span>]&#x000A;        <span class="ruby-identifier">j</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">increment</span>&#x000A;      <span class="ruby-keyword">end</span>&#x000A;      <span class="ruby-identifier">container</span>[<span class="ruby-identifier">j</span>] = <span class="ruby-identifier">temp</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;    <span class="ruby-identifier">increment</span> = (<span class="ruby-identifier">increment</span> <span class="ruby-operator">==</span> <span class="ruby-value">2</span> <span class="ruby-operator">?</span> <span class="ruby-value">1</span> <span class="ruby-operator">:</span> (<span class="ruby-identifier">increment</span> <span class="ruby-operator">/</span> <span class="ruby-value">2.2</span>).<span class="ruby-identifier">round</span>)&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-identifier">container</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a target="docwin" href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>Object</title>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+    <link href='../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='class' id='wrapper'>
+      <div class='header'>
+        <h1 class='name'>
+          <span class='type'>class</span>
+          Object
+        </h1>
+        <ol class='paths'>
+          <li>
+            <a target="docwin" href="../files/benchmarks/deque_rb.html">benchmarks/deque.rb</a>
+          </li>
+          <li class='other'>
+            <a target="docwin" href="../files/benchmarks/sorts_rb.html">benchmarks/sorts.rb</a>
+          </li>
+          <li class='other'>
+            <a target="docwin" href="../files/benchmarks/treemaps_rb.html">benchmarks/treemaps.rb</a>
+          </li>
+          <li class='other'>
+            <a target="docwin" href="../files/lib/containers/deque_rb.html">lib/containers/deque.rb</a>
+          </li>
+          <li class='other'>
+            <a target="docwin" href="../files/lib/containers/rb_tree_map_rb.html">lib/containers/rb_tree_map.rb</a>
+          </li>
+          <li class='other'>
+            <a target="docwin" href="../files/lib/containers/splay_tree_map_rb.html">lib/containers/splay_tree_map.rb</a>
+          </li>
+          <li class='other'>
+            <a target="docwin" href="../files/spec/map_gc_mark_spec_rb.html">spec/map_gc_mark_spec.rb</a>
+          </li>
+          <li class='other'>
+            <a target="docwin" href="../files/spec/sort_spec_rb.html">spec/sort_spec.rb</a>
+          </li>
+          <li>
+            <a class='show' href='#' onclick='this.parentNode.parentNode.className += " expanded"; this.parentNode.removeChild(this); return false'>show all</a>
+          </li>
+        </ol>
+        <div class='parent'>
+          Parent:
+          <strong><a target="docwin" href="../files/benchmarks/deque_rb.html">deque.rb</a></strong>
+        </div>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='description'></div>
+          <div id='method-list'>
+            <h2>Methods</h2>
+            <h3>Public Class</h3>
+            <ol>
+              <li><a target="docwin" href="#method-c-new">new</a></li>
+            </ol>
+            <h3>Public Instance</h3>
+            <ol>
+              <li><a target="docwin" href="#method-i-3C-3D-3E"><=></a></li>
+            </ol>
+          </div>
+          <div id='context'>
+            <div id='includes'>
+              <h2>Included modules</h2>
+              <ol>
+                <li><a target="docwin" href="Algorithms.html">Algorithms</a></li>
+                <li><a target="docwin" href="Containers.html">Containers</a></li>
+              </ol>
+            </div>
+          </div>
+          <div id='class-list'>
+            <h2>Classes and Modules</h2>
+            <ol>
+              <li><a target="docwin" href="Containers/CDeque.html">Object::Deque</a></li>
+              <li><a target="docwin" href="Containers/CRBTreeMap.html">Object::RBTreeMap</a></li>
+              <li><a target="docwin" href="Containers/CSplayTreeMap.html">Object::SplayTreeMap</a></li>
+            </ol>
+          </div>
+          <div id='section'>
+            <div id='constants-list'>
+              <h2>Constants</h2>
+              <div class='name-list'>
+                <table summary='Constants'>
+                  <tr class='top-aligned-row context-row'>
+                    <td class='context-item-name'>Deque</td>
+                    <td>=</td>
+                    <td class='context-item-value'>Containers::CDeque</td>
+                    <td>&nbsp;</td>
+                    <td class='context-item-desc'></td>
+                  </tr>
+                  <tr class='top-aligned-row context-row'>
+                    <td class='context-item-name'>RBTreeMap</td>
+                    <td>=</td>
+                    <td class='context-item-value'>Containers::CRBTreeMap</td>
+                    <td>&nbsp;</td>
+                    <td class='context-item-desc'></td>
+                  </tr>
+                  <tr class='top-aligned-row context-row'>
+                    <td class='context-item-name'>SplayTreeMap</td>
+                    <td>=</td>
+                    <td class='context-item-value'>Containers::CSplayTreeMap</td>
+                    <td>&nbsp;</td>
+                    <td class='context-item-desc'></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div id='methods'>
+              <h2>Public Class methods</h2>
+              <div class='method public-class' id='method-method-c-new'>
+                <a name='method-c-new'></a>
+                <div class='synopsis'>
+                  <span class='name'>new</span>
+                  <span class='arguments'>(x)</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-c-new-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-c-new-source'><span class="ruby-comment"># File spec/map_gc_mark_spec.rb, line 9</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">x</span>); <span class="ruby-ivar">@value</span> = <span class="ruby-identifier">x</span>; <span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <h2>Public Instance methods</h2>
+              <div class='method public-instance' id='method-method-i-3C-3D-3E'>
+                <a name='method-i-3C-3D-3E'></a>
+                <div class='synopsis'>
+                  <span class='name'><=></span>
+                  <span class='arguments'>(other)</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-3C-3D-3E-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-3C-3D-3E-source'><span class="ruby-comment"># File spec/map_gc_mark_spec.rb, line 10</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-operator">&lt;=&gt;</span>(<span class="ruby-identifier">other</span>); <span class="ruby-identifier">value</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">value</span>; <span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a target="docwin" href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

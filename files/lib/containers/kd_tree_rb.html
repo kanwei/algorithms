@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>kd_tree.rb</title>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+    <link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='file' id='wrapper'>
+      <div class='header'>
+        <h1 class='name'>kd_tree.rb</h1>
+        <div class='paths'>
+          lib/containers/kd_tree.rb
+        </div>
+        <div class='last-update'>
+          Last Update:
+          <span class='datetime'>2013-05-16 14:38:07 -0400</span>
+        </div>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='description'>
+            
+            <p>A kd-tree is a binary tree that allows one to store points (of any space
+            dimension: 2D, 3D, etc).  The structure of the resulting tree makes it so
+            that large portions of the tree are pruned during queries.</p>
+            
+            <p>One very good use of the tree is to allow nearest neighbor searching. Let’s
+            say you have a number of points in 2D space, and you want to find the
+            nearest 2 points from a specific point:</p>
+            
+            <p>First, put the points into the tree:</p>
+            
+            <pre class="ruby"><span class="ruby-identifier">kdtree</span> = <span class="ruby-constant">Containers</span><span class="ruby-operator">::</span><span class="ruby-constant">KDTree</span>.<span class="ruby-identifier">new</span>( {<span class="ruby-value">0</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">4</span>, <span class="ruby-value">3</span>], <span class="ruby-value">1</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">3</span>, <span class="ruby-value">4</span>], <span class="ruby-value">2</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">-1</span>, <span class="ruby-value">2</span>], <span class="ruby-value">3</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">6</span>, <span class="ruby-value">4</span>],&#x000A;                                 <span class="ruby-value">4</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">3</span>, <span class="ruby-value">-5</span>], <span class="ruby-value">5</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">-2</span>, <span class="ruby-value">-5</span>] })</pre>
+            
+            <p>Then, query on the tree:</p>
+            
+            <pre class="ruby"><span class="ruby-identifier">puts</span> <span class="ruby-identifier">kd</span>.<span class="ruby-identifier">find_nearest</span>([<span class="ruby-value">0</span>, <span class="ruby-value">0</span>], <span class="ruby-value">2</span>) =<span class="ruby-operator">&gt;</span> [[<span class="ruby-value">5</span>, <span class="ruby-value">2</span>], [<span class="ruby-value">9</span>, <span class="ruby-value">1</span>]]</pre>
+            
+            <p>The result is an array of [distance, id] pairs. There seems to be a bug in
+            this version.</p>
+            
+            <p>Note that the point queried on does not have to exist in the tree. However,
+            if it does exist, it will be returned.</p>
+          </div>
+          <div id='context'>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a target="docwin" href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

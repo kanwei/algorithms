@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>Rakefile</title>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+    <link href='../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='file' id='wrapper'>
+      <div class='header'>
+        <h1 class='name'>Rakefile</h1>
+        <div class='paths'>
+          Rakefile
+        </div>
+        <div class='last-update'>
+          Last Update:
+          <span class='datetime'>2013-05-16 14:38:07 -0400</span>
+        </div>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='description'>
+            
+            <p>require ‘rubygems’ require ‘rake/extensiontask’ require
+            ‘rspec/core/rake_task’ require ‘bundler/gem_tasks’</p>
+            
+            <p>Rake::ExtensionTask.new(‘algorithms/string’)        { |ext| ext.name =
+            “CString” } Rake::ExtensionTask.new(‘containers/deque’)         { |ext|
+            ext.name = “CDeque” } Rake::ExtensionTask.new(‘containers/bst’)           {
+            |ext| ext.name = “CBst” } Rake::ExtensionTask.new(‘containers/rbtree_map’) 
+            { |ext| ext.name = “CRBTreeMap” }
+            Rake::ExtensionTask.new(‘containers/splaytree_map’) { |ext| ext.name =
+            “CSplayTreeMap” }</p>
+            
+            <p>RSpec::Core::RakeTask.new</p>
+            
+            <p>if defined?(RUBY_ENGINE) &amp;&amp; RUBY_ENGINE == ‘jruby’</p>
+            
+            <pre class="ruby"><span class="ruby-identifier">task</span> :<span class="ruby-identifier">default</span> =<span class="ruby-operator">&gt;</span> [:<span class="ruby-identifier">spec</span>]</pre>
+            
+            <p>else</p>
+            
+            <pre class="ruby"><span class="ruby-identifier">task</span> :<span class="ruby-identifier">default</span> =<span class="ruby-operator">&gt;</span> [:<span class="ruby-identifier">compile</span>, :<span class="ruby-identifier">spec</span>]</pre>
+            
+            <p>end</p>
+            
+            <p>task :rdoc do</p>
+            
+            <pre>`rdoc -f hanna --main algorithms.rb -t &quot;Ruby Algorithms and Containers Documentation&quot;`</pre>
+            
+            <p>end</p>
+          </div>
+          <div id='context'>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a target="docwin" href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

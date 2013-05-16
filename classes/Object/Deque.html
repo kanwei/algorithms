@@ -1,0 +1,296 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>Object::Deque</title>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+    <link href='../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='class' id='wrapper'>
+      <div class='header'>
+        <h1 class='name'>
+          <span class='type'>class</span>
+          Object::Deque
+        </h1>
+        <ol class='paths'>
+          <li>
+            <a target="docwin" href="../../files/ext/containers/bst/bst_c.html">ext/containers/bst/bst.c</a>
+          </li>
+        </ol>
+        <div class='parent'>
+          Parent:
+          <strong><a target="docwin" href="../Object.html">Object</a></strong>
+        </div>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='description'></div>
+          <div id='method-list'>
+            <h2>Methods</h2>
+            <h3>Public Class</h3>
+            <ol>
+              <li><a target="docwin" href="#method-c-new">new</a></li>
+            </ol>
+            <h3>Public Instance</h3>
+            <ol>
+              <li><a target="docwin" href="#method-i-back">back</a></li>
+              <li><a target="docwin" href="#method-i-clear">clear</a></li>
+              <li><a target="docwin" href="#method-i-each_backward">each_backward</a></li>
+              <li><a target="docwin" href="#method-i-each_forward">each_forward</a></li>
+              <li><a target="docwin" href="#method-i-empty-3F">empty?</a></li>
+              <li><a target="docwin" href="#method-i-front">front</a></li>
+              <li><a target="docwin" href="#method-i-pop_back">pop_back</a></li>
+              <li><a target="docwin" href="#method-i-pop_front">pop_front</a></li>
+              <li><a target="docwin" href="#method-i-push_back">push_back</a></li>
+              <li><a target="docwin" href="#method-i-push_front">push_front</a></li>
+              <li><a target="docwin" href="#method-i-size">size</a></li>
+            </ol>
+          </div>
+          <div id='context'>
+          </div>
+          <div id='section'>
+            <div id='aliases-list'>
+              <h2>Public Instance Aliases</h2>
+              <div class='name-list'>
+                <table summary='Public Instance Aliases'>
+                  <tr class='top-aligned-row context-row'>
+                    <td class='context-item-name'>each</td>
+                    <td>-&gt;</td>
+                    <td class='context-item-value'><a target="docwin" href="#method-i-each_forward">each_forward</a></td>
+                  </tr>
+                  <tr class='top-aligned-row context-row'>
+                    <td class='context-item-name'>length</td>
+                    <td>-&gt;</td>
+                    <td class='context-item-value'><a target="docwin" href="#method-i-size">size</a></td>
+                  </tr>
+                  <tr class='top-aligned-row context-row'>
+                    <td class='context-item-name'>reverse_each</td>
+                    <td>-&gt;</td>
+                    <td class='context-item-value'><a target="docwin" href="#method-i-each_backward">each_backward</a></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div id='methods'>
+              <h2>Public Class methods</h2>
+              <div class='method public-class' id='method-method-c-new'>
+                <a name='method-c-new'></a>
+                <div class='synopsis'>
+                  <span class='name'>new</span>
+                  <span class='arguments'>(*args)</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-c-new-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-c-new-source'>static VALUE deque_init(int argc, VALUE *argv, VALUE self)&#x000A;{&#x000A;        long len, i;&#x000A;        VALUE ary;&#x000A;        &#x000A;        if(argc == 0) {&#x000A;                return self;&#x000A;        }&#x000A;        else if(argc &gt; 1) {&#x000A;                rb_raise(rb_eArgError, &quot;wrong number of arguments&quot;);&#x000A;        }&#x000A;        else {&#x000A;                ary = rb_check_array_type(argv[0]);&#x000A;                if(!NIL_P(ary)) {&#x000A;                        len = RARRAY_LEN(ary);&#x000A;                        for (i = 0; i &lt; len; i++) {&#x000A;                                deque_push_back(self, RARRAY_PTR(ary)[i]);&#x000A;                        }&#x000A;                }&#x000A;        }&#x000A;        return self;&#x000A;}</pre>
+                </div>
+              </div>
+              <h2>Public Instance methods</h2>
+              <div class='method public-instance' id='method-method-i-back'>
+                <a name='method-i-back'></a>
+                <div class='synopsis'>
+                  <span class='name'>back</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-back-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-back-source'>static VALUE deque_back(VALUE self) {&#x000A;        deque *deque = get_deque_from_self(self);&#x000A;        if(deque-&gt;back)&#x000A;                return deque-&gt;back-&gt;obj;&#x000A;        &#x000A;        return Qnil;&#x000A;}</pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-clear'>
+                <a name='method-i-clear'></a>
+                <div class='synopsis'>
+                  <span class='name'>clear</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-clear-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-clear-source'>static VALUE deque_clear(VALUE self) {&#x000A;        deque *deque = get_deque_from_self(self);&#x000A;        clear_deque(deque);&#x000A;        return Qnil;&#x000A;}</pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-each_backward'>
+                <a name='method-i-each_backward'></a>
+                <div class='synopsis'>
+                  <span class='name'>each_backward</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-each_backward-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-each_backward-source'>static VALUE deque_each_backward(VALUE self) {&#x000A;        deque *deque = get_deque_from_self(self);&#x000A;        deque_node *node = deque-&gt;back;&#x000A;        while(node) {&#x000A;                rb_yield(node-&gt;obj);&#x000A;                node = node-&gt;left;&#x000A;        }&#x000A;        return self;&#x000A;}</pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-each_forward'>
+                <a name='method-i-each_forward'></a>
+                <div class='synopsis'>
+                  <span class='name'>each_forward</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-each_forward-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-each_forward-source'>static VALUE deque_each_forward(VALUE self) {&#x000A;        deque *deque = get_deque_from_self(self);&#x000A;        deque_node *node = deque-&gt;front;&#x000A;        while(node) {&#x000A;                rb_yield(node-&gt;obj);&#x000A;                node = node-&gt;right;&#x000A;        }&#x000A;        return self;&#x000A;}</pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-empty-3F'>
+                <a name='method-i-empty-3F'></a>
+                <div class='synopsis'>
+                  <span class='name'>empty?</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-empty-3F-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-empty-3F-source'>static VALUE deque_is_empty(VALUE self) {&#x000A;        deque *deque = get_deque_from_self(self);&#x000A;        return (deque-&gt;size == 0) ? Qtrue : Qfalse;&#x000A;}</pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-front'>
+                <a name='method-i-front'></a>
+                <div class='synopsis'>
+                  <span class='name'>front</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-front-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-front-source'>static VALUE deque_front(VALUE self) {&#x000A;        deque *deque = get_deque_from_self(self);&#x000A;        if(deque-&gt;front)&#x000A;                return deque-&gt;front-&gt;obj;&#x000A;        &#x000A;        return Qnil;&#x000A;}</pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-pop_back'>
+                <a name='method-i-pop_back'></a>
+                <div class='synopsis'>
+                  <span class='name'>pop_back</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-pop_back-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-pop_back-source'>static VALUE deque_pop_back(VALUE self) {&#x000A;        deque *deque = get_deque_from_self(self);&#x000A;        VALUE obj;&#x000A;        if(!deque-&gt;back)&#x000A;                return Qnil;&#x000A;        deque_node *node = deque-&gt;back;&#x000A;        obj = node-&gt;obj;&#x000A;        if(deque-&gt;size == 1) {&#x000A;                clear_deque(deque);&#x000A;                return obj;&#x000A;        }&#x000A;        deque-&gt;back-&gt;left-&gt;right = NULL;&#x000A;        deque-&gt;back = deque-&gt;back-&gt;left;&#x000A;        deque-&gt;size--;&#x000A;        return obj;&#x000A;}</pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-pop_front'>
+                <a name='method-i-pop_front'></a>
+                <div class='synopsis'>
+                  <span class='name'>pop_front</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-pop_front-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-pop_front-source'>static VALUE deque_pop_front(VALUE self) {&#x000A;        deque *deque = get_deque_from_self(self);&#x000A;        VALUE obj;&#x000A;        if(!deque-&gt;front)&#x000A;                return Qnil;&#x000A;        deque_node *node = deque-&gt;front;&#x000A;        obj = node-&gt;obj;&#x000A;        if(deque-&gt;size == 1) {&#x000A;                clear_deque(deque);&#x000A;                return obj;&#x000A;        }&#x000A;        deque-&gt;front-&gt;right-&gt;left = NULL;&#x000A;        deque-&gt;front = deque-&gt;front-&gt;right;&#x000A;        deque-&gt;size--;&#x000A;        return obj;&#x000A;}</pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-push_back'>
+                <a name='method-i-push_back'></a>
+                <div class='synopsis'>
+                  <span class='name'>push_back</span>
+                  <span class='arguments'>(p1)</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-push_back-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-push_back-source'>static VALUE deque_push_back(VALUE self, VALUE obj) {&#x000A;        deque *deque = get_deque_from_self(self);&#x000A;        deque_node *node = create_node(obj);&#x000A;        if(deque-&gt;back) {&#x000A;                node-&gt;left = deque-&gt;back;&#x000A;                deque-&gt;back-&gt;right = node;&#x000A;                deque-&gt;back = node; &#x000A;        }&#x000A;        else {&#x000A;                deque-&gt;front = node;&#x000A;                deque-&gt;back = node;&#x000A;        }&#x000A;        deque-&gt;size++;&#x000A;        return obj;&#x000A;}</pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-push_front'>
+                <a name='method-i-push_front'></a>
+                <div class='synopsis'>
+                  <span class='name'>push_front</span>
+                  <span class='arguments'>(p1)</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-push_front-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-push_front-source'>static VALUE deque_push_front(VALUE self, VALUE obj) {&#x000A;        deque *deque = get_deque_from_self(self);&#x000A;        deque_node *node = create_node(obj);&#x000A;        if(deque-&gt;front) {&#x000A;                node-&gt;right = deque-&gt;front;&#x000A;                deque-&gt;front-&gt;left = node;&#x000A;                deque-&gt;front = node; &#x000A;        }&#x000A;        else {&#x000A;                deque-&gt;front = node;&#x000A;                deque-&gt;back = node;&#x000A;        }&#x000A;        deque-&gt;size++;&#x000A;        return obj;&#x000A;}</pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-size'>
+                <a name='method-i-size'></a>
+                <div class='synopsis'>
+                  <span class='name'>size</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-size-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-size-source'>static VALUE deque_size(VALUE self) {&#x000A;        deque *deque = get_deque_from_self(self);&#x000A;        return INT2NUM(deque-&gt;size);&#x000A;}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a target="docwin" href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

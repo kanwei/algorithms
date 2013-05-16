@@ -1,0 +1,291 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>Containers::CSplayTreeMap</title>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+    <link href='../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='class' id='wrapper'>
+      <div class='header'>
+        <h1 class='name'>
+          <span class='type'>class</span>
+          Containers::CSplayTreeMap
+        </h1>
+        <ol class='paths'>
+          <li>
+            <a target="docwin" href="../../files/ext/containers/bst/bst_c.html">ext/containers/bst/bst.c</a>
+          </li>
+        </ol>
+        <div class='parent'>
+          Parent:
+          <strong><a target="docwin" href="../Containers.html">Containers</a></strong>
+        </div>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='description'></div>
+          <div id='method-list'>
+            <h2>Methods</h2>
+            <h3>Public Class</h3>
+            <ol>
+              <li><a target="docwin" href="#method-c-new">new</a></li>
+            </ol>
+            <h3>Public Instance</h3>
+            <ol>
+              <li><a target="docwin" href="#method-i-clear">clear</a></li>
+              <li><a target="docwin" href="#method-i-delete">delete</a></li>
+              <li><a target="docwin" href="#method-i-each">each</a></li>
+              <li><a target="docwin" href="#method-i-empty-3F">empty?</a></li>
+              <li><a target="docwin" href="#method-i-get">get</a></li>
+              <li><a target="docwin" href="#method-i-has_key-3F">has_key?</a></li>
+              <li><a target="docwin" href="#method-i-height">height</a></li>
+              <li><a target="docwin" href="#method-i-max_key">max_key</a></li>
+              <li><a target="docwin" href="#method-i-min_key">min_key</a></li>
+              <li><a target="docwin" href="#method-i-push">push</a></li>
+              <li><a target="docwin" href="#method-i-size">size</a></li>
+            </ol>
+          </div>
+          <div id='context'>
+          </div>
+          <div id='section'>
+            <div id='aliases-list'>
+              <h2>Public Instance Aliases</h2>
+              <div class='name-list'>
+                <table summary='Public Instance Aliases'>
+                  <tr class='top-aligned-row context-row'>
+                    <td class='context-item-name'>[]</td>
+                    <td>-&gt;</td>
+                    <td class='context-item-value'><a target="docwin" href="#method-i-get">get</a></td>
+                  </tr>
+                  <tr class='top-aligned-row context-row'>
+                    <td class='context-item-name'>[]=</td>
+                    <td>-&gt;</td>
+                    <td class='context-item-value'><a target="docwin" href="#method-i-push">push</a></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div id='methods'>
+              <h2>Public Class methods</h2>
+              <div class='method public-class' id='method-method-c-new'>
+                <a name='method-c-new'></a>
+                <div class='synopsis'>
+                  <span class='name'>new</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-c-new-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-c-new-source'>static VALUE splaytree_init(VALUE self)&#x000A;{&#x000A;        return self;&#x000A;}</pre>
+                </div>
+              </div>
+              <h2>Public Instance methods</h2>
+              <div class='method public-instance' id='method-method-i-clear'>
+                <a name='method-i-clear'></a>
+                <div class='synopsis'>
+                  <span class='name'>clear</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-clear-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-clear-source'>static VALUE splaytree_clear(VALUE self) {&#x000A;        splaytree *tree = get_tree_from_self(self);&#x000A;        recursively_free_nodes(tree-&gt;root);&#x000A;        tree-&gt;root = NULL;&#x000A;        return Qnil;&#x000A;}</pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-delete'>
+                <a name='method-i-delete'></a>
+                <div class='synopsis'>
+                  <span class='name'>delete</span>
+                  <span class='arguments'>(p1)</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-delete-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-delete-source'>static VALUE splaytree_delete(VALUE self, VALUE key) {&#x000A;        VALUE deleted = Qnil;&#x000A;        splaytree *tree = get_tree_from_self(self);&#x000A;        if(!tree-&gt;root)&#x000A;                return Qnil;&#x000A;        &#x000A;        tree-&gt;root = delete(tree, tree-&gt;root, key, &amp;deleted);&#x000A;        return deleted;&#x000A;}</pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-each'>
+                <a name='method-i-each'></a>
+                <div class='synopsis'>
+                  <span class='name'>each</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-each-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-each-source'>static VALUE splaytree_each(VALUE self) {&#x000A;        splaytree *tree = get_tree_from_self(self);&#x000A;        splay_each(tree, &amp;splaytree_each_helper, NULL);&#x000A;        return self;&#x000A;}</pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-empty-3F'>
+                <a name='method-i-empty-3F'></a>
+                <div class='synopsis'>
+                  <span class='name'>empty?</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-empty-3F-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-empty-3F-source'>static VALUE splaytree_is_empty(VALUE self) {&#x000A;        splaytree *tree = get_tree_from_self(self);&#x000A;        return (tree-&gt;root ? Qfalse : Qtrue);&#x000A;}</pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-get'>
+                <a name='method-i-get'></a>
+                <div class='synopsis'>
+                  <span class='name'>get</span>
+                  <span class='arguments'>(p1)</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-get-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-get-source'>static VALUE splaytree_get(VALUE self, VALUE key) {&#x000A;        splaytree *tree = get_tree_from_self(self);&#x000A;        return get(tree, key);&#x000A;}</pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-has_key-3F'>
+                <a name='method-i-has_key-3F'></a>
+                <div class='synopsis'>
+                  <span class='name'>has_key?</span>
+                  <span class='arguments'>(p1)</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-has_key-3F-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-has_key-3F-source'>static VALUE splaytree_has_key(VALUE self, VALUE key) {&#x000A;        splaytree *tree = get_tree_from_self(self);&#x000A;        if(!tree-&gt;root) { return Qfalse; }&#x000A;        if(get(tree, key) == Qnil)&#x000A;                return Qfalse;&#x000A;        &#x000A;        return Qtrue;&#x000A;}</pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-height'>
+                <a name='method-i-height'></a>
+                <div class='synopsis'>
+                  <span class='name'>height</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-height-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-height-source'>static VALUE splaytree_height(VALUE self) {&#x000A;        splaytree *tree = get_tree_from_self(self);&#x000A;        return INT2NUM(height(tree-&gt;root));&#x000A;}</pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-max_key'>
+                <a name='method-i-max_key'></a>
+                <div class='synopsis'>
+                  <span class='name'>max_key</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-max_key-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-max_key-source'>static VALUE splaytree_max_key(VALUE self) {&#x000A;        splaytree *tree = get_tree_from_self(self);&#x000A;        splaytree_node *node;&#x000A;        &#x000A;        if(!tree-&gt;root)&#x000A;                return Qnil;&#x000A;        &#x000A;        node = tree-&gt;root;&#x000A;        while (node-&gt;right)&#x000A;                node = node-&gt;right;&#x000A;        &#x000A;        return node-&gt;key;&#x000A;}</pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-min_key'>
+                <a name='method-i-min_key'></a>
+                <div class='synopsis'>
+                  <span class='name'>min_key</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-min_key-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-min_key-source'>static VALUE splaytree_min_key(VALUE self) {&#x000A;        splaytree *tree = get_tree_from_self(self);&#x000A;        splaytree_node *node;&#x000A;        &#x000A;        if(!tree-&gt;root)&#x000A;                return Qnil;&#x000A;        &#x000A;        node = tree-&gt;root;&#x000A;        while (node-&gt;left)&#x000A;                node = node-&gt;left;&#x000A;        &#x000A;        return node-&gt;key;&#x000A;}</pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-push'>
+                <a name='method-i-push'></a>
+                <div class='synopsis'>
+                  <span class='name'>push</span>
+                  <span class='arguments'>(p1, p2)</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-push-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-push-source'>static VALUE splaytree_push(VALUE self, VALUE key, VALUE value) {&#x000A;        splaytree *tree = get_tree_from_self(self);&#x000A;        tree-&gt;root = insert(tree, tree-&gt;root, key, value);&#x000A;        return value;&#x000A;}</pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-size'>
+                <a name='method-i-size'></a>
+                <div class='synopsis'>
+                  <span class='name'>size</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-size-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-size-source'>static VALUE splaytree_size(VALUE self) {&#x000A;        splaytree *tree = get_tree_from_self(self);&#x000A;        if(!tree-&gt;root) { return INT2NUM(0); }&#x000A;        return INT2NUM(tree-&gt;root-&gt;size);&#x000A;}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a target="docwin" href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

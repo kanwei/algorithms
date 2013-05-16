@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>bst_gc_mark_spec.rb</title>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+    <link href='../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='file' id='wrapper'>
+      <div class='header'>
+        <h1 class='name'>bst_gc_mark_spec.rb</h1>
+        <div class='paths'>
+          spec/bst_gc_mark_spec.rb
+        </div>
+        <div class='last-update'>
+          Last Update:
+          <span class='datetime'>2013-05-16 14:38:07 -0400</span>
+        </div>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='description'>
+            
+            <p>$: &lt;&lt; File.join(File.expand_path(File.dirname(__FILE__)), ‘..’,
+            ‘lib’) require ‘algorithms’</p>
+            
+            <p>if defined? <a
+            href="../../classes/Containers/CBst.html">Containers::CBst</a></p>
+            
+            <pre class="ruby"><span class="ruby-identifier">describe</span> <span class="ruby-string">&quot;CBst&quot;</span> <span class="ruby-keyword">do</span>&#x000A;  <span class="ruby-identifier">it</span> <span class="ruby-string">&quot;should mark ruby object references&quot;</span> <span class="ruby-keyword">do</span>&#x000A;    <span class="ruby-identifier">anon_key_class</span> = <span class="ruby-constant">Class</span>.<span class="ruby-identifier">new</span> <span class="ruby-keyword">do</span>&#x000A;      <span class="ruby-identifier">attr</span> :<span class="ruby-identifier">value</span>&#x000A;      <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">x</span>); <span class="ruby-ivar">@value</span> = <span class="ruby-identifier">x</span>; <span class="ruby-keyword">end</span>&#x000A;      <span class="ruby-keyword">def</span> <span class="ruby-operator">&lt;=&gt;</span>(<span class="ruby-identifier">other</span>); <span class="ruby-identifier">value</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">value</span>; <span class="ruby-keyword">end</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;    <span class="ruby-identifier">anon_val_class</span> = <span class="ruby-constant">Class</span>.<span class="ruby-identifier">new</span>&#x000A;    <span class="ruby-ivar">@bst</span> = <span class="ruby-constant">Containers</span><span class="ruby-operator">::</span><span class="ruby-constant">CBst</span>.<span class="ruby-identifier">new</span>&#x000A;    <span class="ruby-value">100</span>.<span class="ruby-identifier">times</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-ivar">@bst</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">anon_key_class</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">x</span>), <span class="ruby-identifier">anon_val_class</span>.<span class="ruby-identifier">new</span>) }&#x000A;    <span class="ruby-comment"># Mark and sweep</span>&#x000A;    <span class="ruby-constant">ObjectSpace</span>.<span class="ruby-identifier">garbage_collect</span>&#x000A;    <span class="ruby-comment"># Check if any instances were swept</span>&#x000A;    <span class="ruby-identifier">count</span> = <span class="ruby-value">0</span>&#x000A;    <span class="ruby-constant">ObjectSpace</span>.<span class="ruby-identifier">each_object</span>(<span class="ruby-identifier">anon_key_class</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">count</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> }&#x000A;    <span class="ruby-identifier">count</span>.<span class="ruby-identifier">should</span> <span class="ruby-identifier">eql</span>(<span class="ruby-value">100</span>)&#x000A;    <span class="ruby-constant">ObjectSpace</span>.<span class="ruby-identifier">each_object</span>(<span class="ruby-identifier">anon_val_class</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">count</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> }&#x000A;    <span class="ruby-identifier">count</span>.<span class="ruby-identifier">should</span> <span class="ruby-identifier">eql</span>(<span class="ruby-value">200</span>)&#x000A;  <span class="ruby-keyword">end</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+            
+            <p>end</p>
+          </div>
+          <div id='context'>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a target="docwin" href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

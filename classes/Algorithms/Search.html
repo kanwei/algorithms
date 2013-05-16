@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>Algorithms::Search</title>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+    <link href='../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='class' id='wrapper'>
+      <div class='header'>
+        <h1 class='name'>
+          <span class='type'>module</span>
+          Algorithms::Search
+        </h1>
+        <ol class='paths'>
+          <li>
+            <a target="docwin" href="../../files/lib/algorithms/search_rb.html">lib/algorithms/search.rb</a>
+          </li>
+        </ol>
+        <div class='parent'>
+          Parent:
+          <strong><a target="docwin" href="../Algorithms.html">Algorithms</a></strong>
+        </div>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='description'>
+            
+            <p>This module implements search algorithms. Documentation is provided for
+            each algorithm.</p>
+          </div>
+          <div id='method-list'>
+            <h2>Methods</h2>
+            <h3>Public Class</h3>
+            <ol>
+              <li><a target="docwin" href="#method-c-binary_search">binary_search</a></li>
+              <li><a target="docwin" href="#method-c-kmp_search">kmp_search</a></li>
+            </ol>
+            <h3>Public Instance</h3>
+            <ol>
+              <li><a target="docwin" href="#method-i-kmp_search">kmp_search</a></li>
+            </ol>
+          </div>
+          <div id='context'>
+          </div>
+          <div id='section'>
+            <div id='methods'>
+              <h2>Public Class methods</h2>
+              <div class='method public-class' id='method-method-c-binary_search'>
+                <a name='method-c-binary_search'></a>
+                <div class='synopsis'>
+                  <span class='name'>binary_search</span>
+                  <span class='arguments'>(container, item)</span>
+                </div>
+                <div class='description'>
+                  
+                  <p>Binary Search: This search finds an item in log(n) time provided that the
+                  container is already sorted. The method returns the item if it is found, or
+                  nil if it is not. If there are duplicates, the first one found is returned,
+                  and this is not guaranteed to be the smallest or largest item.</p>
+                  
+                  <p>Complexity: O(lg N)</p>
+                  
+                  <pre class="ruby"><span class="ruby-constant">Algorithms</span><span class="ruby-operator">::</span><span class="ruby-constant">Search</span>.<span class="ruby-identifier">binary_search</span>([<span class="ruby-value">1</span>, <span class="ruby-value">2</span>, <span class="ruby-value">3</span>], <span class="ruby-value">1</span>) <span class="ruby-comment">#=&gt; 1</span>&#x000A;<span class="ruby-constant">Algorithms</span><span class="ruby-operator">::</span><span class="ruby-constant">Search</span>.<span class="ruby-identifier">binary_search</span>([<span class="ruby-value">1</span>, <span class="ruby-value">2</span>, <span class="ruby-value">3</span>], <span class="ruby-value">4</span>) <span class="ruby-comment">#=&gt; nil</span></pre>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-c-binary_search-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-c-binary_search-source'><span class="ruby-comment"># File lib/algorithms/search.rb, line 14</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">binary_search</span>(<span class="ruby-identifier">container</span>, <span class="ruby-identifier">item</span>)&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">item</span>.<span class="ruby-identifier">nil?</span>&#x000A;  <span class="ruby-identifier">low</span> = <span class="ruby-value">0</span>&#x000A;  <span class="ruby-identifier">high</span> = <span class="ruby-identifier">container</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>&#x000A;  <span class="ruby-keyword">while</span> <span class="ruby-identifier">low</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">high</span>&#x000A;    <span class="ruby-identifier">mid</span> = (<span class="ruby-identifier">low</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">high</span>) <span class="ruby-operator">/</span> <span class="ruby-value">2</span>&#x000A;    <span class="ruby-identifier">val</span> = <span class="ruby-identifier">container</span>[<span class="ruby-identifier">mid</span>]&#x000A;    <span class="ruby-keyword">if</span> <span class="ruby-identifier">val</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">item</span>&#x000A;      <span class="ruby-identifier">high</span> = <span class="ruby-identifier">mid</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>&#x000A;    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">val</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">item</span>&#x000A;      <span class="ruby-identifier">low</span> = <span class="ruby-identifier">mid</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>&#x000A;    <span class="ruby-keyword">else</span>&#x000A;      <span class="ruby-keyword">return</span> <span class="ruby-identifier">val</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">nil</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-class' id='method-method-c-kmp_search'>
+                <a name='method-c-kmp_search'></a>
+                <div class='synopsis'>
+                  <span class='name'>kmp_search</span>
+                  <span class='arguments'>(string, substring)</span>
+                </div>
+                <div class='description'>
+                  
+                  <p>Knuth-Morris-Pratt Algorithm substring search algorithm: Efficiently finds
+                  the starting position of a  substring in a string. The algorithm calculates
+                  the best position to resume searching from if a failure occurs.</p>
+                  
+                  <p>The method returns the index of the starting position in the string where
+                  the substring is found. If there is no match, nil is returned.</p>
+                  
+                  <p>Complexity: O(n + k), where n is the length of the string and k is the
+                  length of the substring.</p>
+                  
+                  <pre class="ruby"><span class="ruby-constant">Algorithms</span><span class="ruby-operator">::</span><span class="ruby-constant">Search</span>.<span class="ruby-identifier">kmp_search</span>(<span class="ruby-string">&quot;ABC ABCDAB ABCDABCDABDE&quot;</span>, <span class="ruby-string">&quot;ABCDABD&quot;</span>) <span class="ruby-comment">#=&gt; 15</span>&#x000A;<span class="ruby-constant">Algorithms</span><span class="ruby-operator">::</span><span class="ruby-constant">Search</span>.<span class="ruby-identifier">kmp_search</span>(<span class="ruby-string">&quot;ABC ABCDAB ABCDABCDABDE&quot;</span>, <span class="ruby-string">&quot;ABCDEF&quot;</span>) <span class="ruby-comment">#=&gt; nil</span></pre>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-c-kmp_search-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-c-kmp_search-source'><span class="ruby-comment"># File lib/algorithms/search.rb, line 43</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">kmp_search</span>(<span class="ruby-identifier">string</span>, <span class="ruby-identifier">substring</span>)&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">string</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">substring</span>.<span class="ruby-identifier">nil?</span>&#x000A;  &#x000A;  <span class="ruby-comment"># create failure function table</span>&#x000A;  <span class="ruby-identifier">pos</span> = <span class="ruby-value">2</span>&#x000A;  <span class="ruby-identifier">cnd</span> = <span class="ruby-value">0</span>&#x000A;  <span class="ruby-identifier">failure_table</span> = [<span class="ruby-value">-1</span>, <span class="ruby-value">0</span>]&#x000A;  <span class="ruby-keyword">while</span> <span class="ruby-identifier">pos</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">substring</span>.<span class="ruby-identifier">length</span>&#x000A;    <span class="ruby-keyword">if</span> <span class="ruby-identifier">substring</span>[<span class="ruby-identifier">pos</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">substring</span>[<span class="ruby-identifier">cnd</span>]&#x000A;      <span class="ruby-identifier">failure_table</span>[<span class="ruby-identifier">pos</span>] = <span class="ruby-identifier">cnd</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>&#x000A;      <span class="ruby-identifier">pos</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>&#x000A;      <span class="ruby-identifier">cnd</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>&#x000A;    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">cnd</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>&#x000A;      <span class="ruby-identifier">cnd</span> = <span class="ruby-identifier">failure_table</span>[<span class="ruby-identifier">cnd</span>]&#x000A;    <span class="ruby-keyword">else</span>&#x000A;      <span class="ruby-identifier">failure_table</span>[<span class="ruby-identifier">pos</span>] = <span class="ruby-value">0</span>&#x000A;      <span class="ruby-identifier">pos</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;&#x000A;  <span class="ruby-identifier">m</span> = <span class="ruby-identifier">i</span> = <span class="ruby-value">0</span>&#x000A;  <span class="ruby-keyword">while</span> <span class="ruby-identifier">m</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">i</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">string</span>.<span class="ruby-identifier">length</span>&#x000A;    <span class="ruby-keyword">if</span> <span class="ruby-identifier">substring</span>[<span class="ruby-identifier">i</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">string</span>[<span class="ruby-identifier">m</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">i</span>]&#x000A;      <span class="ruby-identifier">i</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>&#x000A;      <span class="ruby-keyword">return</span> <span class="ruby-identifier">m</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">i</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">substring</span>.<span class="ruby-identifier">length</span>&#x000A;    <span class="ruby-keyword">else</span>&#x000A;      <span class="ruby-identifier">m</span> = <span class="ruby-identifier">m</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">i</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">failure_table</span>[<span class="ruby-identifier">i</span>]&#x000A;      <span class="ruby-identifier">i</span> = <span class="ruby-identifier">failure_table</span>[<span class="ruby-identifier">i</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">i</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <h2>Public Instance methods</h2>
+              <div class='method public-instance' id='method-method-i-kmp_search'>
+                <a name='method-i-kmp_search'></a>
+                <div class='synopsis'>
+                  <span class='name'>kmp_search</span>
+                  <span class='arguments'>(substring)</span>
+                </div>
+                <div class='description'>
+                  
+                  <p>Allows <a href="Search.html#method-c-kmp_search">::kmp_search</a> to be
+                  called as an instance method in classes that include the <a
+                  href="Search.html">Search</a> module.</p>
+                  
+                  <pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">String</span>; <span class="ruby-identifier">include</span> <span class="ruby-constant">Algorithms</span><span class="ruby-operator">::</span><span class="ruby-constant">Search</span>; <span class="ruby-keyword">end</span>&#x000A;<span class="ruby-string">&quot;ABC ABCDAB ABCDABCDABDE&quot;</span>.<span class="ruby-identifier">kmp_search</span>(<span class="ruby-string">&quot;ABCDABD&quot;</span>) <span class="ruby-comment">#=&gt; 15</span></pre>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-kmp_search-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-kmp_search-source'><span class="ruby-comment"># File lib/algorithms/search.rb, line 80</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">kmp_search</span>(<span class="ruby-identifier">substring</span>)&#x000A;  <span class="ruby-constant">Algorithms</span><span class="ruby-operator">::</span><span class="ruby-constant">Search</span>.<span class="ruby-identifier">kmp_search</span>(<span class="ruby-keyword">self</span>, <span class="ruby-identifier">substring</span>)&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a target="docwin" href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

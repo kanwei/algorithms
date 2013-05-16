@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>Algorithms</title>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+    <link href='../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='class' id='wrapper'>
+      <div class='header'>
+        <h1 class='name'>
+          <span class='type'>module</span>
+          Algorithms
+        </h1>
+        <ol class='paths'>
+          <li>
+            <a target="docwin" href="../files/ext/algorithms/string/string_c.html">ext/algorithms/string/string.c</a>
+          </li>
+          <li class='other'>
+            <a target="docwin" href="../files/lib/algorithms_rb.html">lib/algorithms.rb</a>
+          </li>
+          <li>
+            <a class='show' href='#' onclick='this.parentNode.parentNode.className += " expanded"; this.parentNode.removeChild(this); return false'>show all</a>
+          </li>
+        </ol>
+        <div class='parent'>
+          Parent:
+          <strong><a target="docwin" href="../files/lib/algorithms_rb.html">algorithms.rb</a></strong>
+        </div>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='description'>
+            
+            <p>The ‘<a href="Algorithms.html">Algorithms</a> and Containers’ library is an
+            effort to provide a set of commonly used algorithms and containers to Ruby
+            programmers.</p>
+            
+            <p>This is a Google Summer of Code 2008 project</p>
+            
+            <p>Written by Kanwei Li, mentored by Austin Ziegler</p>
+            
+            <p>To avoid typing Containers::xxx to initialize containers, include the <a
+            href="Containers.html">Containers</a> module.</p>
+            
+            <pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">'algorithms'</span>&#x000A;<span class="ruby-identifier">include</span> <span class="ruby-constant">Containers</span>&#x000A;&#x000A;<span class="ruby-identifier">tree</span> = <span class="ruby-constant">RBTreeMap</span>.<span class="ruby-identifier">new</span></pre>
+            
+            <p>instead of:</p>
+            
+            <pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">'algorithms'</span>&#x000A;&#x000A;<span class="ruby-identifier">tree</span> = <span class="ruby-constant">Containers</span><span class="ruby-operator">::</span><span class="ruby-constant">RBTreeMap</span>.<span class="ruby-identifier">new</span></pre>
+            
+            <p>Done so far:</p>
+            <ul><li>
+            <p>Heaps           - <a href="Containers/Heap.html">Containers::Heap</a>, <a
+            href="Containers/MaxHeap.html">Containers::MaxHeap</a>, <a
+            href="Containers/MinHeap.html">Containers::MinHeap</a></p>
+            </li><li>
+            <p>Priority Queue  - <a
+            href="Containers/PriorityQueue.html">Containers::PriorityQueue</a></p>
+            </li><li>
+            <p>Stack           - <a href="Containers/Stack.html">Containers::Stack</a></p>
+            </li><li>
+            <p>Queue           - <a href="Containers/Queue.html">Containers::Queue</a></p>
+            </li><li>
+            <p><a href="Containers/CDeque.html">Deque</a>           - Containers::Deque,
+            <a href="Containers/CDeque.html">Containers::CDeque</a> (C extension), <a
+            href="Containers/RubyDeque.html">Containers::RubyDeque</a></p>
+            </li><li>
+            <p>Red-Black Trees - Containers::RBTreeMap, <a
+            href="Containers/CRBTreeMap.html">Containers::CRBTreeMap</a> (C extension),
+            <a href="Containers/RubyRBTreeMap.html">Containers::RubyRBTreeMap</a></p>
+            </li><li>
+            <p>Splay Trees     - Containers::SplayTreeMap</p>
+            </li><li>
+            <p>Tries           - <a href="Containers/Trie.html">Containers::Trie</a></p>
+            </li><li>
+            <p>Suffix Array    - <a
+            href="Containers/SuffixArray.html">Containers::SuffixArray</a></p>
+            </li><li>
+            <p>kd Tree         - <a href="Containers/KDTree.html">Containers::KDTree</a></p>
+            </li><li>
+            <p><a href="Algorithms/Search.html">Search</a> algorithms</p>
+            <ul><li>
+            <p>Binary <a href="Algorithms/Search.html">Search</a>         - <a
+            href="Algorithms/Search.html#method-c-binary_search">Algorithms::Search.binary_search</a></p>
+            </li><li>
+            <p>Knuth-Morris-Pratt    - <a
+            href="Algorithms/Search.html#method-c-kmp_search">Algorithms::Search.kmp_search</a></p>
+            </li></ul>
+            </li><li>
+            <p><a href="Algorithms/Sort.html">Sort</a> algorithms</p>
+            <ul><li>
+            <p>Bubble sort           - <a
+            href="Algorithms/Sort.html#method-c-bubble_sort">Algorithms::Sort.bubble_sort</a></p>
+            </li><li>
+            <p>Comb sort             - <a
+            href="Algorithms/Sort.html#method-c-comb_sort">Algorithms::Sort.comb_sort</a></p>
+            </li><li>
+            <p>Selection sort        - <a
+            href="Algorithms/Sort.html#method-c-selection_sort">Algorithms::Sort.selection_sort</a></p>
+            </li><li>
+            <p>Heapsort              - <a
+            href="Algorithms/Sort.html#method-c-heapsort">Algorithms::Sort.heapsort</a></p>
+            </li><li>
+            <p>Insertion sort        - <a
+            href="Algorithms/Sort.html#method-c-insertion_sort">Algorithms::Sort.insertion_sort</a></p>
+            </li><li>
+            <p>Shell sort            - <a
+            href="Algorithms/Sort.html#method-c-shell_sort">Algorithms::Sort.shell_sort</a></p>
+            </li><li>
+            <p>Quicksort             - <a
+            href="Algorithms/Sort.html#method-c-quicksort">Algorithms::Sort.quicksort</a></p>
+            </li><li>
+            <p>Mergesort             - <a
+            href="Algorithms/Sort.html#method-c-mergesort">Algorithms::Sort.mergesort</a></p>
+            </li><li>
+            <p>Dual-Pivot Quicksort  - <a
+            href="Algorithms/Sort.html#method-c-dualpivotquicksort">Algorithms::Sort.dualpivotquicksort</a></p>
+            </li></ul>
+            </li><li>
+            <p><a href="Algorithms/String.html">String</a> algorithms</p>
+            <ul><li>
+            <p>Levenshtein distance  - <a
+            href="Algorithms/String.html#method-c-levenshtein_dist">Algorithms::String.levenshtein_dist</a></p>
+            </li></ul>
+            </li></ul>
+          </div>
+          <div id='context'>
+          </div>
+          <div id='class-list'>
+            <h2>Classes and Modules</h2>
+            <ol>
+              <li><a target="docwin" href="Algorithms/Search.html">Algorithms::Search</a></li>
+              <li><a target="docwin" href="Algorithms/Sort.html">Algorithms::Sort</a></li>
+              <li><a target="docwin" href="Algorithms/String.html">Algorithms::String</a></li>
+            </ol>
+          </div>
+          <div id='section'>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a target="docwin" href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

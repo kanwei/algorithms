@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>Containers::Trie</title>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+    <link href='../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='class' id='wrapper'>
+      <div class='header'>
+        <h1 class='name'>
+          <span class='type'>class</span>
+          Containers::Trie
+        </h1>
+        <ol class='paths'>
+          <li>
+            <a target="docwin" href="../../files/lib/containers/trie_rb.html">lib/containers/trie.rb</a>
+          </li>
+        </ol>
+        <div class='parent'>
+          Parent:
+          <strong><a target="docwin" href="../Containers.html">Containers</a></strong>
+        </div>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='description'>
+            
+            <p>A <a href="Trie.html">Trie</a> is a data structure that stores key value
+            pairs in a tree-like fashion. It allows O(m) lookup speed, where m is the
+            length of the key searched, and has no chance of collisions, unlike hash
+            tables. Because of its nature, search misses are quickly detected.</p>
+            
+            <p>Tries are often used for longest prefix algorithms, wildcard matching, and
+            can be used to implement a radix sort.</p>
+            
+            <p>This implemention is based on a Ternary Search Tree.</p>
+          </div>
+          <div id='method-list'>
+            <h2>Methods</h2>
+            <h3>Public Class</h3>
+            <ol>
+              <li><a target="docwin" href="#method-c-new">new</a></li>
+            </ol>
+            <h3>Public Instance</h3>
+            <ol>
+              <li><a target="docwin" href="#method-i-get">get</a></li>
+              <li><a target="docwin" href="#method-i-get_recursive">get_recursive</a></li>
+              <li><a target="docwin" href="#method-i-has_key-3F">has_key?</a></li>
+              <li><a target="docwin" href="#method-i-longest_prefix">longest_prefix</a></li>
+              <li><a target="docwin" href="#method-i-prefix_recursive">prefix_recursive</a></li>
+              <li><a target="docwin" href="#method-i-push">push</a></li>
+              <li><a target="docwin" href="#method-i-push_recursive">push_recursive</a></li>
+              <li><a target="docwin" href="#method-i-wildcard">wildcard</a></li>
+              <li><a target="docwin" href="#method-i-wildcard_recursive">wildcard_recursive</a></li>
+            </ol>
+          </div>
+          <div id='context'>
+          </div>
+          <div id='section'>
+            <div id='aliases-list'>
+              <h2>Public Instance Aliases</h2>
+              <div class='name-list'>
+                <table summary='Public Instance Aliases'>
+                  <tr class='top-aligned-row context-row'>
+                    <td class='context-item-name'>[]</td>
+                    <td>-&gt;</td>
+                    <td class='context-item-value'><a target="docwin" href="#method-i-get">get</a></td>
+                  </tr>
+                  <tr class='top-aligned-row context-row'>
+                    <td class='context-item-name'>[]=</td>
+                    <td>-&gt;</td>
+                    <td class='context-item-value'><a target="docwin" href="#method-i-push">push</a></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div id='methods'>
+              <h2>Public Class methods</h2>
+              <div class='method public-class' id='method-method-c-new'>
+                <a name='method-c-new'></a>
+                <div class='synopsis'>
+                  <span class='name'>new</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  
+                  <p>Create a new, empty <a href="Trie.html">Trie</a>.</p>
+                  
+                  <pre class="ruby"><span class="ruby-identifier">t</span> = <span class="ruby-constant">Containers</span><span class="ruby-operator">::</span><span class="ruby-constant">Trie</span>.<span class="ruby-identifier">new</span>&#x000A;<span class="ruby-identifier">t</span>[<span class="ruby-string">&quot;hello&quot;</span>] = <span class="ruby-string">&quot;world&quot;</span>&#x000A;<span class="ruby-identifier">t</span>[<span class="ruby-string">&quot;hello&quot;</span>] <span class="ruby-comment">#=&gt; &quot;world&quot;</span></pre>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-c-new-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-c-new-source'><span class="ruby-comment"># File lib/containers/trie.rb, line 17</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>&#x000A;  <span class="ruby-ivar">@root</span> = <span class="ruby-keyword">nil</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <h2>Public Instance methods</h2>
+              <div class='method public-instance' id='method-method-i-get'>
+                <a name='method-i-get'></a>
+                <div class='synopsis'>
+                  <span class='name'>get</span>
+                  <span class='arguments'>(key)</span>
+                </div>
+                <div class='description'>
+                  
+                  <p>Returns the value of the desired key, or nil if the key doesn’t exist.</p>
+                  
+                  <p>Complexity: O(m) worst case</p>
+                  
+                  <pre class="ruby"><span class="ruby-identifier">t</span> = <span class="ruby-constant">Containers</span><span class="ruby-operator">::</span><span class="ruby-constant">Trie</span>.<span class="ruby-identifier">new</span>&#x000A;<span class="ruby-identifier">t</span>.<span class="ruby-identifier">get</span>(<span class="ruby-string">&quot;hello&quot;</span>) = <span class="ruby-string">&quot;world&quot;</span>&#x000A;<span class="ruby-identifier">t</span>.<span class="ruby-identifier">get</span>(<span class="ruby-string">&quot;non-existant&quot;</span>) <span class="ruby-comment">#=&gt; nil</span></pre>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-get-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-get-source'><span class="ruby-comment"># File lib/containers/trie.rb, line 57</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">get</span>(<span class="ruby-identifier">key</span>)&#x000A;  <span class="ruby-identifier">key</span> = <span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_s</span>&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">key</span>.<span class="ruby-identifier">empty?</span>&#x000A;  <span class="ruby-identifier">node</span> = <span class="ruby-identifier">get_recursive</span>(<span class="ruby-ivar">@root</span>, <span class="ruby-identifier">key</span>, <span class="ruby-value">0</span>)&#x000A;  <span class="ruby-identifier">node</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">last</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-get_recursive'>
+                <a name='method-i-get_recursive'></a>
+                <div class='synopsis'>
+                  <span class='name'>get_recursive</span>
+                  <span class='arguments'>(node, string, index)</span>
+                </div>
+                <div class='description'>
+                  
+                  <p>Returns [char, value] if found</p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-get_recursive-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-get_recursive-source'><span class="ruby-comment"># File lib/containers/trie.rb, line 169</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_recursive</span>(<span class="ruby-identifier">node</span>, <span class="ruby-identifier">string</span>, <span class="ruby-identifier">index</span>)&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">nil?</span>&#x000A;  <span class="ruby-identifier">char</span> = <span class="ruby-identifier">string</span>[<span class="ruby-identifier">index</span>]&#x000A;  <span class="ruby-keyword">if</span> (<span class="ruby-identifier">char</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">char</span>)&#x000A;    <span class="ruby-keyword">return</span> <span class="ruby-identifier">get_recursive</span>(<span class="ruby-identifier">node</span>.<span class="ruby-identifier">left</span>, <span class="ruby-identifier">string</span>, <span class="ruby-identifier">index</span>)&#x000A;  <span class="ruby-keyword">elsif</span> (<span class="ruby-identifier">char</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">char</span>)&#x000A;    <span class="ruby-keyword">return</span> <span class="ruby-identifier">get_recursive</span>(<span class="ruby-identifier">node</span>.<span class="ruby-identifier">right</span>, <span class="ruby-identifier">string</span>, <span class="ruby-identifier">index</span>)&#x000A;  <span class="ruby-keyword">elsif</span> (<span class="ruby-identifier">index</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">string</span>.<span class="ruby-identifier">length</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>) <span class="ruby-comment"># We're not at the end of the input string; add next char</span>&#x000A;    <span class="ruby-keyword">return</span> <span class="ruby-identifier">get_recursive</span>(<span class="ruby-identifier">node</span>.<span class="ruby-identifier">mid</span>, <span class="ruby-identifier">string</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>)&#x000A;  <span class="ruby-keyword">else</span>&#x000A;    <span class="ruby-keyword">return</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">last?</span> <span class="ruby-operator">?</span> [<span class="ruby-identifier">node</span>.<span class="ruby-identifier">char</span>, <span class="ruby-identifier">node</span>.<span class="ruby-identifier">value</span>] <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-has_key-3F'>
+                <a name='method-i-has_key-3F'></a>
+                <div class='synopsis'>
+                  <span class='name'>has_key?</span>
+                  <span class='arguments'>(key)</span>
+                </div>
+                <div class='description'>
+                  
+                  <p>Returns true if the key is contained in the <a href="Trie.html">Trie</a>.</p>
+                  
+                  <p>Complexity: O(m) worst case</p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-has_key-3F-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-has_key-3F-source'><span class="ruby-comment"># File lib/containers/trie.rb, line 44</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">key</span>)&#x000A;  <span class="ruby-identifier">key</span> = <span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_s</span>&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">key</span>.<span class="ruby-identifier">empty?</span>&#x000A;  <span class="ruby-operator">!</span>(<span class="ruby-identifier">get_recursive</span>(<span class="ruby-ivar">@root</span>, <span class="ruby-identifier">key</span>, <span class="ruby-value">0</span>).<span class="ruby-identifier">nil?</span>)&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-longest_prefix'>
+                <a name='method-i-longest_prefix'></a>
+                <div class='synopsis'>
+                  <span class='name'>longest_prefix</span>
+                  <span class='arguments'>(string)</span>
+                </div>
+                <div class='description'>
+                  
+                  <p>Returns the longest key that has a prefix in common with the parameter
+                  string. If no match is found, the blank string “” is returned.</p>
+                  
+                  <p>Complexity: O(m) worst case</p>
+                  
+                  <pre class="ruby"><span class="ruby-identifier">t</span> = <span class="ruby-constant">Containers</span><span class="ruby-operator">::</span><span class="ruby-constant">Trie</span>.<span class="ruby-identifier">new</span>&#x000A;<span class="ruby-identifier">t</span>.<span class="ruby-identifier">push</span>(<span class="ruby-string">&quot;Hello&quot;</span>, <span class="ruby-string">&quot;World&quot;</span>)&#x000A;<span class="ruby-identifier">t</span>.<span class="ruby-identifier">push</span>(<span class="ruby-string">&quot;Hello, brother&quot;</span>, <span class="ruby-string">&quot;World&quot;</span>)&#x000A;<span class="ruby-identifier">t</span>.<span class="ruby-identifier">push</span>(<span class="ruby-string">&quot;Hello, bob&quot;</span>, <span class="ruby-string">&quot;World&quot;</span>)&#x000A;<span class="ruby-identifier">t</span>.<span class="ruby-identifier">longest_prefix</span>(<span class="ruby-string">&quot;Hello, brandon&quot;</span>) <span class="ruby-comment">#=&gt; &quot;Hello&quot;</span>&#x000A;<span class="ruby-identifier">t</span>.<span class="ruby-identifier">longest_prefix</span>(<span class="ruby-string">&quot;Hel&quot;</span>) <span class="ruby-comment">#=&gt; &quot;&quot;</span>&#x000A;<span class="ruby-identifier">t</span>.<span class="ruby-identifier">longest_prefix</span>(<span class="ruby-string">&quot;Hello&quot;</span>) <span class="ruby-comment">#=&gt; &quot;Hello&quot;</span></pre>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-longest_prefix-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-longest_prefix-source'><span class="ruby-comment"># File lib/containers/trie.rb, line 77</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">longest_prefix</span>(<span class="ruby-identifier">string</span>)&#x000A;  <span class="ruby-identifier">string</span> = <span class="ruby-identifier">string</span>.<span class="ruby-identifier">to_s</span>&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">string</span>.<span class="ruby-identifier">empty?</span>&#x000A;  <span class="ruby-identifier">len</span> = <span class="ruby-identifier">prefix_recursive</span>(<span class="ruby-ivar">@root</span>, <span class="ruby-identifier">string</span>, <span class="ruby-value">0</span>)&#x000A;  <span class="ruby-identifier">string</span>[<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">len</span>]&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-prefix_recursive'>
+                <a name='method-i-prefix_recursive'></a>
+                <div class='synopsis'>
+                  <span class='name'>prefix_recursive</span>
+                  <span class='arguments'>(node, string, index)</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-prefix_recursive-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-prefix_recursive-source'><span class="ruby-comment"># File lib/containers/trie.rb, line 136</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">prefix_recursive</span>(<span class="ruby-identifier">node</span>, <span class="ruby-identifier">string</span>, <span class="ruby-identifier">index</span>)&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-value">0</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">index</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">string</span>.<span class="ruby-identifier">length</span>&#x000A;  <span class="ruby-identifier">len</span> = <span class="ruby-value">0</span>&#x000A;  <span class="ruby-identifier">rec_len</span> = <span class="ruby-value">0</span>&#x000A;  <span class="ruby-identifier">char</span> = <span class="ruby-identifier">string</span>[<span class="ruby-identifier">index</span>]&#x000A;  <span class="ruby-keyword">if</span> (<span class="ruby-identifier">char</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">char</span>)&#x000A;    <span class="ruby-identifier">rec_len</span> = <span class="ruby-identifier">prefix_recursive</span>(<span class="ruby-identifier">node</span>.<span class="ruby-identifier">left</span>, <span class="ruby-identifier">string</span>, <span class="ruby-identifier">index</span>)&#x000A;  <span class="ruby-keyword">elsif</span> (<span class="ruby-identifier">char</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">char</span>)&#x000A;    <span class="ruby-identifier">rec_len</span> = <span class="ruby-identifier">prefix_recursive</span>(<span class="ruby-identifier">node</span>.<span class="ruby-identifier">right</span>, <span class="ruby-identifier">string</span>, <span class="ruby-identifier">index</span>)&#x000A;  <span class="ruby-keyword">else</span>&#x000A;    <span class="ruby-identifier">len</span> = <span class="ruby-identifier">index</span><span class="ruby-operator">+</span><span class="ruby-value">1</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">last?</span>&#x000A;    <span class="ruby-identifier">rec_len</span> = <span class="ruby-identifier">prefix_recursive</span>(<span class="ruby-identifier">node</span>.<span class="ruby-identifier">mid</span>, <span class="ruby-identifier">string</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>)&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-identifier">len</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">rec_len</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">len</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">rec_len</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-push'>
+                <a name='method-i-push'></a>
+                <div class='synopsis'>
+                  <span class='name'>push</span>
+                  <span class='arguments'>(key, value)</span>
+                </div>
+                <div class='description'>
+                  
+                  <p>Adds a key, value pair to the <a href="Trie.html">Trie</a>, and returns the
+                  value if successful. The to_s method is called on the parameter to turn it
+                  into a string.</p>
+                  
+                  <p>Complexity: O(m)</p>
+                  
+                  <pre class="ruby"><span class="ruby-identifier">t</span> = <span class="ruby-constant">Containers</span><span class="ruby-operator">::</span><span class="ruby-constant">Trie</span>.<span class="ruby-identifier">new</span>&#x000A;<span class="ruby-identifier">t</span>[<span class="ruby-string">&quot;hello&quot;</span>] = <span class="ruby-string">&quot;world&quot;</span>&#x000A;<span class="ruby-identifier">t</span>.<span class="ruby-identifier">push</span>(<span class="ruby-string">&quot;hello&quot;</span>, <span class="ruby-string">&quot;world&quot;</span>) <span class="ruby-comment"># does the same thing</span>&#x000A;<span class="ruby-identifier">t</span>[<span class="ruby-string">&quot;hello&quot;</span>] <span class="ruby-comment">#=&gt; &quot;world&quot;</span>&#x000A;<span class="ruby-identifier">t</span>[<span class="ruby-value">1</span>] = <span class="ruby-value">1</span>&#x000A;<span class="ruby-identifier">t</span>[<span class="ruby-value">1</span>] <span class="ruby-comment">#=&gt; 1</span></pre>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-push-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-push-source'><span class="ruby-comment"># File lib/containers/trie.rb, line 32</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">push</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>)&#x000A;  <span class="ruby-identifier">key</span> = <span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_s</span>&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">key</span>.<span class="ruby-identifier">empty?</span>&#x000A;  <span class="ruby-ivar">@root</span> = <span class="ruby-identifier">push_recursive</span>(<span class="ruby-ivar">@root</span>, <span class="ruby-identifier">key</span>, <span class="ruby-value">0</span>, <span class="ruby-identifier">value</span>)&#x000A;  <span class="ruby-identifier">value</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-push_recursive'>
+                <a name='method-i-push_recursive'></a>
+                <div class='synopsis'>
+                  <span class='name'>push_recursive</span>
+                  <span class='arguments'>(node, string, index, value)</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-push_recursive-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-push_recursive-source'><span class="ruby-comment"># File lib/containers/trie.rb, line 152</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">push_recursive</span>(<span class="ruby-identifier">node</span>, <span class="ruby-identifier">string</span>, <span class="ruby-identifier">index</span>, <span class="ruby-identifier">value</span>)&#x000A;  <span class="ruby-identifier">char</span> = <span class="ruby-identifier">string</span>[<span class="ruby-identifier">index</span>]&#x000A;  <span class="ruby-identifier">node</span> = <span class="ruby-constant">Node</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">char</span>, <span class="ruby-identifier">value</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">nil?</span>&#x000A;  <span class="ruby-keyword">if</span> (<span class="ruby-identifier">char</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">char</span>)&#x000A;    <span class="ruby-identifier">node</span>.<span class="ruby-identifier">left</span> = <span class="ruby-identifier">push_recursive</span>(<span class="ruby-identifier">node</span>.<span class="ruby-identifier">left</span>, <span class="ruby-identifier">string</span>, <span class="ruby-identifier">index</span>, <span class="ruby-identifier">value</span>)&#x000A;  <span class="ruby-keyword">elsif</span> (<span class="ruby-identifier">char</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">char</span>)&#x000A;    <span class="ruby-identifier">node</span>.<span class="ruby-identifier">right</span> = <span class="ruby-identifier">push_recursive</span>(<span class="ruby-identifier">node</span>.<span class="ruby-identifier">right</span>, <span class="ruby-identifier">string</span>, <span class="ruby-identifier">index</span>, <span class="ruby-identifier">value</span>)&#x000A;  <span class="ruby-keyword">elsif</span> (<span class="ruby-identifier">index</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">string</span>.<span class="ruby-identifier">length</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>) <span class="ruby-comment"># We're not at the end of the input string; add next char</span>&#x000A;    <span class="ruby-identifier">node</span>.<span class="ruby-identifier">mid</span> = <span class="ruby-identifier">push_recursive</span>(<span class="ruby-identifier">node</span>.<span class="ruby-identifier">mid</span>, <span class="ruby-identifier">string</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>, <span class="ruby-identifier">value</span>)&#x000A;  <span class="ruby-keyword">else</span>&#x000A;    <span class="ruby-identifier">node</span>.<span class="ruby-identifier">end</span> = <span class="ruby-keyword">true</span>&#x000A;    <span class="ruby-identifier">node</span>.<span class="ruby-identifier">value</span> = <span class="ruby-identifier">value</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-identifier">node</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-wildcard'>
+                <a name='method-i-wildcard'></a>
+                <div class='synopsis'>
+                  <span class='name'>wildcard</span>
+                  <span class='arguments'>(string)</span>
+                </div>
+                <div class='description'>
+                  
+                  <p>Returns a sorted array containing strings that match the parameter string.
+                  The wildcard characters that match any character are ‘*’ and ‘.’ If no
+                  match is found, an empty array is returned.</p>
+                  
+                  <p>Complexity: O(n) worst case</p>
+                  
+                  <pre class="ruby"><span class="ruby-identifier">t</span> = <span class="ruby-constant">Containers</span><span class="ruby-operator">::</span><span class="ruby-constant">Trie</span>.<span class="ruby-identifier">new</span>&#x000A;<span class="ruby-identifier">t</span>.<span class="ruby-identifier">push</span>(<span class="ruby-string">&quot;Hello&quot;</span>, <span class="ruby-string">&quot;World&quot;</span>)&#x000A;<span class="ruby-identifier">t</span>.<span class="ruby-identifier">push</span>(<span class="ruby-string">&quot;Hilly&quot;</span>, <span class="ruby-string">&quot;World&quot;</span>)&#x000A;<span class="ruby-identifier">t</span>.<span class="ruby-identifier">push</span>(<span class="ruby-string">&quot;Hello, bob&quot;</span>, <span class="ruby-string">&quot;World&quot;</span>)&#x000A;<span class="ruby-identifier">t</span>.<span class="ruby-identifier">wildcard</span>(<span class="ruby-string">&quot;H*ll.&quot;</span>) <span class="ruby-comment">#=&gt; [&quot;Hello&quot;, &quot;Hilly&quot;]</span>&#x000A;<span class="ruby-identifier">t</span>.<span class="ruby-identifier">wildcard</span>(<span class="ruby-string">&quot;Hel&quot;</span>) <span class="ruby-comment">#=&gt; []</span></pre>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-wildcard-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-wildcard-source'><span class="ruby-comment"># File lib/containers/trie.rb, line 96</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">wildcard</span>(<span class="ruby-identifier">string</span>)&#x000A;  <span class="ruby-identifier">string</span> = <span class="ruby-identifier">string</span>.<span class="ruby-identifier">to_s</span>&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">string</span>.<span class="ruby-identifier">empty?</span>&#x000A;  <span class="ruby-identifier">ary</span> = [] &#x000A;  <span class="ruby-identifier">ary</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">wildcard_recursive</span>(<span class="ruby-ivar">@root</span>, <span class="ruby-identifier">string</span>, <span class="ruby-value">0</span>, <span class="ruby-string">&quot;&quot;</span>)&#x000A;  <span class="ruby-identifier">ary</span>.<span class="ruby-identifier">flatten</span>.<span class="ruby-identifier">compact</span>.<span class="ruby-identifier">sort</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-method-i-wildcard_recursive'>
+                <a name='method-i-wildcard_recursive'></a>
+                <div class='synopsis'>
+                  <span class='name'>wildcard_recursive</span>
+                  <span class='arguments'>(node, string, index, prefix)</span>
+                </div>
+                <div class='description'>
+                  
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-wildcard_recursive-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='method-i-wildcard_recursive-source'><span class="ruby-comment"># File lib/containers/trie.rb, line 119</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">wildcard_recursive</span>(<span class="ruby-identifier">node</span>, <span class="ruby-identifier">string</span>, <span class="ruby-identifier">index</span>, <span class="ruby-identifier">prefix</span>)&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">index</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">string</span>.<span class="ruby-identifier">length</span>&#x000A;  <span class="ruby-identifier">arr</span> = []&#x000A;  <span class="ruby-identifier">char</span> = <span class="ruby-identifier">string</span>[<span class="ruby-identifier">index</span>]&#x000A;  <span class="ruby-keyword">if</span> (<span class="ruby-identifier">char</span>.<span class="ruby-identifier">chr</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;*&quot;</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">char</span>.<span class="ruby-identifier">chr</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;.&quot;</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">char</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">char</span>)&#x000A;    <span class="ruby-identifier">arr</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">wildcard_recursive</span>(<span class="ruby-identifier">node</span>.<span class="ruby-identifier">left</span>, <span class="ruby-identifier">string</span>, <span class="ruby-identifier">index</span>, <span class="ruby-identifier">prefix</span>)&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">if</span> (<span class="ruby-identifier">char</span>.<span class="ruby-identifier">chr</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;*&quot;</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">char</span>.<span class="ruby-identifier">chr</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;.&quot;</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">char</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">char</span>)&#x000A;    <span class="ruby-identifier">arr</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">wildcard_recursive</span>(<span class="ruby-identifier">node</span>.<span class="ruby-identifier">right</span>, <span class="ruby-identifier">string</span>, <span class="ruby-identifier">index</span>, <span class="ruby-identifier">prefix</span>)&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">if</span> (<span class="ruby-identifier">char</span>.<span class="ruby-identifier">chr</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;*&quot;</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">char</span>.<span class="ruby-identifier">chr</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;.&quot;</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">char</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">char</span>)&#x000A;    <span class="ruby-identifier">arr</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;#{prefix}#{node.char.chr}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">last?</span>&#x000A;    <span class="ruby-identifier">arr</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">wildcard_recursive</span>(<span class="ruby-identifier">node</span>.<span class="ruby-identifier">mid</span>, <span class="ruby-identifier">string</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>, <span class="ruby-identifier">prefix</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">char</span>.<span class="ruby-identifier">chr</span>)&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-identifier">arr</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a target="docwin" href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>
