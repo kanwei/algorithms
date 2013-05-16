@@ -31,7 +31,7 @@ static void recursively_free_nodes(rbtree_node *node) {
 	if(node) {
 		recursively_free_nodes(node->left);
 		recursively_free_nodes(node->right);
-		free(node);
+		xfree(node);
 	}
 	return;
 }
@@ -198,7 +198,7 @@ static rbtree_node* delete_min(rbtree_node *h, VALUE *deleted_value) {
 	if ( !h->left ) {
 		if(deleted_value)
 			*deleted_value = h->value;
-		free(h);
+		xfree(h);
 		return NULL;
 	}
 	
@@ -216,7 +216,7 @@ static rbtree_node* delete_max(rbtree_node *h, VALUE *deleted_value) {
 
 	if ( !h->right ) {
 		*deleted_value = h->value;
-		free(h);
+		xfree(h);
 		return NULL;
 	}
 
@@ -245,7 +245,7 @@ static rbtree_node* delete(rbtree *tree, rbtree_node *node, VALUE key, VALUE *de
 		cmp = tree->compare_function(key, node->key);
 		if ( (cmp == 0) && !node->right ) {
 			*deleted_value = node->value;
-			free(node);
+			xfree(node);
 			return NULL;
 		}
 
@@ -339,7 +339,7 @@ static void rbtree_mark(void *ptr) {
 				}
 				old = current;
 				current = current->next;
-				free(old);
+				xfree(old);
 			}
 		}
 	}
@@ -349,7 +349,7 @@ static void rbtree_free(void *ptr) {
 	if (ptr) {
 		rbtree *tree = ptr;
 		recursively_free_nodes(tree->root);
-		free(tree);
+		xfree(tree);
 	}
 }
 

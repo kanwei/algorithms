@@ -19,7 +19,7 @@ void free_nodes(deque_node *node) {
 	deque_node *next;
 	while(node) {
 		next = node->right;
-		free(node);
+		xfree(node);
 		node = next;
 	}
 	return;
@@ -71,7 +71,7 @@ static void deque_free(void *ptr) {
 	if (ptr) {
 		deque *deque = ptr;
 		free_nodes(deque->front);
-		free(deque);
+		xfree(deque);
 	}
 }
 

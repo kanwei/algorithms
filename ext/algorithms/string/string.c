@@ -26,7 +26,7 @@ long levenshtein_distance(VALUE str1, VALUE str2) {
 	s1_len++;
 	s2_len++;
 	
-	d = malloc(sizeof(typeof(d)) * (s1_len) * (s2_len));
+	d = xmalloc(sizeof(typeof(d)) * s1_len * s2_len);
 	
 	for (i = 0; i < s1_len; i++) {
 		d[i] = i; // d[i, 0] = i
@@ -49,7 +49,7 @@ long levenshtein_distance(VALUE str1, VALUE str2) {
 		}
 	}
 	i = d[s1_len * s2_len -1];
-	free(d);
+	xfree(d);
 	return i;
 }
 

@@ -28,7 +28,7 @@ static void recursively_free_nodes(splaytree_node *node) {
 	if(node) {
 		recursively_free_nodes(node->left);
 		recursively_free_nodes(node->right);
-		free(node);
+		xfree(node);
 	}
 	return;
 }
@@ -199,7 +199,7 @@ static splaytree_node* delete(splaytree *tree, splaytree_node *n, VALUE key, VAL
 			x = splay(tree, n->left, key);
 			x->right = n->right;
 		}
-		free(n);
+		xfree(n);
 		if (x) {
 			x->size = tsize-1;
 		}
@@ -282,7 +282,7 @@ static void splaytree_mark(void *ptr) {
 				}
 				old = current;
 				current = current->next;
-				free(old);
+				xfree(old);
 			}
 		}
 	}
@@ -292,7 +292,7 @@ static void splaytree_free(void *ptr) {
 	if (ptr) {
 		splaytree *tree = ptr;
 		recursively_free_nodes(tree->root);
-		free(tree);
+		xfree(tree);
 	}
 }
 

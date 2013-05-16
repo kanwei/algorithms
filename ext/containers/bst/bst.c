@@ -172,7 +172,7 @@ static void recursively_free_nodes(bst_node *node) {
 	if(node) {
 		recursively_free_nodes(node->left);
 		recursively_free_nodes(node->right);
-		free(node);
+		xfree(node);
 	}
 }
 
