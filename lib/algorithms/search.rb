@@ -1,32 +1,43 @@
-=begin rdoc
-    This module implements search algorithms. Documentation is provided for each algorithm.
+# encoding: utf-8
 
-=end
+# This module implements search algorithms.
+# Documentation is provided for each algorithm.
+
 module Algorithms::Search
-  # Binary Search: This search finds an item in log(n) time provided that the container is already sorted.
-  # The method returns the item if it is found, or nil if it is not. If there are duplicates, the first one
-  # found is returned, and this is not guaranteed to be the smallest or largest item.
+  # Binary Search: This search finds an item in log(n) time provided that the
+  # container is already sorted. The method returns the item if it is found,
+  # or nil if it is not. If there are duplicates, the first one found is
+  # returned, and this is not guaranteed to be the smallest or largest item.
   #
   # Complexity: O(lg N)
   #
   #   Algorithms::Search.binary_search([1, 2, 3], 1) #=> 1
   #   Algorithms::Search.binary_search([1, 2, 3], 4) #=> nil
   def self.binary_search(container, item)
-    return nil if item.nil?
-    low = 0
-    high = container.size - 1
-    while low <= high
-      mid = (low + high) / 2
-      val = container[mid]
-      if val > item
-        high = mid - 1
-      elsif val < item
-        low = mid + 1
+    container[binary_search_index(container, item) || container.length]
+  end
+
+  # Binary Search: This search finds an item in log(n) time provided that the
+  # container is already sorted. The method returns the index of the item if it
+  # is found, or nil if it is not. If there are duplicates, the first one found
+  # is returned, and this is not guaranteed to be the smallest or largest item.
+  #
+  # Complexity: O(lg N)
+  #
+  #   Algorithms::Search.binary_search_index([1, 2, 3], 1) #=> 0
+  #   Algorithms::Search.binary_search_index([1, 2, 3], 4) #=> nil
+  def self.binary_search_index(container, item)
+    imin, imax = 0, container.length - 1
+    while imax >= imin
+      imid = (imin + imax) / 2
+      if container[imid] < item
+        imin = imid + 1
+      elsif container[imid] > item
+        imax = imid - 1
       else
-        return val
+        return imid
       end
     end
-    nil
   end
 
   # Knuth-Morris-Pratt Algorithm substring search algorithm: Efficiently finds the starting position of a
