@@ -38,7 +38,7 @@ describe Containers::Heap do
     before(:each) do
       @random_array = []
       @num_items = 100
-      @num_items.times { |x| @random_array << rand(@num_items) }
+      @num_items.times { @random_array << rand(@num_items) }
       @heap = Containers::MaxHeap.new(@random_array)
     end
     
