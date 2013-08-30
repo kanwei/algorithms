@@ -15,7 +15,7 @@ describe "sort algorithms" do
 
   it "should work for a container of size 1" do
     one_array = [1]
-    @sorts.each { |sort| Sort.send(sort, one_array).should eql(one_array) }
+    @sorts.each { |sort| Sort.send(sort, one_array).should eql([1]) }
   end
 
   it "should work for random arrays of numbers" do
