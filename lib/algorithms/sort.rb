@@ -37,8 +37,8 @@ module Algorithms::Sort
         end
       end
       (container.size-1).times do |i|
-        if (container[-i] <=> container[-i-1]) == 1
-          container[-i], container[-i-1] = container[-i-1], container[-i] # Swap
+        if (container[-i-1] <=> container[-i-2]) == -1
+          container[-i-1], container[-i-2] = container[-i-2], container[-i-1] # Swap
           swapped = true
         end
       end
