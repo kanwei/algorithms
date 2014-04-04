@@ -386,7 +386,23 @@ module Algorithms::Sort
   end
   
   def self.counting_sort(container)
-      counts = Array.new(container.length) #guessing the range of numbers in container
+    #guessing the ammount of different numbers in container
+    guess = if container.length > 10
+	       [container[0],
+	        container[container.length / 10 * 2],
+		container[container.length / 10 * 3],
+		container[container.length / 10 * 4],
+		container[container.length / 10 * 5],
+		container[container.length / 10 * 6],
+		container[container.length / 10 * 7],
+		container[container.length / 10 * 8],
+		container[container.length / 10 * 9],
+		container[-1]].max
+	    else
+		10
+	    end
+		
+      counts = Array.new(guess)
       container.each { |value| counts[value].nil? ? counts[value] = 1 : counts[value] += 1 }
       container = []
       counts.length.times do |i|
