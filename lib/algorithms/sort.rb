@@ -27,6 +27,16 @@ module Algorithms::Sort
     container
   end
   
+  # Cocktail sort: A variation of bubble sort to tackle the posibility of turtles within the container
+  # Source: http://code.wikia.com/wiki/Cocktail_sort
+  # Derived Ruby implementation by: Lauri Tšili
+  # Requirements: Needs to be able to compare elements with <=>, and the [] []= methods should
+  # be implemented for the container.
+  # Time Complexity: О(n^2)
+  # Space Complexity: О(n) total, O(1) auxiliary
+  # Stable: Yes
+  # 
+  #   Algorithms::Sort.cocktail_sort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
   def self.cocktail_sort(container)
       loop do
       swapped = false
@@ -385,6 +395,16 @@ module Algorithms::Sort
     container[i],  container[j] = container[j],  container[i]
   end
   
+  # Counting sort: A sorting algorithm that counts the number of individual real numbers and reconstructs the original container sorted
+  # Source: http://www.codenlearn.com/2011/07/simple-counting-sort.html
+  # Ruby implementation by: Lauri Tšili
+  # Requirements: Algorithm can only sort non-negative integers, and the [] []= methods should
+  # be implemented for the container.
+  # Time Complexity: О(n)
+  # Space Complexity: О(n + k) total, O(k) auxiliary
+  # Stable: No
+  # 
+  #   Algorithms::Sort.counting_sort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
   def self.counting_sort(container)
     #guessing the ammount of different numbers in container
     guess = if container.length > 10
