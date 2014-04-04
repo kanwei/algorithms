@@ -386,6 +386,16 @@ module Algorithms::Sort
   end
   
   def self.counting_sort(container)
+      counts = Array.new(container.length).map { 0 } #guessing the ammount of different numbers in container
+      container.each { |value| counts[value] += 1 }
+      container = []
+      counts.length.times do |i|
+        counts[i].times do
+          container << i
+          counts[i] -= 1
+        end
+      end
+      container
   end
 end
 
