@@ -28,6 +28,23 @@ module Algorithms::Sort
   end
   
   def self.cocktail_sort(container)
+      loop do
+      swapped = false
+      (container.size-1).times do |i|
+        if (container[i] <=> container[i+1]) == 1
+          container[i], container[i+1] = container[i+1], container[i] # Swap
+          swapped = true
+        end
+      end
+      (container.size-1).times do |i|
+        if (container[-i] <=> container[-i-1]) == 1
+          container[-i], container[-i-1] = container[-i-1], container[-i] # Swap
+          swapped = true
+        end
+      end
+      break unless swapped
+    end
+    container
   end
   
   # Comb sort: A variation on bubble sort that dramatically improves performance.
