@@ -27,6 +27,9 @@ module Algorithms::Sort
     container
   end
   
+  def self.cocktail_sort(container)
+  end
+  
   # Comb sort: A variation on bubble sort that dramatically improves performance.
   # Source: http://yagni.com/combsort/
   # Requirements: Needs to be able to compare elements with <=>, and the [] []= methods should
@@ -363,6 +366,9 @@ module Algorithms::Sort
 
   def self.dualpivot_swap(container, i, j)
     container[i],  container[j] = container[j],  container[i]
+  end
+  
+  def self.counting_sort(container)
   end
 end
 
