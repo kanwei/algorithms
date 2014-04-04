@@ -386,13 +386,13 @@ module Algorithms::Sort
   end
   
   def self.counting_sort(container)
-      counts = Array.new(container.length).map { 0 } #guessing the ammount of different numbers in container
-      container.each { |value| counts[value] += 1 }
+      counts = Array.new(container.length) #guessing the range of numbers in container
+      container.each { |value| counts[value].nil? ? counts[value] = 1 : counts[value] += 1 }
       container = []
       counts.length.times do |i|
+		next if counts[i].nil?
         counts[i].times do
           container << i
-          counts[i] -= 1
         end
       end
       container
