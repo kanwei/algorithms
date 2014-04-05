@@ -395,10 +395,10 @@ module Algorithms::Sort
     container[i],  container[j] = container[j],  container[i]
   end
   
-  # Counting sort: A sorting algorithm that counts the number of individual real numbers and reconstructs the original container sorted
+  # Counting sort: A sorting algorithm that counts the number of individual integers and reconstructs the original container sorted
   # Source: http://www.codenlearn.com/2011/07/simple-counting-sort.html
   # Ruby implementation by: Lauri Tšili
-  # Requirements: Algorithm can only sort non-negative integers, and the [] []= methods should
+  # Requirements: Algorithm can only sort non-negative integers, and the [] []= [].length methods should
   # be implemented for the container.
   # Time Complexity: О(n)
   # Space Complexity: О(n + k) total, O(k) auxiliary
@@ -408,30 +408,31 @@ module Algorithms::Sort
   def self.counting_sort(container)
     #guessing the ammount of different numbers in container
     guess = if container.length > 10
-	       [container[0],
-	        container[container.length / 10 * 2],
-		container[container.length / 10 * 3],
-		container[container.length / 10 * 4],
-		container[container.length / 10 * 5],
-		container[container.length / 10 * 6],
-		container[container.length / 10 * 7],
-		container[container.length / 10 * 8],
-		container[container.length / 10 * 9],
-		container[-1]].max
+              [container[0],
+	      container[container.length / 10 * 2],
+	      container[container.length / 10 * 3],
+	      container[container.length / 10 * 4],
+	      container[container.length / 10 * 5],
+	      container[container.length / 10 * 6],
+	      container[container.length / 10 * 7],
+	      container[container.length / 10 * 8],
+	      container[container.length / 10 * 9],
+	      container[-1]].max
 	    else
-		10
+	      10
 	    end
 		
-      counts = Array.new(guess)
-      container.each { |value| counts[value].nil? ? counts[value] = 1 : counts[value] += 1 }
-      container = []
-      counts.length.times do |i|
-		next if counts[i].nil?
-        counts[i].times do
-          container << i
-        end
+    counts = Array.new(guess)
+    container.each { |value| counts[value].nil? ? counts[value] = 1 : counts[value] += 1 }
+      
+    container = []
+    counts.length.times do |i|
+      next if counts[i].nil?
+      counts[i].times do
+        container << i
       end
-      container
+    end
+    container
   end
 end
 
