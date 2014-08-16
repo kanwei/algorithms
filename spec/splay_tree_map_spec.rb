@@ -49,18 +49,18 @@ shared_examples "non-empty splaytree" do
   end
   
   it "should not #has_key? keys it doesn't have" do
-    @tree.has_key?(10000).should be_false
+    @tree.has_key?(10000).should be false
   end
   
   it "should #has_key? keys it does have" do
-    @tree.has_key?(@random_array[0]).should be_true
+    @tree.has_key?(@random_array[0]).should be true
   end
   
   it "should remove any key" do
     random_key = @random_array[rand(@num_items)]
-    @tree.has_key?(random_key).should be_true
+    @tree.has_key?(random_key).should be true
     @tree.delete(random_key).should eql(random_key)
-    @tree.has_key?(random_key).should be_false
+    @tree.has_key?(random_key).should be false
   end
   
   it "should let you iterate with #each" do

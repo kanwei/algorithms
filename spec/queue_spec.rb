@@ -21,7 +21,7 @@ describe "empty queue" do
   end
 
   it "should return empty?" do
-    @queue.empty?.should be_true
+    @queue.empty?.should be true
   end
 end
 
@@ -41,7 +41,7 @@ describe "non-empty queue" do
   end
 
   it "should not return empty?" do
-    @queue.empty?.should be_false
+    @queue.empty?.should be false
   end
 
   it "should iterate in FIFO order" do

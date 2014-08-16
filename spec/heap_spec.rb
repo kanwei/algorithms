@@ -47,8 +47,8 @@ describe Containers::Heap do
     end
     
     it "should have a next value" do
-      @heap.next.should be_true
-      @heap.next_key.should be_true
+      @heap.next.should be_truthy
+      @heap.next_key.should be_truthy
     end
     
     it "should delete random keys" do

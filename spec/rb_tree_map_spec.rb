@@ -8,7 +8,7 @@ shared_examples "empty rbtree" do
   end
 
   it "should be empty?" do
-    @tree.empty?.should be_true
+    @tree.empty?.should be true
   end
 
   it "should return 0 for height" do
@@ -51,11 +51,11 @@ shared_examples "non-empty rbtree" do
   end
 
   it "should not #has_key? keys it doesn't have" do
-    @tree.has_key?(100000).should be_false
+    @tree.has_key?(100000).should be false
   end
 
   it "should #has_key? keys it does have" do
-    @tree.has_key?(@random_array[0]).should be_true
+    @tree.has_key?(@random_array[0]).should be true
   end
 
   it "should remove all keys" do

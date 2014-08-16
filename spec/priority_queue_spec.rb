@@ -16,7 +16,7 @@ describe Containers::PriorityQueue do
       @q.next.should be_nil
       @q.pop.should be_nil
       @q.delete(1).should be_nil
-      @q.has_priority?(1).should be_false
+      @q.has_priority?(1).should be false
     end
     
     it "should give the correct size when adding items" do
@@ -56,8 +56,8 @@ describe Containers::PriorityQueue do
     end
     
     it "should has_priority? priorities it has" do
-      @q.has_priority?(50).should be_true
-      @q.has_priority?(10).should be_false
+      @q.has_priority?(50).should be true
+      @q.has_priority?(10).should be false
     end      
     
     it "should return nil after popping everything" do

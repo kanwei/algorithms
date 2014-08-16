@@ -20,7 +20,7 @@ describe "empty stack" do
   end
 
   it "should return empty?" do
-    @stack.empty?.should be_true
+    @stack.empty?.should be true
   end
 end
 
@@ -40,7 +40,7 @@ describe "non-empty stack" do
   end
 
   it "should not return empty?" do
-    @stack.empty?.should be_false
+    @stack.empty?.should be false
   end
 
 
