@@ -8,32 +8,32 @@ describe Containers::PriorityQueue do
   
   describe "(empty priority queue)" do
     it "should return 0 for size and be empty" do
-      @q.size.should eql(0)
-      @q.should be_empty
+      expect(@q.size).to eql(0)
+      expect(@q).to be_empty
     end
     
     it "should not return anything" do
-      @q.next.should be_nil
-      @q.pop.should be_nil
-      @q.delete(1).should be_nil
-      @q.has_priority?(1).should be false
+      expect(@q.next).to be_nil
+      expect(@q.pop).to be_nil
+      expect(@q.delete(1)).to be_nil
+      expect(@q.has_priority?(1)).to be false
     end
     
     it "should give the correct size when adding items" do
       20.times do |i|
-        @q.size.should eql(i)
+        expect(@q.size).to eql(i)
         @q.push(i, i)
       end
       10.times do |i|
-        @q.size.should eql(20-i)
+        expect(@q.size).to eql(20-i)
         @q.pop
       end
       10.times do |i|
-        @q.size.should eql(i+10)
+        expect(@q.size).to eql(i+10)
         @q.push(i, i)
       end
       @q.delete(5)
-      @q.size.should eql(19)
+      expect(@q.size).to eql(19)
     end
   end
   
@@ -45,31 +45,31 @@ describe Containers::PriorityQueue do
     end
     
     it "should next/pop the highest priority" do
-      @q.next.should eql("Alaska")
-      @q.size.should eql(3)
-      @q.pop.should eql("Alaska")
-      @q.size.should eql(2)
+      expect(@q.next).to eql("Alaska")
+      expect(@q.size).to eql(3)
+      expect(@q.pop).to eql("Alaska")
+      expect(@q.size).to eql(2)
     end
     
     it "should not be empty" do
-      @q.should_not be_empty
+      expect(@q).not_to be_empty
     end
     
     it "should has_priority? priorities it has" do
-      @q.has_priority?(50).should be true
-      @q.has_priority?(10).should be false
+      expect(@q.has_priority?(50)).to be true
+      expect(@q.has_priority?(10)).to be false
     end      
     
     it "should return nil after popping everything" do
       3.times do 
         @q.pop
       end
-      @q.pop.should be_nil
+      expect(@q.pop).to be_nil
     end
     
     it "should delete things it has and not things it doesn't" do
-      @q.delete(50).should eql("Alaska")
-      @q.delete(10).should eql(nil)
+      expect(@q.delete(50)).to eql("Alaska")
+      expect(@q.delete(10)).to eql(nil)
     end
   end
 end

@@ -7,20 +7,20 @@ describe "empty stack" do
   end
 
   it "should return nil when sent #pop" do
-    @stack.pop.should be_nil
+    expect(@stack.pop).to be_nil
   end
 
   it "should return a size of 1 when sent #push" do
     @stack.push(1)
-    @stack.size.should eql(1)
+    expect(@stack.size).to eql(1)
   end
 
   it "should return nil when sent #next" do
-    @stack.next.should be_nil
+    expect(@stack.next).to be_nil
   end
 
   it "should return empty?" do
-    @stack.empty?.should be true
+    expect(@stack.empty?).to be true
   end
 end
 
@@ -32,29 +32,29 @@ describe "non-empty stack" do
   end
 
   it "should return last pushed object" do
-    @stack.pop.should eql("10")
+    expect(@stack.pop).to eql("10")
   end
 
   it "should return the size" do
-    @stack.size.should eql(2)
+    expect(@stack.size).to eql(2)
   end
 
   it "should not return empty?" do
-    @stack.empty?.should be false
+    expect(@stack.empty?).to be false
   end
 
 
   it "should iterate in LIFO order" do
     arr = []
     @stack.each { |obj| arr << obj }
-    arr.should eql(["10", 10])
+    expect(arr).to eql(["10", 10])
   end
 
   it "should return nil after all pops" do
     @stack.pop
     @stack.pop
-    @stack.pop.should be_nil
-    @stack.next.should be_nil
+    expect(@stack.pop).to be_nil
+    expect(@stack.next).to be_nil
   end
 
 end

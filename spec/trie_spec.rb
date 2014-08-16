@@ -7,13 +7,13 @@ describe "empty trie" do
   end
 
   it "should not get or has_key?" do
-    @trie.get("anything").should be_nil
-    @trie.has_key?("anything").should be false
+    expect(@trie.get("anything")).to be_nil
+    expect(@trie.has_key?("anything")).to be false
   end
 
   it "should not have longest_prefix or match wildcards" do
-    @trie.wildcard("an*thing").should eql([])
-    @trie.longest_prefix("an*thing").should eql("")
+    expect(@trie.wildcard("an*thing")).to eql([])
+    expect(@trie.longest_prefix("an*thing")).to eql("")
   end
 end
 
@@ -27,33 +27,33 @@ describe "non-empty trie" do
   end
 
   it "should has_key? keys it has" do
-    @trie.has_key?("Hello").should be true
-    @trie.has_key?("Hello, brother").should be true
-    @trie.has_key?("Hello, bob").should be true
+    expect(@trie.has_key?("Hello")).to be true
+    expect(@trie.has_key?("Hello, brother")).to be true
+    expect(@trie.has_key?("Hello, bob")).to be true
   end
 
   it "should not has_key? keys it doesn't have" do
-    @trie.has_key?("Nope").should be false
+    expect(@trie.has_key?("Nope")).to be false
   end
 
   it "should get values" do
-    @trie.get("Hello").should eql("World")
+    expect(@trie.get("Hello")).to eql("World")
   end
 
   it "should overwrite values" do
     @trie.push("Hello", "John")
-    @trie.get("Hello").should eql("John")
+    expect(@trie.get("Hello")).to eql("John")
   end
 
   it "should return longest prefix" do
-    @trie.longest_prefix("Hello, brandon").should eql("Hello")
-    @trie.longest_prefix("Hel").should eql("")
-    @trie.longest_prefix("Hello").should eql("Hello")
-    @trie.longest_prefix("Hello, bob").should eql("Hello, bob")
+    expect(@trie.longest_prefix("Hello, brandon")).to eql("Hello")
+    expect(@trie.longest_prefix("Hel")).to eql("")
+    expect(@trie.longest_prefix("Hello")).to eql("Hello")
+    expect(@trie.longest_prefix("Hello, bob")).to eql("Hello, bob")
   end
 
   it "should match wildcards" do
-    @trie.wildcard("H*ll.").should eql(["Hello", "Hilly"])
-    @trie.wildcard("Hel").should eql([])
+    expect(@trie.wildcard("H*ll.")).to eql(["Hello", "Hilly"])
+    expect(@trie.wildcard("Hel")).to eql([])
   end
 end

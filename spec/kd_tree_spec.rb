@@ -6,7 +6,7 @@ describe Containers::KDTree do
     kdtree = Containers::KDTree.new( {0 => [4, 3], 1 => [3, 0], 2 => [-1, 2], 3 => [6, 4],
                                      4 => [3, -5], 5 => [-2, -5] })
     closest_2 = kdtree.find_nearest([0, 0], 2)
-    closest_2.should eql([[5, 2], [9, 1]])
+    expect(closest_2).to eql([[5, 2], [9, 1]])
   end
   
   it "should work for real-life example from facebook puzzle" do
@@ -28,7 +28,7 @@ describe Containers::KDTree do
     }
     
     expected = File.read(File.join(File.dirname(__FILE__), 'kd_expected_out.txt'))
-    expected.should eql(out)
+    expect(expected).to eql(out)
   end
   
 end

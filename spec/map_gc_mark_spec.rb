@@ -21,9 +21,9 @@ if !(defined? RUBY_ENGINE && RUBY_ENGINE == 'jruby')
       # Check if any instances were swept
       count = 0
       ObjectSpace.each_object(anon_key_class) { |x| count += 1 }
-      count.should eql(200)
+      expect(count).to eql(200)
       ObjectSpace.each_object(anon_val_class) { |x| count += 1 }
-      count.should eql(400)
+      expect(count).to eql(400)
     end
   end
 end

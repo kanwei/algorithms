@@ -8,20 +8,20 @@ describe "empty queue" do
 
 
   it "should return nil when sent #pop" do
-    @queue.pop.should be_nil
+    expect(@queue.pop).to be_nil
   end
 
   it "should return a size of 1 when sent #push" do
     @queue.push(1)
-    @queue.size.should eql(1)
+    expect(@queue.size).to eql(1)
   end
 
   it "should return nil when sent #next" do
-    @queue.next.should be_nil
+    expect(@queue.next).to be_nil
   end
 
   it "should return empty?" do
-    @queue.empty?.should be true
+    expect(@queue.empty?).to be true
   end
 end
 
@@ -33,29 +33,29 @@ describe "non-empty queue" do
   end
 
   it "should return first pushed object" do
-    @queue.pop.should eql(10)
+    expect(@queue.pop).to eql(10)
   end
 
   it "should return the size" do
-    @queue.size.should eql(2)
+    expect(@queue.size).to eql(2)
   end
 
   it "should not return empty?" do
-    @queue.empty?.should be false
+    expect(@queue.empty?).to be false
   end
 
   it "should iterate in FIFO order" do
     arr = []
     @queue.each { |obj| arr << obj }
-    arr.should eql([10, "10"])
+    expect(arr).to eql([10, "10"])
   end
 
   it "should return nil after all gets" do
     2.times do
       @queue.pop
     end
-    @queue.pop.should be_nil
-    @queue.next.should be_nil
+    expect(@queue.pop).to be_nil
+    expect(@queue.next).to be_nil
   end
 
 end

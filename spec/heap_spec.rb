@@ -7,29 +7,29 @@ describe Containers::Heap do
   end
   
   it "should not let you merge with non-heaps" do
-    lambda { @heap.merge!(nil) }.should raise_error
-    lambda { @heap.merge!([]) }.should raise_error
+    expect { @heap.merge!(nil) }.to raise_error
+    expect { @heap.merge!([]) }.to raise_error
   end
   
   describe "(empty)" do
   
     it "should return nil when getting the maximum" do
-      @heap.max!.should be_nil
+      expect(@heap.max!).to be_nil
     end
     
     it "should let you insert and remove one item" do
-      @heap.size.should eql(0)
+      expect(@heap.size).to eql(0)
       
       @heap.push(1)
-      @heap.size.should eql(1)
+      expect(@heap.size).to eql(1)
       
-      @heap.max!.should eql(1)
-      @heap.size.should eql(0)
+      expect(@heap.max!).to eql(1)
+      expect(@heap.size).to eql(0)
     end
     
     it "should let you initialize with an array" do
       @heap = Containers::MaxHeap.new([1,2,3])
-      @heap.size.should eql(3)
+      expect(@heap.size).to eql(3)
     end
 
   end
@@ -43,20 +43,20 @@ describe Containers::Heap do
     end
     
     it "should display the correct size" do
-      @heap.size.should eql(@num_items)
+      expect(@heap.size).to eql(@num_items)
     end
     
     it "should have a next value" do
-      @heap.next.should be_truthy
-      @heap.next_key.should be_truthy
+      expect(@heap.next).to be_truthy
+      expect(@heap.next_key).to be_truthy
     end
     
     it "should delete random keys" do
-      @heap.delete(@random_array[0]).should eql(@random_array[0])
-      @heap.delete(@random_array[1]).should eql(@random_array[1])
+      expect(@heap.delete(@random_array[0])).to eql(@random_array[0])
+      expect(@heap.delete(@random_array[1])).to eql(@random_array[1])
       ordered = []
       ordered << @heap.max! until @heap.empty?
-      ordered.should eql( @random_array[2..-1].sort.reverse )
+      expect(ordered).to eql( @random_array[2..-1].sort.reverse )
     end
     
     it "should delete all keys" do
@@ -64,15 +64,15 @@ describe Containers::Heap do
       @random_array.size.times do |t|
         ordered << @heap.delete(@random_array[t])
       end
-      @heap.should be_empty
-      ordered.should eql( @random_array )
+      expect(@heap).to be_empty
+      expect(ordered).to eql( @random_array )
     end
 
     it "should be in max->min order" do
       ordered = []
       ordered << @heap.max! until @heap.empty?
       
-      ordered.should eql(@random_array.sort.reverse)
+      expect(ordered).to eql(@random_array.sort.reverse)
     end
     
     it "should change certain keys" do
@@ -84,12 +84,12 @@ describe Containers::Heap do
       heap.change_key(8, 0)
       ordered = []
       ordered << heap.min! until heap.empty?
-      ordered.should eql( [8,3,4,5,6,7,9,10,101,100] )
+      expect(ordered).to eql( [8,3,4,5,6,7,9,10,101,100] )
     end
     
     it "should not delete keys it doesn't have" do
-      @heap.delete(:nonexisting).should be_nil
-      @heap.size.should eql(@num_items)
+      expect(@heap.delete(:nonexisting)).to be_nil
+      expect(@heap.size).to eql(@num_items)
     end
     
     it "should delete certain keys" do
@@ -101,19 +101,19 @@ describe Containers::Heap do
       heap.delete(100)
       ordered = []
       ordered << heap.min! until heap.empty?
-      ordered.should eql( [3,4,6,7,8,9,10,101] )
+      expect(ordered).to eql( [3,4,6,7,8,9,10,101] )
     end
     
     it "should let you merge with another heap" do
       numbers = [1,2,3,4,5,6,7,8]
       otherheap = Containers::MaxHeap.new(numbers)
-      otherheap.size.should eql(8)
+      expect(otherheap.size).to eql(8)
       @heap.merge!(otherheap)
       
       ordered = []
       ordered << @heap.max! until @heap.empty?
       
-      ordered.should eql( (@random_array + numbers).sort.reverse)
+      expect(ordered).to eql( (@random_array + numbers).sort.reverse)
     end
     
     describe "min-heap" do
@@ -122,7 +122,7 @@ describe Containers::Heap do
         ordered = []
         ordered << @heap.min! until @heap.empty?
     
-        ordered.should eql(@random_array.sort)
+        expect(ordered).to eql(@random_array.sort)
       end
     end
     

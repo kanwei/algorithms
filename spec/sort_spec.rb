@@ -10,12 +10,12 @@ describe "sort algorithms" do
 
   it "should work for empty containers" do
     empty_array = []
-    @sorts.each { |sort| Sort.send(sort, empty_array).should eql([]) }
+    @sorts.each { |sort| expect(Sort.send(sort, empty_array)).to eql([]) }
   end
 
   it "should work for a container of size 1" do
     one_array = [1]
-    @sorts.each { |sort| Sort.send(sort, one_array).should eql([1]) }
+    @sorts.each { |sort| expect(Sort.send(sort, one_array)).to eql([1]) }
   end
 
   it "should work for random arrays of numbers" do
@@ -23,7 +23,7 @@ describe "sort algorithms" do
     rand_array = Array.new(n) { rand(n) }
     sorted_array = rand_array.sort
 
-    @sorts.each { |sort| Sort.send(sort, rand_array.dup).should eql(sorted_array) }
+    @sorts.each { |sort| expect(Sort.send(sort, rand_array.dup)).to eql(sorted_array) }
   end    
 
 end
