@@ -1,0 +1,32 @@
+PATH
+  remote: .
+  specs:
+    algorithms (0.6.1)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    diff-lcs (1.2.5)
+    rake (10.3.2)
+    rake-compiler (0.9.3)
+      rake
+    rspec (3.0.0)
+      rspec-core (~> 3.0.0)
+      rspec-expectations (~> 3.0.0)
+      rspec-mocks (~> 3.0.0)
+    rspec-core (3.0.4)
+      rspec-support (~> 3.0.0)
+    rspec-expectations (3.0.4)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.0.0)
+    rspec-mocks (3.0.4)
+      rspec-support (~> 3.0.0)
+    rspec-support (3.0.4)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  algorithms!
+  rake-compiler
+  rspec
