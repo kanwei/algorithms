@@ -4,7 +4,7 @@
 =end
 module Algorithms::Search
   # Binary Search: This search finds an item in log(n) time provided that the container is already sorted.
-  #index of the item if it is found, or nil if it is not. If there are duplicates, the index of the first one
+  # This method returns the index of the item if it is found, or nil if it is not. If there are duplicates, the index of the first one
   # found is returned, and this is not guaranteed to be the smallest or largest item.
   #
   # Complexity: O(lg N)
