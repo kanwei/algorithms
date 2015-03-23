@@ -1,7 +1,6 @@
-=begin rdoc
-    This module implements string algorithms. Documentation is provided for each algorithm.
-    
-=end
+# rdoc
+#     This module implements string algorithms. Documentation is provided for each algorithm.
+#
 
 begin
   require 'CString'

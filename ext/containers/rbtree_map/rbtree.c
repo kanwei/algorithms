@@ -44,7 +44,7 @@ static rbtree* get_tree_from_self(VALUE self) {
 
 static int isred(rbtree_node *node) {
 	if(!node) { return FALSE; }
-	
+
 	if(node->color == RED) { return TRUE; }
 	else return FALSE;
 }
@@ -84,7 +84,7 @@ static rbtree_node* rotate_left(rbtree_node *h) {
 	x->left = set_num_nodes(h);
 	x->color = x->left->color;
 	x->left->color = RED;
-	return set_num_nodes(x);	
+	return set_num_nodes(x);
 }
 
 static rbtree_node* rotate_right(rbtree_node *h) {
@@ -93,7 +93,7 @@ static rbtree_node* rotate_right(rbtree_node *h) {
 	x->right = set_num_nodes(h);
 	x->color = x->right->color;
 	x->right->color = RED;
-	return set_num_nodes(x);	
+	return set_num_nodes(x);
 }
 
 static rbtree_node* move_red_left(rbtree_node *h) {
@@ -118,13 +118,13 @@ static rbtree_node* move_red_right(rbtree_node *h) {
 static rbtree_node* fixup(rbtree_node *h) {
 	if ( isred(h->right) )
 		h = rotate_left(h);
-	
+
 	if ( isred(h->left) && isred(h->left->left) )
 		h = rotate_right(h);
-	
+
 	if ( isred(h->left) && isred(h->right) )
 		colorflip(h);
-		
+
 	return set_num_nodes(h);
 }
 
@@ -138,7 +138,7 @@ static rbtree* create_rbtree(int (*compare_function)(VALUE, VALUE)) {
 
 static rbtree_node* insert(rbtree *tree, rbtree_node *node, VALUE key, VALUE value) {
 	int cmp;
-	
+
 	// This slot is empty, so we insert our new node
 	if(!node) {
 		rbtree_node *new_node = ALLOC(rbtree_node);
@@ -151,13 +151,13 @@ static rbtree_node* insert(rbtree *tree, rbtree_node *node, VALUE key, VALUE val
 		new_node->right		= NULL;
 		return new_node;
 	}
-	
+
 	// Insert left or right, recursively
 	cmp = tree->compare_function(key, node->key);
 	if		(cmp == 0)	{ node->value = value; }
 	else if (cmp == -1) { node->left	= insert(tree, node->left, key, value); }
 	else				{ node->right = insert(tree, node->right, key, value); }
-	
+
 	// Fix our tree to keep left-lean
 	if (isred(node->right)) { node = rotate_left(node); }
 	if (isred(node->left) && isred(node->left->left)) { node = rotate_right(node); }
@@ -172,25 +172,25 @@ static VALUE get(rbtree *tree, rbtree_node *node, VALUE key) {
 	if (!node) {
 		return Qnil;
 	}
-	
+
 	cmp = tree->compare_function(key, node->key);
 	if		(cmp == 0)	{ return node->value; }
 	else if (cmp == -1) { return get(tree, node->left, key); }
 	else				{ return get(tree, node->right, key); }
-	
+
 }
 
 static VALUE min_key(rbtree_node *node) {
 	while (node->left)
 		node = node->left;
-		
+
 	return node->key;
 }
 
 static VALUE max_key(rbtree_node *node) {
 	while (node->right)
 		node = node->right;
-	
+
 	return node->key;
 }
 
@@ -201,7 +201,7 @@ static rbtree_node* delete_min(rbtree_node *h, VALUE *deleted_value) {
 		xfree(h);
 		return NULL;
 	}
-	
+
 	if ( !isred(h->left) && !isred(h->left->left) )
 		h = move_red_left(h);
 
@@ -235,13 +235,13 @@ static rbtree_node* delete(rbtree *tree, rbtree_node *node, VALUE key, VALUE *de
 	if (cmp == -1) {
 		if ( !isred(node->left) && !isred(node->left->left) )
 			node = move_red_left(node);
-		
+
 		node->left = delete(tree, node->left, key, deleted_value);
 	}
 	else {
 		if ( isred(node->left) )
 			node = rotate_right(node);
-		
+
 		cmp = tree->compare_function(key, node->key);
 		if ( (cmp == 0) && !node->right ) {
 			*deleted_value = node->value;
@@ -251,7 +251,7 @@ static rbtree_node* delete(rbtree *tree, rbtree_node *node, VALUE key, VALUE *de
 
 		if ( !isred(node->right) && !isred(node->right->left) )
 			node = move_red_right(node);
-		
+
 		cmp = tree->compare_function(key, node->key);
 		if (cmp == 0) {
 			*deleted_value = node->value;
@@ -270,7 +270,7 @@ static rbtree_node* delete(rbtree *tree, rbtree_node *node, VALUE key, VALUE *de
 static rbtree* rbtree_each_node(rbtree *tree, rbtree_node *node, void (*each)(rbtree *tree_, rbtree_node *node_, void* args), void* arguments) {
 	if (!node)
 		return NULL;
-	
+
 		if (node->left)
 			rbtree_each_node(tree, node->left, each, arguments);
 	(*each)(tree, node, arguments);
@@ -313,7 +313,7 @@ static void rbtree_mark(void *ptr) {
 	ll_node *current, *new, *last, *old;
 	if (ptr) {
 		rbtree *tree = ptr;
-		
+
 		if (tree->root) {
 			current = ALLOC(ll_node);
 			last = current;
@@ -329,7 +329,7 @@ static void rbtree_mark(void *ptr) {
 					new->next = NULL;
 					last->next = new;
 					last = new;
-				} 
+				}
 				if (current->node->right) {
 					new = ALLOC(ll_node);
 					new->node = current->node->right;
@@ -384,12 +384,12 @@ static VALUE rbtree_height(VALUE self) {
 	return INT2NUM(height(tree->root));
 }
 
-static VALUE rbtree_has_key(VALUE self, VALUE key) {
+static VALUE rbtree_key(VALUE self, VALUE key) {
 	rbtree *tree = get_tree_from_self(self);
 	if(!tree->root) { return Qfalse; }
 	if(get(tree, tree->root, key) == Qnil)
 		return Qfalse;
-	
+
 	return Qtrue;
 }
 
@@ -397,7 +397,7 @@ static VALUE rbtree_min_key(VALUE self) {
 	rbtree *tree = get_tree_from_self(self);
 	if(!tree->root)
 		return Qnil;
-	
+
 	return min_key(tree->root);
 }
 
@@ -405,7 +405,7 @@ static VALUE rbtree_max_key(VALUE self) {
 	rbtree *tree = get_tree_from_self(self);
 	if(!tree->root)
 		return Qnil;
-	
+
 	return max_key(tree->root);
 }
 
@@ -414,15 +414,15 @@ static VALUE rbtree_delete(VALUE self, VALUE key) {
 	rbtree *tree = get_tree_from_self(self);
 	if(!tree->root)
 		return Qnil;
-	
+
 	tree->root = delete(tree, tree->root, key, &deleted_value);
 	if(tree->root)
 		tree->root->color = BLACK;
-	
+
 	if(deleted_value) {
 		return deleted_value;
 	}
-		
+
 	return Qnil;
 }
 
@@ -431,15 +431,15 @@ static VALUE rbtree_delete_min(VALUE self) {
 	rbtree *tree = get_tree_from_self(self);
 	if(!tree->root)
 		return Qnil;
-	
+
 	tree->root = delete_min(tree->root, &deleted_value);
 	if(tree->root)
 		tree->root->color = BLACK;
-	
+
 	if(deleted_value) {
 		return deleted_value;
 	}
-		
+
 	return Qnil;
 }
 
@@ -448,15 +448,15 @@ static VALUE rbtree_delete_max(VALUE self) {
 	rbtree *tree = get_tree_from_self(self);
 	if(!tree->root)
 		return Qnil;
-	
+
 	tree->root = delete_max(tree->root, &deleted_value);
 	if(tree->root)
 		tree->root->color = BLACK;
-	
+
 	if(deleted_value) {
 		return deleted_value;
 	}
-		
+
 	return Qnil;
 }
 
@@ -475,7 +475,7 @@ static VALUE mContainers;
 
 void Init_CRBTreeMap() {
 	id_compare_operator = rb_intern("<=>");
-	
+
 	mContainers = rb_define_module("Containers");
 	cRBTree = rb_define_class_under(mContainers, "CRBTreeMap", rb_cObject);
 	rb_define_alloc_func(cRBTree, rbtree_alloc);
@@ -492,7 +492,7 @@ void Init_CRBTreeMap() {
 	rb_define_method(cRBTree, "each", rbtree_each, 0);
 	rb_define_method(cRBTree, "get", rbtree_get, 1);
 	rb_define_alias(cRBTree, "[]", "get");
-	rb_define_method(cRBTree, "has_key?", rbtree_has_key, 1);
+	rb_define_method(cRBTree, "key?", rbtree_key, 1);
 	rb_define_method(cRBTree, "delete", rbtree_delete, 1);
 	rb_include_module(cRBTree, rb_eval_string("Enumerable"));
 }

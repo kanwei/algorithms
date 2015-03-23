@@ -1,4 +1,4 @@
-$: << File.join(File.expand_path(File.dirname(__FILE__)), '../lib')
+$LOAD_PATH << File.join(File.expand_path(File.dirname(__FILE__)), '../lib')
 require 'algorithms'
 include Algorithms
 
@@ -6,13 +6,12 @@ require 'rubygems'
 require 'rbench'
 
 RBench.run(5) do
-  
   sorts = %w(ruby comb_sort heapsort insertion_sort shell_sort quicksort mergesort)
-  sorts.each { |sort| self.send(:column, sort.intern) }
-  
+  sorts.each { |sort| send(:column, sort.intern) }
+
   n = 1000
-  
-  proc = lambda { |scope, ary|
+
+  proc = lambda do |scope, ary|
     scope.ruby { ary.dup.sort }
     scope.comb_sort { Sort.comb_sort(ary.dup) }
     scope.heapsort { Sort.heapsort(ary.dup) }
@@ -20,14 +19,14 @@ RBench.run(5) do
     scope.shell_sort { Sort.shell_sort(ary.dup) }
     scope.quicksort { Sort.quicksort(ary.dup) }
     scope.mergesort { Sort.mergesort(ary.dup) }
-  }
+  end
 
-  report "Already sorted" do
+  report 'Already sorted' do
     sorted_array = Array.new(n) { rand(n) }.sort
     proc.call(self, sorted_array)
   end
-  
-  report "Random" do
+
+  report 'Random' do
     random_array = Array.new(n) { rand(n) }
     proc.call(self, random_array)
   end

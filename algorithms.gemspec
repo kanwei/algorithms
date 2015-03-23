@@ -22,5 +22,5 @@ Gem::Specification.new do |s|
   s.rubyforge_project = 'algorithms'
   s.add_development_dependency('rspec')
   s.add_development_dependency('rake-compiler')
-  s.add_development_dependency('rubocop')
+  s.add_development_dependency('rubocop', '~> 0.44.1')
 end

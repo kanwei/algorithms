@@ -1,26 +1,23 @@
-=begin rdoc
-    A Heap is a container that satisfies the heap property that nodes are always smaller in
-    value than their parent node.
-    
-    The Containers::Heap class is flexible and upon initialization, takes an optional block
-    that determines how the items are ordered. Two versions that are included are the
-    Containers::MaxHeap and Containers::MinHeap that return the largest and smallest items on
-    each invocation, respectively.
-    
-    This library implements a Fibonacci heap, which allows O(1) complexity for most methods.
-=end
+# rdoc
+#     A Heap is a container that satisfies the heap property that nodes are always smaller in
+#     value than their parent node.
+#
+#     The Containers::Heap class is flexible and upon initialization, takes an optional block
+#     that determines how the items are ordered. Two versions that are included are the
+#     Containers::MaxHeap and Containers::MinHeap that return the largest and smallest items on
+#     each invocation, respectively.
+#
+#     This library implements a Fibonacci heap, which allows O(1) complexity for most methods.
 class Containers::Heap
   include Enumerable
-  
+
   # call-seq:
   #     size -> int
   #
   # Return the number of elements in the heap.
-  def size
-    @size
-  end
-  alias_method :length, :size
-  
+  attr_reader :size
+  alias length size
+
   # call-seq:
   #     Heap.new(optional_array) { |x, y| optional_comparison_fn } -> new_heap
   #
@@ -35,19 +32,19 @@ class Containers::Heap
   #
   # Thus, smaller elements will be parent nodes. The heap defaults to a min-heap if no block
   # is given.
-  def initialize(ary=[], &block)
-    @compare_fn = block || lambda { |x, y| (x <=> y) == -1 }
+  def initialize(ary = [], &block)
+    @compare_fn = block || ->(x, y) { (x <=> y) == -1 }
     @next = nil
     @size = 0
     @stored = {}
-    
+
     ary.each { |n| push(n) } unless ary.empty?
   end
-  
+
   # call-seq:
   #     push(key, value) -> value
   #     push(value) -> value
-  # 
+  #
   # Inserts an item with a given key into the heap. If only one parameter is given,
   # the key is set to the value.
   #
@@ -58,8 +55,8 @@ class Containers::Heap
   #     heap.push(2)
   #     heap.pop #=> "Cat"
   #     heap.pop #=> 2
-  def push(key, value=key)
-    raise ArgumentError, "Heap keys must not be nil." unless key
+  def push(key, value = key)
+    raise ArgumentError, 'Heap keys must not be nil.' unless key
     node = Node.new(key, value)
     # Add new node to the left of the @next node
     if @next
@@ -67,17 +64,15 @@ class Containers::Heap
       node.left = @next.left
       node.left.right = node
       @next.left = node
-      if @compare_fn[key, @next.key]
-        @next = node
-      end
+      @next = node if @compare_fn[key, @next.key]
     else
       @next = node
     end
     @size += 1
-    
+
     arr = []
     w = @next.right
-    until w == @next do
+    until w == @next
       arr << w.value
       w = w.right
     end
@@ -86,22 +81,22 @@ class Containers::Heap
     @stored[key] << node
     value
   end
-  alias_method :<<, :push
-  
+  alias << push
+
   # call-seq:
-  #     has_key?(key) -> true or false
+  #     key?(key) -> true or false
   #
   # Returns true if heap contains the key.
   #
   # Complexity: O(1)
   #
   #     minheap = MinHeap.new([1, 2])
-  #     minheap.has_key?(2) #=> true
-  #     minheap.has_key?(4) #=> false
-  def has_key?(key)
+  #     minheap.key?(2) #=> true
+  #     minheap.key?(4) #=> false
+  def key?(key)
     @stored[key] && !@stored[key].empty? ? true : false
   end
-  
+
   # call-seq:
   #     next -> value
   #     next -> nil
@@ -116,7 +111,7 @@ class Containers::Heap
   def next
     @next && @next.value
   end
-  
+
   # call-seq:
   #     next_key -> key
   #     next_key -> nil
@@ -132,7 +127,7 @@ class Containers::Heap
   def next_key
     @next && @next.key
   end
-  
+
   # call-seq:
   #     clear -> nil
   #
@@ -146,7 +141,7 @@ class Containers::Heap
     @stored = {}
     nil
   end
-  
+
   # call-seq:
   #     empty? -> true or false
   #
@@ -154,7 +149,7 @@ class Containers::Heap
   def empty?
     @next.nil?
   end
-  
+
   # call-seq:
   #     merge!(otherheap) -> merged_heap
   #
@@ -168,22 +163,22 @@ class Containers::Heap
   #     heap.size #=> 8
   #     heap.pop #=> 1
   def merge!(otherheap)
-    raise ArgumentError, "Trying to merge a heap with something not a heap" unless otherheap.kind_of? Containers::Heap
-    other_root = otherheap.instance_variable_get("@next")
+    raise ArgumentError, 'Trying to merge a heap with something not a heap' unless otherheap.is_a? Containers::Heap
+    other_root = otherheap.instance_variable_get('@next')
     if other_root
-      @stored = @stored.merge(otherheap.instance_variable_get("@stored")) { |key, a, b| (a << b).flatten }
+      @stored = @stored.merge(otherheap.instance_variable_get('@stored')) { |_key, a, b| (a << b).flatten }
       # Insert othernode's @next node to the left of current @next
       @next.left.right = other_root
       ol = other_root.left
       other_root.left = @next.left
       ol.right = @next
       @next.left = ol
-      
+
       @next = other_root if @compare_fn[other_root.key, @next.key]
     end
     @size += otherheap.size
   end
-  
+
   # call-seq:
   #     pop -> value
   #     pop -> nil
@@ -205,19 +200,20 @@ class Containers::Heap
     # Merge the popped's children into root node
     if @next.child
       @next.child.parent = nil
-      
+
       # get rid of parent
       sibling = @next.child.right
       until sibling == @next.child
         sibling.parent = nil
         sibling = sibling.right
       end
-      
+
       # Merge the children into the root. If @next is the only root node, make its child the @next node
       if @next.right == @next
         @next = @next.child
       else
-        next_left, next_right = @next.left, @next.right
+        next_left = @next.left
+        next_right = @next.right
         current_child = @next.child
         @next.right.left = current_child
         @next.left.right = current_child.right
@@ -231,39 +227,39 @@ class Containers::Heap
       @next = @next.right
     end
     consolidate
-    
+
     unless @stored[popped.key].delete(popped)
-      raise "Couldn't delete node from stored nodes hash" 
+      raise "Couldn't delete node from stored nodes hash"
     end
     @size -= 1
-    
+
     popped.value
   end
-  alias_method :next!, :pop
-  
+  alias next! pop
+
   # call-seq:
   #     change_key(key, new_key) -> [new_key, value]
   #     change_key(key, new_key) -> nil
   #
   # Changes the key from one to another. Doing so must not violate the heap property or
-  # an exception will be raised. If the key is found, an array containing the new key and 
-  # value pair is returned, otherwise nil is returned. 
+  # an exception will be raised. If the key is found, an array containing the new key and
+  # value pair is returned, otherwise nil is returned.
   #
   # In the case of duplicate keys, an arbitrary key is changed. This will be investigated
   # more in the future.
   #
   # Complexity: amortized O(1)
-  # 
+  #
   #     minheap = MinHeap.new([1, 2])
   #     minheap.change_key(2, 3) #=> raise error since we can't increase the value in a min-heap
   #     minheap.change_key(2, 0) #=> [0, 2]
   #     minheap.pop #=> 2
   #     minheap.pop #=> 1
-  def change_key(key, new_key, delete=false)
+  def change_key(key, new_key, delete = false)
     return if @stored[key].nil? || @stored[key].empty? || (key == new_key)
-    
+
     # Must maintain heap property
-    raise "Changing this key would not maintain heap property!" unless (delete || @compare_fn[new_key, key])
+    raise 'Changing this key would not maintain heap property!' unless delete || @compare_fn[new_key, key]
     node = @stored[key].shift
     if node
       node.key = new_key
@@ -277,19 +273,17 @@ class Containers::Heap
           cascading_cut(parent)
         end
       end
-      if delete || @compare_fn[node.key, @next.key]
-        @next = node
-      end
+      @next = node if delete || @compare_fn[node.key, @next.key]
       return [node.key, node.value]
     end
     nil
   end
-  
+
   # call-seq:
   #     delete(key) -> value
   #     delete(key) -> nil
   #
-  # Deletes the item with associated key and returns it. nil is returned if the key 
+  # Deletes the item with associated key and returns it. nil is returned if the key
   # is not found. In the case of nodes with duplicate keys, an arbitrary one is deleted.
   #
   # Complexity: amortized O(log n)
@@ -300,7 +294,7 @@ class Containers::Heap
   def delete(key)
     pop if change_key(key, nil, true)
   end
-  
+
   # Node class used internally
   class Node # :nodoc:
     attr_accessor :parent, :child, :left, :right, :key, :value, :degree, :marked
@@ -313,13 +307,12 @@ class Containers::Heap
       @right = self
       @left = self
     end
-    
+
     def marked?
       @marked == true
     end
-    
   end
-  
+
   # make node a child of a parent node
   def link_nodes(child, parent)
     # link the child's siblings
@@ -327,7 +320,7 @@ class Containers::Heap
     child.right.left = child.left
 
     child.parent = parent
-    
+
     # if parent doesn't have children, make new child its only child
     if parent.child.nil?
       parent.child = child.right = child.left = child
@@ -342,7 +335,7 @@ class Containers::Heap
     child.marked = false
   end
   private :link_nodes
-  
+
   # Makes sure the structure does not contain nodes in the root list with equal degrees
   def consolidate
     roots = []
@@ -358,17 +351,19 @@ class Containers::Heap
     roots.each do |root|
       min = root if @compare_fn[root.key, min.key]
       # check if we need to merge
-      if degrees[root.degree].nil?  # no other node with the same degree
+      if degrees[root.degree].nil? # no other node with the same degree
         degrees[root.degree] = root
         next
-      else  # there is another node with the same degree, consolidate them
+      else # there is another node with the same degree, consolidate them
         degree = root.degree
-        until degrees[degree].nil? do
+        until degrees[degree].nil?
           other_root_with_degree = degrees[degree]
-          if @compare_fn[root.key, other_root_with_degree.key]  # determine which node is the parent, which one is the child
-            smaller, larger = root, other_root_with_degree
+          if @compare_fn[root.key, other_root_with_degree.key] # determine which node is the parent, which one is the child
+            smaller = root
+            larger = other_root_with_degree
           else
-            smaller, larger = other_root_with_degree, root
+            smaller = other_root_with_degree
+            larger = root
           end
           link_nodes(larger, smaller)
           degrees[degree] = nil
@@ -382,7 +377,7 @@ class Containers::Heap
     @next = min
   end
   private :consolidate
-  
+
   def cascading_cut(node)
     p = node.parent
     if p
@@ -395,15 +390,15 @@ class Containers::Heap
     end
   end
   private :cascading_cut
-  
+
   # remove x from y's children and add x to the root list
   def cut(x, y)
     x.left.right = x.right
     x.right.left = x.left
     y.degree -= 1
-    if (y.degree == 0)
+    if y.degree.zero?
       y.child = nil
-    elsif (y.child == x)
+    elsif y.child == x
       y.child = x.right
     end
     x.right = @next
@@ -414,12 +409,10 @@ class Containers::Heap
     x.marked = false
   end
   private :cut
-  
 end
 
 # A MaxHeap is a heap where the items are returned in descending order of key value.
 class Containers::MaxHeap < Containers::Heap
-  
   # call-seq:
   #     MaxHeap.new(ary) -> new_heap
   #
@@ -429,10 +422,10 @@ class Containers::MaxHeap < Containers::Heap
   #     maxheap = MaxHeap.new([1, 2, 3, 4])
   #     maxheap.pop #=> 4
   #     maxheap.pop #=> 3
-  def initialize(ary=[])
+  def initialize(ary = [])
     super(ary) { |x, y| (x <=> y) == 1 }
   end
-  
+
   # call-seq:
   #     max -> value
   #     max -> nil
@@ -444,7 +437,7 @@ class Containers::MaxHeap < Containers::Heap
   def max
     self.next
   end
-  
+
   # call-seq:
   #     max! -> value
   #     max! -> nil
@@ -455,13 +448,12 @@ class Containers::MaxHeap < Containers::Heap
   #     maxheap.max! #=> 4
   #     maxheap.size #=> 3
   def max!
-    self.pop
+    pop
   end
 end
 
 # A MinHeap is a heap where the items are returned in ascending order of key value.
 class Containers::MinHeap < Containers::Heap
-  
   # call-seq:
   #     MinHeap.new(ary) -> new_heap
   #
@@ -471,10 +463,10 @@ class Containers::MinHeap < Containers::Heap
   #     minheap = MinHeap.new([1, 2, 3, 4])
   #     minheap.pop #=> 1
   #     minheap.pop #=> 2
-  def initialize(ary=[])
+  def initialize(ary = [])
     super(ary) { |x, y| (x <=> y) == -1 }
   end
-  
+
   # call-seq:
   #     min -> value
   #     min -> nil
@@ -486,7 +478,7 @@ class Containers::MinHeap < Containers::Heap
   def min
     self.next
   end
-  
+
   # call-seq:
   #     min! -> value
   #     min! -> nil
@@ -497,6 +489,6 @@ class Containers::MinHeap < Containers::Heap
   #     minheap.min! #=> 1
   #     minheap.size #=> 3
   def min!
-    self.pop
+    pop
   end
 end

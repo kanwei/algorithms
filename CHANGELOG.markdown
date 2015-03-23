@@ -1,5 +1,9 @@
+=== October 13, 2016
+
+    * Renamed #has_key? -> key? since it's more idiomatic
+
 === January 22, 2013
-    
+
     * JRuby support
 
 === April 15, 2012
@@ -38,11 +42,11 @@
 === November 25, 2008
 
   * Checked in gnufied's C BST
-  
+
 === November 13, 2008
 
   * Removed #each for Hash and Priority Queue (Feature)
-  
+
 === September 15, 2008
 
   * Added comb sort
@@ -56,7 +60,7 @@
 === August 20, 2008
 
   * Implemented Knuth-Morris-Pratt substring algorithm
-  
+
 === August 15, 2008
 
   * Updated README to reflect progress
@@ -119,11 +123,11 @@
   * Implented #change_key and #delete for Heap
   * Priority Queue is now implemented with the new Fibonacci Heap
   * Removed old Priority Queue code as a result
-  * Heap: fixed #delete bug not checking if item exists, #has_key? bug 
+  * Heap: fixed #delete bug not checking if item exists, #has_key? bug
           for not returning boolean
   * Heap: value field is now optional and defaults to the key if not specified
   * More refactoring of RBTreeMap (both Ruby and C)
-  
+
 === July 7, 2008
 
   * Heap is now implemented with a Fibonacci Heap, not a binomial heap
@@ -138,17 +142,17 @@
   * More documentation for RBTreeMap
 
 === July 3, 2008
-  
+
   * Added documentation for Stack and Queue
 
 === June 24, 2008
-  
+
   * Imported Brian Amberg's priority queue implementation
   * Now uses Echoe to build gem
   * Gem builds for the first time
 
 === June 18, 2008
-  
+
   * Can now enumerate over RBTreeMap
 
 === June 17, 2008
