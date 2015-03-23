@@ -1,6 +1,6 @@
 =begin rdoc
     This module implements search algorithms. Documentation is provided for each algorithm.
-    
+
 =end
 module Algorithms::Search
   # Binary Search: This search finds an item in log(n) time provided that the container is already sorted.
@@ -8,7 +8,7 @@ module Algorithms::Search
   # found is returned, and this is not guaranteed to be the smallest or largest item.
   #
   # Complexity: O(lg N)
-  # 
+  #
   #   Algorithms::Search.binary_search([1, 2, 3], 1) #=> 1
   #   Algorithms::Search.binary_search([1, 2, 3], 4) #=> nil
   def self.binary_search(container, item)
@@ -28,11 +28,11 @@ module Algorithms::Search
     end
     nil
   end
-  
-  # Knuth-Morris-Pratt Algorithm substring search algorithm: Efficiently finds the starting position of a 
+
+  # Knuth-Morris-Pratt Algorithm substring search algorithm: Efficiently finds the starting position of a
   # substring in a string. The algorithm calculates the best position to resume searching from if a failure
   # occurs.
-  # 
+  #
   # The method returns the index of the starting position in the string where the substring is found. If there
   # is no match, nil is returned.
   #
@@ -42,7 +42,7 @@ module Algorithms::Search
   #   Algorithms::Search.kmp_search("ABC ABCDAB ABCDABCDABDE", "ABCDEF") #=> nil
   def self.kmp_search(string, substring)
     return nil if string.nil? or substring.nil?
-    
+
     # create failure function table
     pos = 2
     cnd = 0
@@ -72,7 +72,7 @@ module Algorithms::Search
     end
     return nil
   end
-  
+
   # Allows kmp_search to be called as an instance method in classes that include the Search module.
   #
   #   class String; include Algorithms::Search; end
@@ -80,5 +80,5 @@ module Algorithms::Search
   def kmp_search(substring)
     Algorithms::Search.kmp_search(self, substring)
   end
-  
+
 end
