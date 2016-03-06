@@ -177,7 +177,8 @@ module Algorithms::Sort
   #   end
   # end
   
-  def self.quicksort(container)
+  def self.quicksort(container, further_randomize_set = false)
+    container.shuffle! if further_randomize_set
     bottom, top = [], []
     top[0] = 0
     bottom[0] = container.size
