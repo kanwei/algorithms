@@ -26,7 +26,7 @@ module Algorithms::Sort
     end
     container
   end
-  
+
   # Comb sort: A variation on bubble sort that dramatically improves performance.
   # Source: http://yagni.com/combsort/
   # Requirements: Needs to be able to compare elements with <=>, and the [] []= methods should
@@ -54,7 +54,7 @@ module Algorithms::Sort
     end
     container
   end
-  
+
   # Selection sort: A naive sort that goes through the container and selects the smallest element,
   # putting it at the beginning. Repeat until the end is reached.
   # Requirements: Needs to be able to compare elements with <=>, and the [] []= methods should
@@ -74,7 +74,7 @@ module Algorithms::Sort
     end
     container
   end
-  
+
   # Heap sort: Uses a heap (implemented by the Containers module) to sort the collection.
   # Requirements: Needs to be able to compare elements with <=>
   # Time Complexity: О(n^2)
@@ -88,7 +88,7 @@ module Algorithms::Sort
     ary << heap.pop until heap.empty?
     ary
   end
-  
+
   # Insertion sort: Elements are inserted sequentially into the right position.
   # Requirements: Needs to be able to compare elements with <=>, and the [] []= methods should
   # be implemented for the container.
@@ -110,7 +110,7 @@ module Algorithms::Sort
     end
     container
   end
-  
+
   # Shell sort: Similar approach as insertion sort but slightly better.
   # Requirements: Needs to be able to compare elements with <=>, and the [] []= methods should
   # be implemented for the container.
@@ -135,7 +135,7 @@ module Algorithms::Sort
     end
     container
   end
-  
+
   # Quicksort: A divide-and-conquer sort that recursively partitions a container until it is sorted.
   # Requirements: Container should implement #pop and include the Enumerable module.
   # Time Complexity: О(n log n) average, O(n^2) worst-case
@@ -150,33 +150,34 @@ module Algorithms::Sort
   # 
   #   quicksort(xs.select { |i| i <  x }) + [x] + quicksort(xs.select { |i| i >= x })
   # end
-  
-  def self.partition(data, left, right)
-    pivot = data[front]
-    left += 1
 
-    while left <= right do
-      if data[frontUnknown] < pivot
-        back += 1
-        data[frontUnknown], data[back] = data[back], data[frontUnknown] # Swap
+  def self.partition(a, bottom, top)
+    i = bottom
+    j = top + 1
+    v = a[bottom]
+    loop do
+      while a[i += 1] < v
+        break if i == top
       end
-
-      frontUnknown += 1
+      while v < a[j -= 1]
+        break if j == bottom
+      end
+      break if i >= j
+      a[i], a[j] = a[j], a[i]
     end
-
-    data[front], data[back] = data[back], data[front] # Swap
-    back
+    a[bottom], a[j] = a[j], a[bottom]
+    j
   end
 
 
   # def self.quicksort(container, left = 0, right = container.size - 1)
-  #   if left < right 
+  #   if left < right
   #     middle = partition(container, left, right)
   #     quicksort(container, left, middle - 1)
   #     quicksort(container, middle + 1, right)
   #   end
   # end
-  
+
   def self.quicksort(container)
     bottom, top = [], []
     top[0] = 0
@@ -184,17 +185,17 @@ module Algorithms::Sort
     i = 0
     while i >= 0 do
       l = top[i]
-      r = bottom[i] - 1;
+      r = bottom[i] - 1
       if l < r
         pivot = container[l]
         while l < r do
-          r -= 1 while (container[r] >= pivot  && l < r)
-          if (l < r)
+          r -= 1 while (container[r] >= pivot && l < r)
+          if l < r
             container[l] = container[r]
             l += 1
           end
-          l += 1 while (container[l] <= pivot  && l < r)
-          if (l < r)
+          l += 1 while (container[l] <= pivot && l < r)
+          if l < r
             container[r] = container[l]
             r -= 1
           end
@@ -208,7 +209,7 @@ module Algorithms::Sort
         i -= 1
       end
     end
-    container    
+    container
   end
 
   # Mergesort: A stable divide-and-conquer sort that sorts small chunks of the container and then merges them together.
@@ -221,8 +222,8 @@ module Algorithms::Sort
   #   Algorithms::Sort.mergesort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
   def self.mergesort(container)
     return container if container.size <= 1
-    mid   = container.size / 2
-    left  = container[0...mid]
+    mid = container.size / 2
+    left = container[0...mid]
     right = container[mid...container.size]
     merge(mergesort(left), mergesort(right))
   end
@@ -274,11 +275,11 @@ module Algorithms::Sort
     return container if container.size <= 1
     dualpivot(container, 0, container.size-1, 3)
   end
- 
+
   def self.dualpivot(container, left=0, right=container.size-1, div=3)
     length = right - left
     if length < 27 # insertion sort for tiny array
-      container.each_with_index do |data,i|
+      container.each_with_index do |data, i|
         j = i - 1
         while j >= 0
           break if container[j] <= data
@@ -292,7 +293,7 @@ module Algorithms::Sort
       # medians
       m1 = left + third
       m2 = right - third
-      if m1 <= left 
+      if m1 <= left
         m1 = left + 1
       end
       if m2 >= right
@@ -362,7 +363,7 @@ module Algorithms::Sort
   end
 
   def self.dualpivot_swap(container, i, j)
-    container[i],  container[j] = container[j],  container[i]
+    container[i], container[j] = container[j], container[i]
   end
 end
 
