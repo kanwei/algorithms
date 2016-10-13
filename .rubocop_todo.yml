@@ -36,7 +36,7 @@ Lint/Void:
 
 # Offense count: 28
 Metrics/AbcSize:
-  Max: 79
+  Max: 80
 
 # Offense count: 2
 # Configuration parameters: CountComments.
@@ -45,7 +45,7 @@ Metrics/BlockLength:
 
 # Offense count: 7
 Metrics/BlockNesting:
-  Max: 5
+  Max: 4
 
 # Offense count: 3
 # Configuration parameters: CountComments.
@@ -54,7 +54,7 @@ Metrics/ClassLength:
 
 # Offense count: 14
 Metrics/CyclomaticComplexity:
-  Max: 21
+  Max: 20
 
 # Offense count: 144
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives.
@@ -65,16 +65,16 @@ Metrics/LineLength:
 # Offense count: 32
 # Configuration parameters: CountComments.
 Metrics/MethodLength:
-  Max: 63
+  Max: 64
 
 # Offense count: 1
 # Configuration parameters: CountComments.
 Metrics/ModuleLength:
-  Max: 210
+  Max: 211
 
 # Offense count: 13
 Metrics/PerceivedComplexity:
-  Max: 25
+  Max: 24
 
 # Offense count: 18
 Style/AsciiComments:
@@ -106,13 +106,6 @@ Style/Documentation:
     - 'test/**/*'
     - 'lib/algorithms.rb'
     - 'lib/containers/kd_tree.rb'
-
-# Offense count: 1
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: for, each
-Style/For:
-  Exclude:
-    - 'lib/algorithms/sort.rb'
 
 # Offense count: 4
 # Configuration parameters: MinBodyLength.

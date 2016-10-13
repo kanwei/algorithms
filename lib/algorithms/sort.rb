@@ -307,16 +307,17 @@ module Algorithms::Sort
       less = left + 1
       great = right - 1
       # sorting
-      k = less
-      while k <= great
-        if container[k] < pivot1
-          dualpivot_swap(container, k, less += 1)
-        elsif container[k] > pivot2
-          great -= 1 while k < great && container[great] > pivot2
-          dualpivot_swap(container, k, great -= 1)
-          dualpivot_swap(container, k, less += 1) if container[k] < pivot1
+      less.tap do |k|
+        while k <= great
+          if container[k] < pivot1
+            dualpivot_swap(container, k, less += 1)
+          elsif container[k] > pivot2
+            great -= 1 while k < great && container[great] > pivot2
+            dualpivot_swap(container, k, great -= 1)
+            dualpivot_swap(container, k, less += 1) if container[k] < pivot1
+          end
+          k += 1
         end
-        k += 1
       end
       # swaps
       dist = great - less
@@ -328,7 +329,7 @@ module Algorithms::Sort
       dualpivot(container, great + 2, right, div)
       # equal elements
       if dist > length - 13 && pivot1 != pivot2
-        for k in less..great do
+        (less..great).each do |k|
           if container[k] == pivot1
             dualpivot_swap(container, k, less)
             less += 1
