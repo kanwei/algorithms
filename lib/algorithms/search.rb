@@ -23,10 +23,10 @@ module Algorithms::Search
       elsif val < item
         low = mid + 1
       else
-        return val
+        return mid
       end
     end
-    nil
+    "Sorry key is not available"
   end
   
   # Knuth-Morris-Pratt Algorithm substring search algorithm: Efficiently finds the starting position of a 
