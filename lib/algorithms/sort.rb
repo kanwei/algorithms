@@ -155,12 +155,12 @@ module Algorithms::Sort
     left += 1
 
     while left <= right
-      if data[frontUnknown] < pivot
+      if data[front_unknown] < pivot
         back += 1
-        data[frontUnknown], data[back] = data[back], data[frontUnknown] # Swap
+        data[front_unknown], data[back] = data[back], data[front_unknown] # Swap
       end
 
-      frontUnknown += 1
+      front_unknown += 1
     end
 
     data[front], data[back] = data[back], data[front] # Swap
