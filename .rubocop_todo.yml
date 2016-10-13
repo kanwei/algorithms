@@ -21,11 +21,6 @@ Lint/RescueException:
     - 'spec/rb_tree_map_spec.rb'
     - 'spec/splay_tree_map_spec.rb'
 
-# Offense count: 1
-Lint/ShadowingOuterLocalVariable:
-  Exclude:
-    - 'lib/containers/heap.rb'
-
 # Offense count: 2
 Lint/UselessAssignment:
   Exclude:
@@ -55,7 +50,7 @@ Metrics/BlockNesting:
 # Offense count: 3
 # Configuration parameters: CountComments.
 Metrics/ClassLength:
-  Max: 214
+  Max: 215
 
 # Offense count: 14
 Metrics/CyclomaticComplexity:

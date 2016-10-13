@@ -339,13 +339,14 @@ class Containers::Heap
   # Makes sure the structure does not contain nodes in the root list with equal degrees
   def consolidate
     roots = []
-    root = @next
-    min = root
-    # find the nodes in the list
-    loop do
-      roots << root
-      root = root.right
-      break if root == @next
+    min = @next
+    @next.tap do |root|
+      # find the nodes in the list
+      loop do
+        roots << root
+        root = root.right
+        break if root == @next
+      end
     end
     degrees = []
     roots.each do |root|
