@@ -27,7 +27,7 @@ shared_examples "(empty deque)" do
   end
 
   it "should raise ArgumentError if passed more than one argument" do
-    expect { @deque.class.send("new", Time.now, []) }.to raise_error
+    expect { @deque.class.send("new", Time.now, []) }.to raise_error(ArgumentError)
   end
 end
 
