@@ -43,14 +43,14 @@ static splaytree_node* splay(splaytree *tree, splaytree_node *n, VALUE key) {
 	int cmp, cmp2, root_size, l_size, r_size;
 	splaytree_node N;
 	splaytree_node *l, *r, *y;
-	
+
 	if (!n) return n;
-	
+
 	N.left = N.right = NULL;
 	l = r = &N;
 	root_size = node_size(n);
 	l_size = r_size = 0;
-	
+
 	while(1) {
 		cmp = tree->compare_function(key, n->key);
 		if (cmp == -1) {
@@ -87,7 +87,7 @@ static splaytree_node* splay(splaytree *tree, splaytree_node *n, VALUE key) {
 			break;
 		}
 	}
-	
+
 	l_size += node_size(n->left);
     r_size += node_size(n->right);
     n->size = l_size + r_size + 1;
@@ -101,23 +101,23 @@ static splaytree_node* splay(splaytree *tree, splaytree_node *n, VALUE key) {
 		y->size = r_size;
 		r_size -= 1 + node_size(y->right);
 	}
-	
+
 	l->right = n->left;
 	r->left = n->right;
 	n->left = N.right;
     n->right = N.left;
-	
+
 	return n;
 }
 
 static int height(splaytree_node *h) {
 	int left_height, right_height;
-	
+
 	if(!h) { return 0; }
-	
+
 	left_height = 1 + height(h->left);
 	right_height = 1 + height(h->right);
-	
+
 	return left_height > right_height ? left_height : right_height;
 }
 
@@ -140,7 +140,7 @@ static splaytree_node* create_node(VALUE key, VALUE value) {
 static splaytree_node* insert(splaytree *tree, splaytree_node *n, VALUE key, VALUE value) {
 	int cmp;
 	splaytree_node *new_node;
-	
+
 	if (n) {
 		n = splay(tree, n, key);
 		cmp = tree->compare_function(key, n->key);
@@ -172,10 +172,10 @@ static splaytree_node* insert(splaytree *tree, splaytree_node *n, VALUE key, VAL
 
 static VALUE get(splaytree *tree, VALUE key) {
 	int cmp;
-	
+
 	if (!tree->root)
 		return Qnil;
-		
+
 	tree->root = splay(tree, tree->root, key);
 	cmp = tree->compare_function(key, tree->root->key);
 	if (cmp == 0) {
@@ -187,7 +187,7 @@ static VALUE get(splaytree *tree, VALUE key) {
 static splaytree_node* delete(splaytree *tree, splaytree_node *n, VALUE key, VALUE *deleted) {
 	int cmp, tsize;
 	splaytree_node *x;
-	
+
 	tsize = n->size;
 	n = splay(tree, n, key);
 	cmp = tree->compare_function(key, n->key);
@@ -211,12 +211,12 @@ static splaytree_node* delete(splaytree *tree, splaytree_node *n, VALUE key, VAL
 static splaytree* splaytree_each_node(splaytree *tree, splaytree_node *node, void (*each)(splaytree *tree_, splaytree_node *node_, void* args), void* arguments) {
 	if (!node)
 		return NULL;
-	
+
 		if (node->left)
 			splaytree_each_node(tree, node->left, each, arguments);
-		
+
 		(*each)(tree, node, arguments);
-		
+
 		if (node->right)
 			splaytree_each_node(tree, node->right, each, arguments);
 	return tree;
@@ -256,7 +256,7 @@ static void splaytree_mark(void *ptr) {
 	ll_node *current, *new, *last, *old;
 	if (ptr) {
 		splaytree *tree = ptr;
-		
+
 		if (tree->root) {
 			current = ALLOC(ll_node);
 			last = current;
@@ -272,7 +272,7 @@ static void splaytree_mark(void *ptr) {
 					new->next = NULL;
 					last->next = new;
 					last = new;
-				} 
+				}
 				if (current->node->right) {
 					new = ALLOC(ll_node);
 					new->node = current->node->right;
@@ -328,40 +328,40 @@ static VALUE splaytree_height(VALUE self) {
 	return INT2NUM(height(tree->root));
 }
 
-static VALUE splaytree_has_key(VALUE self, VALUE key) {
+static VALUE splaytree_key(VALUE self, VALUE key) {
 	splaytree *tree = get_tree_from_self(self);
 	if(!tree->root) { return Qfalse; }
 	if(get(tree, key) == Qnil)
 		return Qfalse;
-	
+
 	return Qtrue;
 }
 
 static VALUE splaytree_min_key(VALUE self) {
 	splaytree *tree = get_tree_from_self(self);
 	splaytree_node *node;
-	
+
 	if(!tree->root)
 		return Qnil;
-	
+
 	node = tree->root;
 	while (node->left)
 		node = node->left;
-	
+
 	return node->key;
 }
 
 static VALUE splaytree_max_key(VALUE self) {
 	splaytree *tree = get_tree_from_self(self);
 	splaytree_node *node;
-	
+
 	if(!tree->root)
 		return Qnil;
-	
+
 	node = tree->root;
 	while (node->right)
 		node = node->right;
-	
+
 	return node->key;
 }
 
@@ -370,7 +370,7 @@ static VALUE splaytree_delete(VALUE self, VALUE key) {
 	splaytree *tree = get_tree_from_self(self);
 	if(!tree->root)
 		return Qnil;
-	
+
 	tree->root = delete(tree, tree->root, key, &deleted);
 	return deleted;
 }
@@ -397,7 +397,7 @@ static VALUE mContainers;
 
 void Init_CSplayTreeMap() {
 	id_compare_operator = rb_intern("<=>");
-	
+
 	mContainers = rb_define_module("Containers");
 	CSplayTree = rb_define_class_under(mContainers, "CSplayTreeMap", rb_cObject);
 	rb_define_alloc_func(CSplayTree, splaytree_alloc);
@@ -413,7 +413,7 @@ void Init_CSplayTreeMap() {
 	rb_define_method(CSplayTree, "each", splaytree_each, 0);
 	rb_define_method(CSplayTree, "get", splaytree_get, 1);
 	rb_define_alias(CSplayTree, "[]", "get");
-	rb_define_method(CSplayTree, "has_key?", splaytree_has_key, 1);
+	rb_define_method(CSplayTree, "key?", splaytree_key, 1);
 	rb_define_method(CSplayTree, "delete", splaytree_delete, 1);
 	rb_include_module(CSplayTree, rb_eval_string("Enumerable"));
 }

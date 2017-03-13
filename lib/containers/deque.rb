@@ -1,46 +1,43 @@
-=begin rdoc
-    A Deque is a container that allows items to be added and removed from both the front and back,
-    acting as a combination of a Stack and Queue.
-
-    This implementation uses a doubly-linked list, guaranteeing O(1) complexity for all operations.
-=end
+# rdoc
+#     A Deque is a container that allows items to be added and removed from both the front and back,
+#     acting as a combination of a Stack and Queue.
+#
+#     This implementation uses a doubly-linked list, guaranteeing O(1) complexity for all operations.
 class Containers::RubyDeque
   include Enumerable
-  
+
   Node = Struct.new(:left, :right, :obj)
-  
+
   # Create a new Deque. Takes an optional array argument to initialize the Deque.
   #
   #   d = Containers::Deque.new([1, 2, 3])
   #   d.front #=> 1
   #   d.back #=> 3
-  def initialize(ary=[])
+  def initialize(ary = [])
     @front = nil
     @back = nil
     @size = 0
     ary.to_a.each { |obj| push_back(obj) }
   end
-  
+
   # Returns true if the Deque is empty, false otherwise.
   def empty?
-    @size == 0
+    @size.zero?
   end
-  
+
   # Removes all the objects in the Deque.
   def clear
     @front = @back = nil
     @size = 0
   end
-  
+
   # Return the number of items in the Deque.
   #
   #   d = Containers::Deque.new([1, 2, 3])
   #   d.size #=> 3
-  def size
-    @size
-  end
-  alias_method :length, :size
-  
+  attr_reader :size
+  alias length size
+
   # Returns the object at the front of the Deque but does not remove it.
   #
   #   d = Containers::Deque.new
@@ -50,7 +47,7 @@ class Containers::RubyDeque
   def front
     @front && @front.obj
   end
-  
+
   # Returns the object at the back of the Deque but does not remove it.
   #
   #   d = Containers::Deque.new
@@ -60,7 +57,7 @@ class Containers::RubyDeque
   def back
     @back && @back.obj
   end
-  
+
   # Adds an object at the front of the Deque.
   #
   #   d = Containers::Deque.new([1, 2, 3])
@@ -78,7 +75,7 @@ class Containers::RubyDeque
     @size += 1
     obj
   end
-  
+
   # Adds an object at the back of the Deque.
   #
   #   d = Containers::Deque.new([1, 2, 3])
@@ -96,7 +93,7 @@ class Containers::RubyDeque
     @size += 1
     obj
   end
-  
+
   # Returns the object at the front of the Deque and removes it.
   #
   #   d = Containers::Deque.new
@@ -117,7 +114,7 @@ class Containers::RubyDeque
     @size -= 1
     node.obj
   end
-  
+
   # Returns the object at the back of the Deque and removes it.
   #
   #   d = Containers::Deque.new
@@ -138,7 +135,7 @@ class Containers::RubyDeque
     @size -= 1
     node.obj
   end
-  
+
   # Iterate over the Deque in FIFO order.
   def each_forward
     return unless @front
@@ -148,8 +145,8 @@ class Containers::RubyDeque
       node = node.right
     end
   end
-  alias_method :each, :each_forward
-  
+  alias each each_forward
+
   # Iterate over the Deque in LIFO order.
   def each_backward
     return unless @back
@@ -159,8 +156,7 @@ class Containers::RubyDeque
       node = node.left
     end
   end
-  alias_method :reverse_each, :each_backward
-
+  alias reverse_each each_backward
 end
 
 begin

@@ -1,6 +1,6 @@
 # $: << File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
 # require 'algorithms'
-# 
+#
 # if defined? Containers::CBst
 #   describe "CBst" do
 #     it "should mark ruby object references" do

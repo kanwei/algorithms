@@ -1,6 +1,6 @@
 # $: << File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
 # require "algorithms"
-# 
+#
 # begin
 #   Containers::CBst
 #   describe "binary search tree" do
@@ -9,7 +9,7 @@
 #       100.times { |x| @bst.push(x, "hello : #{x}") }
 #       @bst.size.should eql(100)
 #     end
-# 
+#
 #     it "should allow users to delete elements" do
 #       @bst = Containers::CBst.new
 #       @bst.push(10, "hello world")
@@ -19,7 +19,7 @@
 #       @bst.delete(10)
 #       @bst.size.should eql(0)
 #     end
-#     
+#
 #   end
 # rescue Exception
 # end
