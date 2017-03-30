@@ -27,6 +27,36 @@ module Algorithms::Sort
     container
   end
   
+  # Cocktail sort: A variation of bubble sort to tackle the posibility of turtles within the container
+  # Source: http://code.wikia.com/wiki/Cocktail_sort
+  # Derived Ruby implementation by: Lauri Tšili
+  # Requirements: Needs to be able to compare elements with <=>, and the [] []= methods should
+  # be implemented for the container.
+  # Time Complexity: О(n^2)
+  # Space Complexity: О(n) total, O(1) auxiliary
+  # Stable: Yes
+  # 
+  #   Algorithms::Sort.cocktail_sort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
+  def self.cocktail_sort(container)
+      loop do
+      swapped = false
+      (container.size-1).times do |i|
+        if (container[i] <=> container[i+1]) == 1
+          container[i], container[i+1] = container[i+1], container[i] # Swap
+          swapped = true
+        end
+      end
+      (container.size-1).times do |i|
+        if (container[-i-1] <=> container[-i-2]) == -1
+          container[-i-1], container[-i-2] = container[-i-2], container[-i-1] # Swap
+          swapped = true
+        end
+      end
+      break unless swapped
+    end
+    container
+  end
+  
   # Comb sort: A variation on bubble sort that dramatically improves performance.
   # Source: http://yagni.com/combsort/
   # Requirements: Needs to be able to compare elements with <=>, and the [] []= methods should
@@ -363,6 +393,46 @@ module Algorithms::Sort
 
   def self.dualpivot_swap(container, i, j)
     container[i],  container[j] = container[j],  container[i]
+  end
+  
+  # Counting sort: A sorting algorithm that counts the number of individual integers and reconstructs the original container sorted
+  # Source: http://www.codenlearn.com/2011/07/simple-counting-sort.html
+  # Ruby implementation by: Lauri Tšili
+  # Requirements: Algorithm can only sort non-negative integers, and the [] []= [].length methods should
+  # be implemented for the container.
+  # Time Complexity: О(n)
+  # Space Complexity: О(n + k) total, O(k) auxiliary
+  # Stable: No
+  # 
+  #   Algorithms::Sort.counting_sort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
+  def self.counting_sort(container)
+    #guessing the ammount of different numbers in container
+    guess = if container.length > 10
+              [container[0],
+	      container[container.length / 10 * 2],
+	      container[container.length / 10 * 3],
+	      container[container.length / 10 * 4],
+	      container[container.length / 10 * 5],
+	      container[container.length / 10 * 6],
+	      container[container.length / 10 * 7],
+	      container[container.length / 10 * 8],
+	      container[container.length / 10 * 9],
+	      container[-1]].max
+	    else
+	      10
+	    end
+		
+    counts = Array.new(guess)
+    container.each { |value| counts[value].nil? ? counts[value] = 1 : counts[value] += 1 }
+      
+    container = []
+    counts.length.times do |i|
+      next if counts[i].nil?
+      counts[i].times do
+        container << i
+      end
+    end
+    container
   end
 end
 
