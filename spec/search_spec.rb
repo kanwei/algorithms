@@ -8,7 +8,7 @@ describe "search algorithms" do
     n = 1000
     @rand_array = Array.new(n) { rand(n) }.sort
     
-    expect(Algorithms::Search.binary_search(@rand_array, @rand_array.first)).to eql(@rand_array.first)
+    expect(Algorithms::Search.binary_search(@rand_array, @rand_array.first)).to eql(0)
     expect(Algorithms::Search.binary_search(@rand_array, 999999)).to be_nil
     expect(Algorithms::Search.binary_search(@rand_array, nil)).to be_nil
   end
