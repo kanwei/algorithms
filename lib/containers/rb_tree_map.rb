@@ -15,7 +15,7 @@ require 'containers/stack'
     explicitly used as well; their functionality is identical.
     
     Most methods have O(log n) complexity.
-    
+
 =end
 class Containers::RubyRBTreeMap
   include Enumerable
@@ -160,7 +160,7 @@ class Containers::RubyRBTreeMap
     result
   end
   
-  # Deletes the item with the smallest key and returns the item. Returns nil
+  # Deletes the item with the largest key and returns the item. Returns nil
   # if key is not present.
   #
   # Complexity: O(log n)
