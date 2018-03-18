@@ -3,7 +3,7 @@ require 'algorithms'
 
 describe "empty suffix array" do
   it "should not initialize with empty string" do
-    expect { Containers::SuffixArray.new("") }.to raise_error
+    expect { Containers::SuffixArray.new("") }.to raise_error(ArgumentError)
   end
 end
 
