@@ -7,8 +7,8 @@ describe Containers::Heap do
   end
   
   it "should not let you merge with non-heaps" do
-    expect { @heap.merge!(nil) }.to raise_error
-    expect { @heap.merge!([]) }.to raise_error
+    expect { @heap.merge!(nil) }.to raise_error(ArgumentError)
+    expect { @heap.merge!([]) }.to raise_error(ArgumentError)
   end
   
   describe "(empty)" do
