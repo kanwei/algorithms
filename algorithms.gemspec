@@ -2,12 +2,12 @@
 
 Gem::Specification.new do |s|
   s.name = "algorithms"
-  s.version = "0.6.1"
+  s.version = "1.0.0"
 
   s.authors = ["Kanwei Li"]
   s.email = "kanwei@gmail.com"
   s.license = 'MIT'
-  s.date = "2013-01-22"
+  s.date = "2021-04-04"
   s.summary = "Useful algorithms and data structures for Ruby. Optional C extensions."
   s.description = "Heap, Priority Queue, Deque, Stack, Queue, Red-Black Trees, Splay Trees, sorting algorithms, and more"
   if defined?(RUBY_ENGINE) && RUBY_ENGINE == 'jruby'
