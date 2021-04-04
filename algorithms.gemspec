@@ -19,5 +19,4 @@ Gem::Specification.new do |s|
   s.homepage = "https://github.com/kanwei/algorithms"
   s.rdoc_options = ["--line-numbers", "--inline-source", "--title", "Algorithms", "--main", "README.markdown"]
   s.require_paths = ["lib", "ext"]
-  s.rubyforge_project = "algorithms"
 end

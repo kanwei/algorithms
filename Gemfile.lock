@@ -25,6 +25,7 @@ GEM
     rspec-support (3.10.2)
 
 PLATFORMS
+  ruby
   x86_64-linux
 
 DEPENDENCIES
@@ -33,4 +34,4 @@ DEPENDENCIES
   rspec
 
 BUNDLED WITH
-   2.2.10
+   2.2.15
