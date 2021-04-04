@@ -1,4 +1,4 @@
-# algorithms [![Build Status](https://travis-ci.org/kanwei/algorithms.png)](https://travis-ci.org/kanwei/algorithms)
+# algorithms [![Build Status](https://travis-ci.org/kanwei/algorithms.svg?branch=master)](https://travis-ci.org/github/kanwei/algorithms)
 
 [API Documentation](http://kanwei.github.io/algorithms/)
 
