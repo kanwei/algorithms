@@ -310,7 +310,7 @@ module Algorithms::Sort
       pivot2 = container[right]
       # pointers
       less = left + 1
-      great = right -1
+      great = right - 1
       # sorting
       k = less
       while k <= great
