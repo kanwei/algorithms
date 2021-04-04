@@ -8,7 +8,7 @@ Started as a [Google Summer of Code 2008](http://code.google.com/soc/2008/ruby/a
 
 Written by [Kanwei Li](http://kanwei.com/), mentored by Austin Ziegler
 
-### Original Proposal: ###
+## Original Proposal: ##
 
 Using the right data structure or algorithm for the situation is an important
 aspect of programming. In computer science literature, many data structures
