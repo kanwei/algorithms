@@ -184,7 +184,7 @@ module Algorithms::Sort
     i = 0
     while i >= 0 do
       l = top[i]
-      r = bottom[i] - 1;
+      r = bottom[i] - 1
       if l < r
         pivot = container[l]
         while l < r do
