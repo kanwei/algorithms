@@ -84,7 +84,7 @@ static rbtree_node* rotate_left(rbtree_node *h) {
 	x->left = set_num_nodes(h);
 	x->color = x->left->color;
 	x->left->color = RED;
-	return set_num_nodes(x);	
+	return set_num_nodes(x);
 }
 
 static rbtree_node* rotate_right(rbtree_node *h) {
@@ -93,7 +93,7 @@ static rbtree_node* rotate_right(rbtree_node *h) {
 	x->right = set_num_nodes(h);
 	x->color = x->right->color;
 	x->right->color = RED;
-	return set_num_nodes(x);	
+	return set_num_nodes(x);
 }
 
 static rbtree_node* move_red_left(rbtree_node *h) {
@@ -124,7 +124,7 @@ static rbtree_node* fixup(rbtree_node *h) {
 	
 	if ( isred(h->left) && isred(h->right) )
 		colorflip(h);
-		
+	
 	return set_num_nodes(h);
 }
 
@@ -183,7 +183,7 @@ static VALUE get(rbtree *tree, rbtree_node *node, VALUE key) {
 static VALUE min_key(rbtree_node *node) {
 	while (node->left)
 		node = node->left;
-		
+	
 	return node->key;
 }
 
@@ -329,7 +329,7 @@ static void rbtree_mark(void *ptr) {
 					new->next = NULL;
 					last->next = new;
 					last = new;
-				} 
+				}
 				if (current->node->right) {
 					new = ALLOC(ll_node);
 					new->node = current->node->right;
@@ -422,7 +422,7 @@ static VALUE rbtree_delete(VALUE self, VALUE key) {
 	if(deleted_value) {
 		return deleted_value;
 	}
-		
+	
 	return Qnil;
 }
 
@@ -439,7 +439,7 @@ static VALUE rbtree_delete_min(VALUE self) {
 	if(deleted_value) {
 		return deleted_value;
 	}
-		
+	
 	return Qnil;
 }
 
@@ -456,7 +456,7 @@ static VALUE rbtree_delete_max(VALUE self) {
 	if(deleted_value) {
 		return deleted_value;
 	}
-		
+	
 	return Qnil;
 }
 

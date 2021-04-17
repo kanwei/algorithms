@@ -1,6 +1,6 @@
 =begin rdoc
 
-    A kd-tree is a binary tree that allows one to store points (of any space dimension: 2D, 3D, etc). 
+    A kd-tree is a binary tree that allows one to store points (of any space dimension: 2D, 3D, etc).
     The structure of the resulting tree makes it so that large portions of the tree are pruned
     during queries.
     
@@ -25,7 +25,7 @@
 
 class Containers::KDTree
   Node = Struct.new(:id, :coords, :left, :right)
-  
+
   # Points is a hash of id => [coord, coord] pairs.
   def initialize(points)
     raise "must pass in a hash" unless points.kind_of?(Hash)
@@ -33,22 +33,22 @@ class Containers::KDTree
     @root = build_tree(points.to_a)
     @nearest = []
   end
-  
-  # Find k closest points to given coordinates 
+
+  # Find k closest points to given coordinates
   def find_nearest(target, k_nearest)
     @nearest = []
     nearest(@root, target, k_nearest, 0)
   end
-  
+
   # points is an array
   def build_tree(points, depth=0)
     return if points.empty?
-    
+
     axis = depth % @dimensions
-    
+
     points.sort! { |a, b| a.last[axis] <=> b.last[axis] }
     median = points.size / 2
-    
+
     node = Node.new(points[median].first, points[median].last, nil, nil)
     node.left = build_tree(points[0...median], depth+1)
     node.right = build_tree(points[median+1..-1], depth+1)
@@ -76,16 +76,16 @@ class Containers::KDTree
     nearest
   end
   private :check_nearest
-  
+
   # Recursively find nearest coordinates, going down the appropriate branch as needed
   def nearest(node, target, k_nearest, depth)
     axis = depth % @dimensions
-  
+
     if node.left.nil? && node.right.nil? # Leaf node
       @nearest = check_nearest(@nearest, node, target, k_nearest)
       return
     end
-  
+
     # Go down the nearest split
     if node.right.nil? || (node.left && target[axis] <= node.coords[axis])
       nearer = node.left
@@ -95,16 +95,16 @@ class Containers::KDTree
       further = node.left
     end
     nearest(nearer, target, k_nearest, depth+1)
-  
+
     # See if we have to check other side
     if further
       if @nearest.size < k_nearest || (target[axis] - node.coords[axis])**2 < @nearest.last[0]
         nearest(further, target, k_nearest, depth+1)
       end
     end
-  
+
     @nearest = check_nearest(@nearest, node, target, k_nearest)
   end
   private :nearest
-  
+
 end

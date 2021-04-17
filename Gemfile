@@ -6,4 +6,3 @@ group :development do
     gem "rspec"
     gem "rake-compiler"
 end
-

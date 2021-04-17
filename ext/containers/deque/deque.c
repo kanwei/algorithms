@@ -86,7 +86,7 @@ static VALUE deque_push_front(VALUE self, VALUE obj) {
 	if(deque->front) {
 		node->right = deque->front;
 		deque->front->left = node;
-		deque->front = node; 
+		deque->front = node;
 	}
 	else {
 		deque->front = node;
@@ -102,7 +102,7 @@ static VALUE deque_push_back(VALUE self, VALUE obj) {
 	if(deque->back) {
 		node->left = deque->back;
 		deque->back->right = node;
-		deque->back = node; 
+		deque->back = node;
 	}
 	else {
 		deque->front = node;

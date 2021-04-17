@@ -17,7 +17,7 @@ class Containers::SuffixArray
   #
   #   number = Containers::SuffixArray(1234567)
   #   number[1] #=> true
-  #   number[13] #=> false 
+  #   number[13] #=> false
   def initialize(string)
     string = string.to_s
     raise ArgumentError, "SuffixArray needs to be initialized with a non-empty string" if string.empty?
@@ -30,7 +30,7 @@ class Containers::SuffixArray
     # Sort the suffixes in ascending order
     @suffixes.sort! { |x, y| x <=> y }
   end
-  
+
   # Returns true if the substring occurs in the string, false otherwise.
   #
   # Complexity: O(m + log n)

@@ -11,16 +11,16 @@ require 'containers/heap'
 =end
 class Containers::PriorityQueue
   include Enumerable
-  
+
   # Create a new, empty PriorityQueue
   def initialize(&block)
     # We default to a priority queue that returns the largest value
     block ||= lambda { |x, y| (x <=> y) == 1 }
     @heap = Containers::Heap.new(&block)
   end
-  
+
   # Returns the number of elements in the queue.
-  # 
+  #
   #    q = Containers::PriorityQueue.new
   #    q.size #=> 0
   #    q.push("Alaska", 1)
@@ -31,19 +31,19 @@ class Containers::PriorityQueue
   alias_method :length, :size
 
   # Add an object to the queue with associated priority.
-  # 
+  #
   #   q = Containers::PriorityQueue.new
   #   q.push("Alaska", 1)
   #   q.pop #=> "Alaska"
-  def push(object, priority)    
+  def push(object, priority)
     @heap.push(priority, object)
   end
-  
+
   # Clears all the items in the queue.
   def clear
     @heap.clear
   end
-  
+
   # Returns true if the queue is empty, false otherwise.
   def empty?
     @heap.empty?
@@ -57,12 +57,12 @@ class Containers::PriorityQueue
   #     q = PriorityQueue.new
   #     q.push("Alaska", 1)
   #
-  #     q.has_priority?(1)    #=> true 
+  #     q.has_priority?(1)    #=> true
   #     q.has_priority?(2)    #=> false
   def has_priority?(priority)
     @heap.has_key?(priority)
   end
-  
+
   # call-seq:
   #     next -> object
   #
@@ -76,7 +76,7 @@ class Containers::PriorityQueue
   def next
     @heap.next
   end
-  
+
   # call-seq:
   #     pop -> object
   #

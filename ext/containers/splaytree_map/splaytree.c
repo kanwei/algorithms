@@ -175,7 +175,7 @@ static VALUE get(splaytree *tree, VALUE key) {
 	
 	if (!tree->root)
 		return Qnil;
-		
+	
 	tree->root = splay(tree, tree->root, key);
 	cmp = tree->compare_function(key, tree->root->key);
 	if (cmp == 0) {
@@ -272,7 +272,7 @@ static void splaytree_mark(void *ptr) {
 					new->next = NULL;
 					last->next = new;
 					last = new;
-				} 
+				}
 				if (current->node->right) {
 					new = ALLOC(ll_node);
 					new->node = current->node->right;

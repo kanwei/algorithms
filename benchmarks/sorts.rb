@@ -6,12 +6,12 @@ require 'rubygems'
 require 'rbench'
 
 RBench.run(5) do
-  
+
   sorts = %w(ruby comb_sort heapsort insertion_sort shell_sort quicksort mergesort)
   sorts.each { |sort| self.send(:column, sort.intern) }
-  
+
   n = 1000
-  
+
   proc = lambda { |scope, ary|
     scope.ruby { ary.dup.sort }
     scope.comb_sort { Sort.comb_sort(ary.dup) }
@@ -26,7 +26,7 @@ RBench.run(5) do
     sorted_array = Array.new(n) { rand(n) }.sort
     proc.call(self, sorted_array)
   end
-  
+
   report "Random" do
     random_array = Array.new(n) { rand(n) }
     proc.call(self, random_array)

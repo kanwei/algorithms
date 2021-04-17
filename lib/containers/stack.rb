@@ -16,7 +16,7 @@ class Containers::Stack
   def initialize(ary=[])
     @container = Containers::Deque.new(ary)
   end
-  
+
   # Returns the next item from the stack but does not remove it.
   #
   #   s = Containers::Stack.new([1, 2, 3])
@@ -25,7 +25,7 @@ class Containers::Stack
   def next
     @container.back
   end
-  
+
   # Adds an item to the stack.
   #
   #   s = Containers::Stack.new([1])
@@ -36,7 +36,7 @@ class Containers::Stack
     @container.push_back(obj)
   end
   alias_method :<<, :push
-  
+
   # Removes the next item from the stack and returns it.
   #
   #   s = Containers::Stack.new([1, 2, 3])
@@ -45,7 +45,7 @@ class Containers::Stack
   def pop
     @container.pop_back
   end
-  
+
   # Return the number of items in the stack.
   #
   #   s = Containers::Stack.new([1, 2, 3])
@@ -53,12 +53,12 @@ class Containers::Stack
   def size
     @container.size
   end
-  
+
   # Returns true if the stack is empty, false otherwise.
   def empty?
     @container.empty?
   end
-  
+
   # Iterate over the Stack in LIFO order.
   def each(&block)
     @container.each_backward(&block)

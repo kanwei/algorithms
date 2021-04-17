@@ -3,7 +3,7 @@ require 'algorithms'
 
 if defined? Algorithms::String
   describe "string algorithms" do
-    it "should do levenshtein distance" do    
+    it "should do levenshtein distance" do
       expect(Algorithms::String.levenshtein_dist("Hello", "Hel")).to eql(2)
       expect(Algorithms::String.levenshtein_dist("Hello", "")).to eql(5)
       expect(Algorithms::String.levenshtein_dist("", "Hello")).to eql(5)

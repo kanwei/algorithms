@@ -60,9 +60,8 @@ static VALUE lev_dist(VALUE self, VALUE str1, VALUE str2) {
 static VALUE mAlgorithms;
 static VALUE mString;
 
-void Init_CString() {	
+void Init_CString() {
 	mAlgorithms = rb_define_module("Algorithms");
 	mString = rb_define_module_under(mAlgorithms, "String");
 	rb_define_singleton_method(mString, "levenshtein_dist", lev_dist, 2);
 }
-
