@@ -17,7 +17,7 @@ class Containers::Queue
   def initialize(ary=[])
     @container = Containers::Deque.new(ary)
   end
-   
+
   # Returns the next item from the queue but does not remove it.
   #
   #   q = Containers::Queue.new([1, 2, 3])
@@ -26,7 +26,7 @@ class Containers::Queue
   def next
     @container.front
   end
-      
+
   # Adds an item to the queue.
   #
   #   q = Containers::Queue.new([1])
@@ -37,7 +37,7 @@ class Containers::Queue
     @container.push_back(obj)
   end
   alias_method :<<, :push
-  
+
   # Removes the next item from the queue and returns it.
   #
   #   q = Containers::Queue.new([1, 2, 3])
@@ -46,7 +46,7 @@ class Containers::Queue
   def pop
     @container.pop_front
   end
-  
+
   # Return the number of items in the queue.
   #
   #   q = Containers::Queue.new([1, 2, 3])
@@ -54,12 +54,12 @@ class Containers::Queue
   def size
     @container.size
   end
-  
+
   # Returns true if the queue is empty, false otherwise.
   def empty?
     @container.empty?
   end
-  
+
   # Iterate over the Queue in FIFO order.
   def each(&block)
     @container.each_forward(&block)

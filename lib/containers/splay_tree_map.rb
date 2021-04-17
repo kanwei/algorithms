@@ -38,7 +38,7 @@ class Containers::RubySplayTreeMap
       return value
     end
     splay(key)
-    
+
     cmp = (key <=> @root.key)
     if cmp == 0
       @root.value = value
@@ -59,7 +59,7 @@ class Containers::RubySplayTreeMap
     value
   end
   alias_method :[]=, :push
-  
+
   # Return the number of items in the SplayTreeMap.
   #
   #   map = Containers::SplayTreeMap.new
@@ -69,7 +69,7 @@ class Containers::RubySplayTreeMap
   def size
     @size
   end
-  
+
   # Remove all elements from the SplayTreeMap
   #
   # Complexity: O(1)
@@ -79,7 +79,7 @@ class Containers::RubySplayTreeMap
     @size = 0
     @header = Node.new(nil, nil, nil, nil)
   end
-  
+
   # Return the height of the tree structure in the SplayTreeMap.
   #
   # Complexity: O(log n)
@@ -91,7 +91,7 @@ class Containers::RubySplayTreeMap
   def height
     height_recursive(@root)
   end
-  
+
   # Return true if key is found in the SplayTreeMap, false otherwise.
   #
   # Complexity: amortized O(log n)
@@ -104,7 +104,7 @@ class Containers::RubySplayTreeMap
   def has_key?(key)
     !get(key).nil?
   end
-  
+
   # Return the item associated with the key, or nil if none found.
   #
   # Complexity: amortized O(log n)
@@ -115,12 +115,12 @@ class Containers::RubySplayTreeMap
   #   map.get("GA") #=> "Georgia"
   def get(key)
     return nil if @root.nil?
-    
+
     splay(key)
     (@root.key <=> key) == 0 ? @root.value : nil
   end
   alias_method :[], :get
-  
+
   # Return the smallest [key, value] pair in the SplayTreeMap, or nil if the tree is empty.
   #
   # Complexity: amortized O(log n)
@@ -138,7 +138,7 @@ class Containers::RubySplayTreeMap
     splay(n.key)
     return [n.key, n.value]
   end
-  
+
   # Return the largest [key, value] pair in the SplayTreeMap, or nil if the tree is empty.
   #
   # Complexity: amortized O(log n)
@@ -156,7 +156,7 @@ class Containers::RubySplayTreeMap
     splay(n.key)
     return [n.key, n.value]
   end
-  
+
   # Deletes the item and key if it's found, and returns the item. Returns nil
   # if key is not present.
   #
@@ -184,7 +184,7 @@ class Containers::RubySplayTreeMap
     end
     deleted
   end
-  
+
   # Iterates over the SplayTreeMap in ascending order. Uses an iterative, not recursive, approach.
   def each
     return nil unless @root
@@ -205,13 +205,13 @@ class Containers::RubySplayTreeMap
       end
     end
   end
-  
+
   # Moves a key to the root, updating the structure in each step.
   def splay(key)
     l, r = @header, @header
     t = @root
     @header.left, @header.right = nil, nil
-    
+
     loop do
       if (key <=> t.key) == -1
         break unless t.left
@@ -248,14 +248,14 @@ class Containers::RubySplayTreeMap
     @root = t
   end
   private :splay
-  
+
   # Recursively determine height
   def height_recursive(node)
     return 0 if node.nil?
-    
+
     left_height   = 1 + height_recursive(node.left)
     right_height  = 1 + height_recursive(node.right)
-    
+
     left_height > right_height ? left_height : right_height
   end
   private :height_recursive

@@ -19,15 +19,15 @@ require 'containers/stack'
 =end
 class Containers::RubyRBTreeMap
   include Enumerable
-  
+
   attr_accessor :height_black
-  
+
   # Create and initialize a new empty TreeMap.
   def initialize
     @root = nil
     @height_black = 0
   end
-  
+
   # Insert an item with an associated key into the TreeMap, and returns the item inserted
   #
   # Complexity: O(log n)
@@ -42,7 +42,7 @@ class Containers::RubyRBTreeMap
     value
   end
   alias_method :[]=, :push
-  
+
   # Return the number of items in the TreeMap.
   #
   #   map = Containers::TreeMap.new
@@ -52,7 +52,7 @@ class Containers::RubyRBTreeMap
   def size
     @root and @root.size or 0
   end
-  
+
   # Return the height of the tree structure in the TreeMap.
   #
   # Complexity: O(1)
@@ -64,7 +64,7 @@ class Containers::RubyRBTreeMap
   def height
     @root and @root.height or 0
   end
-  
+
   # Return true if key is found in the TreeMap, false otherwise
   #
   # Complexity: O(log n)
@@ -77,7 +77,7 @@ class Containers::RubyRBTreeMap
   def has_key?(key)
     !get(key).nil?
   end
-  
+
   # Return the item associated with the key, or nil if none found.
   #
   # Complexity: O(log n)
@@ -90,7 +90,7 @@ class Containers::RubyRBTreeMap
     get_recursive(@root, key)
   end
   alias_method :[], :get
-  
+
   # Return the smallest key in the map.
   #
   # Complexity: O(log n)
@@ -102,7 +102,7 @@ class Containers::RubyRBTreeMap
   def min_key
     @root.nil? ? nil : min_recursive(@root)
   end
-  
+
   # Return the largest key in the map.
   #
   # Complexity: O(log n)
@@ -114,7 +114,7 @@ class Containers::RubyRBTreeMap
   def max_key
     @root.nil? ? nil : max_recursive(@root)
   end
-  
+
   # Deletes the item and key if it's found, and returns the item. Returns nil
   # if key is not present.
   #
@@ -135,12 +135,12 @@ class Containers::RubyRBTreeMap
     end
     result
   end
-  
+
   # Returns true if the tree is empty, false otherwise
   def empty?
     @root.nil?
   end
-  
+
   # Deletes the item with the smallest key and returns the item. Returns nil
   # if key is not present.
   #
@@ -159,7 +159,7 @@ class Containers::RubyRBTreeMap
     end
     result
   end
-  
+
   # Deletes the item with the largest key and returns the item. Returns nil
   # if key is not present.
   #
@@ -178,7 +178,7 @@ class Containers::RubyRBTreeMap
     end
     result
   end
-  
+
   # Iterates over the TreeMap from smallest to largest element. Iterative approach.
   def each
     return nil unless @root
@@ -199,7 +199,7 @@ class Containers::RubyRBTreeMap
       end
     end
   end
-  
+
   class Node # :nodoc: all
     attr_accessor :color, :key, :value, :left, :right, :size, :height
     def initialize(key, value)
@@ -211,17 +211,17 @@ class Containers::RubyRBTreeMap
       @size = 1
       @height = 1
     end
-    
+
     def red?
       @color == :red
     end
-    
+
     def colorflip
       @color       = @color == :red       ? :black : :red
       @left.color  = @left.color == :red  ? :black : :red
       @right.color = @right.color == :red ? :black : :red
     end
-    
+
     def update_size
       @size = (@left ? @left.size : 0) + (@right ? @right.size : 0) + 1
       left_height = (@left ? @left.height : 0)
@@ -233,7 +233,7 @@ class Containers::RubyRBTreeMap
       end
       self
     end
-    
+
     def rotate_left
       r = @right
       r_key, r_value, r_color = r.key, r.value, r.color
@@ -247,7 +247,7 @@ class Containers::RubyRBTreeMap
       r.update_size
       update_size
     end
-    
+
     def rotate_right
       l = @left
       l_key, l_value, l_color = l.key, l.value, l.color
@@ -261,7 +261,7 @@ class Containers::RubyRBTreeMap
       l.update_size
       update_size
     end
-    
+
     def move_red_left
       colorflip
       if (@right.left && @right.left.red?)
@@ -280,7 +280,7 @@ class Containers::RubyRBTreeMap
       end
       self
     end
-    
+
     def fixup
       rotate_left if @right && @right.red?
       rotate_right if (@left && @left.red?) && (@left.left && @left.left.red?)
@@ -314,7 +314,7 @@ class Containers::RubyRBTreeMap
     return node.fixup, result
   end
   private :delete_recursive
-  
+
   def delete_min_recursive(node)
     if node.left.nil?
       return nil, node.value 
@@ -323,11 +323,11 @@ class Containers::RubyRBTreeMap
       node.move_red_left
     end
     node.left, result = delete_min_recursive(node.left)
-    
+
     return node.fixup, result
   end
   private :delete_min_recursive
-  
+
   def delete_max_recursive(node)
     if (isred(node.left))
       node = node.rotate_right
@@ -337,11 +337,11 @@ class Containers::RubyRBTreeMap
       node.move_red_right
     end
     node.right, result = delete_max_recursive(node.right)
-    
+
     return node.fixup, result
   end
   private :delete_max_recursive
-  
+
   def get_recursive(node, key)
     return nil if node.nil?
     case key <=> node.key
@@ -351,21 +351,21 @@ class Containers::RubyRBTreeMap
     end
   end
   private :get_recursive
-  
+
   def min_recursive(node)
     return node.key if node.left.nil?
-    
+
     min_recursive(node.left)
   end
   private :min_recursive
-  
+
   def max_recursive(node)
     return node.key if node.right.nil?
-    
+
     max_recursive(node.right)
   end
   private :max_recursive
-  
+
   def insert(node, key, value)
     return Node.new(key, value) unless node
 
@@ -374,17 +374,17 @@ class Containers::RubyRBTreeMap
     when -1 then node.left = insert(node.left, key, value)
     when  1 then node.right = insert(node.right, key, value)
     end
-    
+
     node.rotate_left if (node.right && node.right.red?)
     node.rotate_right if (node.left && node.left.red? && node.left.left && node.left.left.red?)
     node.colorflip if (node.left && node.left.red? && node.right && node.right.red?)
     node.update_size
   end
   private :insert
-  
+
   def isred(node)
     return false if node.nil?
-    
+
     node.color == :red
   end
   private :isred

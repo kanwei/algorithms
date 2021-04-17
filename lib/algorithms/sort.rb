@@ -11,7 +11,7 @@ module Algorithms::Sort
   # Time Complexity: О(n^2)
   # Space Complexity: О(n) total, O(1) auxiliary
   # Stable: Yes
-  # 
+  #
   #   Algorithms::Sort.bubble_sort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
   def self.bubble_sort(container)
     loop do
@@ -26,7 +26,7 @@ module Algorithms::Sort
     end
     container
   end
-  
+
   # Comb sort: A variation on bubble sort that dramatically improves performance.
   # Source: http://yagni.com/combsort/
   # Requirements: Needs to be able to compare elements with <=>, and the [] []= methods should
@@ -34,7 +34,7 @@ module Algorithms::Sort
   # Time Complexity: О(n^2)
   # Space Complexity: О(n) total, O(1) auxiliary
   # Stable: Yes
-  # 
+  #
   #   Algorithms::Sort.comb_sort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
   def self.comb_sort(container)
     container
@@ -54,7 +54,7 @@ module Algorithms::Sort
     end
     container
   end
-  
+
   # Selection sort: A naive sort that goes through the container and selects the smallest element,
   # putting it at the beginning. Repeat until the end is reached.
   # Requirements: Needs to be able to compare elements with <=>, and the [] []= methods should
@@ -62,7 +62,7 @@ module Algorithms::Sort
   # Time Complexity: О(n^2)
   # Space Complexity: О(n) total, O(1) auxiliary
   # Stable: Yes
-  # 
+  #
   #   Algorithms::Sort.selection_sort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
   def self.selection_sort(container)
     0.upto(container.size-1) do |i|
@@ -74,13 +74,13 @@ module Algorithms::Sort
     end
     container
   end
-  
+
   # Heap sort: Uses a heap (implemented by the Containers module) to sort the collection.
   # Requirements: Needs to be able to compare elements with <=>
   # Time Complexity: О(n^2)
   # Space Complexity: О(n) total, O(1) auxiliary
   # Stable: Yes
-  # 
+  #
   #   Algorithms::Sort.heapsort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
   def self.heapsort(container)
     heap = Containers::Heap.new(container)
@@ -88,14 +88,14 @@ module Algorithms::Sort
     ary << heap.pop until heap.empty?
     ary
   end
-  
+
   # Insertion sort: Elements are inserted sequentially into the right position.
   # Requirements: Needs to be able to compare elements with <=>, and the [] []= methods should
   # be implemented for the container.
   # Time Complexity: О(n^2)
   # Space Complexity: О(n) total, O(1) auxiliary
   # Stable: Yes
-  # 
+  #
   #   Algorithms::Sort.insertion_sort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
   def self.insertion_sort(container)
     return container if container.size < 2
@@ -110,14 +110,14 @@ module Algorithms::Sort
     end
     container
   end
-  
+
   # Shell sort: Similar approach as insertion sort but slightly better.
   # Requirements: Needs to be able to compare elements with <=>, and the [] []= methods should
   # be implemented for the container.
   # Time Complexity: О(n^2)
   # Space Complexity: О(n) total, O(1) auxiliary
   # Stable: Yes
-  # 
+  #
   #   Algorithms::Sort.shell_sort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
   def self.shell_sort(container)
     increment = container.size/2
@@ -135,22 +135,22 @@ module Algorithms::Sort
     end
     container
   end
-  
+
   # Quicksort: A divide-and-conquer sort that recursively partitions a container until it is sorted.
   # Requirements: Container should implement #pop and include the Enumerable module.
   # Time Complexity: О(n log n) average, O(n^2) worst-case
   # Space Complexity: О(n) auxiliary
   # Stable: No
-  # 
+  #
   #   Algorithms::Sort.quicksort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
   # def self.quicksort(container)
   #   return [] if container.empty?
-  #   
+  #
   #   x, *xs = container
-  # 
+  #
   #   quicksort(xs.select { |i| i <  x }) + [x] + quicksort(xs.select { |i| i >= x })
   # end
-  
+
   def self.partition(data, left, right)
     pivot = data[front]
     left += 1
@@ -170,13 +170,13 @@ module Algorithms::Sort
 
 
   # def self.quicksort(container, left = 0, right = container.size - 1)
-  #   if left < right 
+  #   if left < right
   #     middle = partition(container, left, right)
   #     quicksort(container, left, middle - 1)
   #     quicksort(container, middle + 1, right)
   #   end
   # end
-  
+
   def self.quicksort(container)
     bottom, top = [], []
     top[0] = 0
@@ -208,7 +208,7 @@ module Algorithms::Sort
         i -= 1
       end
     end
-    container    
+    container
   end
 
   # Mergesort: A stable divide-and-conquer sort that sorts small chunks of the container and then merges them together.
@@ -217,7 +217,7 @@ module Algorithms::Sort
   # Time Complexity: О(n log n) average and worst-case
   # Space Complexity: О(n) auxiliary
   # Stable: Yes
-  # 
+  #
   #   Algorithms::Sort.mergesort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
   def self.mergesort(container)
     return container if container.size <= 1
@@ -238,9 +238,9 @@ module Algorithms::Sort
   # Dual-Pivot Quicksort is a variation of Quicksort by Vladimir Yaroslavskiy.
   # This is an implementation of the algorithm as it was found in the original
   # research paper:
-  # 
+  #
   # http://iaroslavski.narod.ru/quicksort/DualPivotQuicksort.pdf
-  # 
+  #
   # Mirror:
   # http://codeblab.com/wp-content/uploads/2009/09/DualPivotQuicksort.pdf
   #
@@ -267,14 +267,14 @@ module Algorithms::Sort
   # Space Complexity: О(n) auxiliary
   #
   # Stable: No
-  # 
+  #
   #   Algorithms::Sort.dualpivotquicksort [5, 4, 3, 1, 2] => [1, 2, 3, 4, 5]
 
   def self.dualpivotquicksort(container)
     return container if container.size <= 1
     dualpivot(container, 0, container.size-1, 3)
   end
- 
+
   def self.dualpivot(container, left=0, right=container.size-1, div=3)
     length = right - left
     if length < 27 # insertion sort for tiny array
@@ -365,4 +365,3 @@ module Algorithms::Sort
     container[i],  container[j] = container[j],  container[i]
   end
 end
-
