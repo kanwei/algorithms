@@ -8,7 +8,7 @@ describe Containers::KDTree do
     closest_2 = kdtree.find_nearest([0, 0], 2)
     expect(closest_2).to eql([[5, 2], [9, 1]])
   end
-  
+
   it "should work for real-life example from facebook puzzle" do
     points = {}
     input = File.open(File.join(File.dirname(__FILE__), 'kd_test_in.txt'), 'r')
@@ -26,9 +26,9 @@ describe Containers::KDTree do
       nearest_4 = kdtree.find_nearest(point, 4)
       out << "#{id} #{nearest_4[1..-1].collect{ |n| n[1] }.join(',')}\n"
     }
-    
+
     expected = File.read(File.join(File.dirname(__FILE__), 'kd_expected_out.txt'))
     expect(expected).to eql(out)
   end
-  
+
 end

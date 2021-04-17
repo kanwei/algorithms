@@ -24,6 +24,6 @@ describe "sort algorithms" do
     sorted_array = rand_array.sort
 
     @sorts.each { |sort| expect(Sort.send(sort, rand_array.dup)).to eql(sorted_array) }
-  end    
+  end
 
 end

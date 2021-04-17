@@ -43,7 +43,6 @@ describe "non-empty stack" do
     expect(@stack.empty?).to be false
   end
 
-
   it "should iterate in LIFO order" do
     arr = []
     @stack.each { |obj| arr << obj }

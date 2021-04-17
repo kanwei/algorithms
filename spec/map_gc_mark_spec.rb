@@ -12,7 +12,7 @@ if !(defined? RUBY_ENGINE && RUBY_ENGINE == 'jruby')
       anon_val_class = Class.new
       @rbtree = Containers::RBTreeMap.new
       @splaytree = Containers::SplayTreeMap.new
-      100.times { |x| 
+      100.times { |x|
         @rbtree[anon_key_class.new(x)] = anon_val_class.new
         @splaytree[anon_key_class.new(x)] = anon_val_class.new
       }
