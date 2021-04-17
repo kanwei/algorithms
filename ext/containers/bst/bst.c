@@ -11,7 +11,7 @@ typedef struct struct_bst_node {
 typedef struct struct_bst {
 	bst_node *root;
 	int (*compare_function)(VALUE key1, VALUE key2);
-	unsigned int size; 
+	unsigned int size;
 } bst;
 
 static VALUE bst_initialize(VALUE self) {
@@ -77,7 +77,7 @@ static void insert_element(bst *tree, bst_node **t,bst_node *newElement) {
 		cmp = tree->compare_function(newElement->key, y->key);
 		if (cmp < 0)
 		 	y->left = newElement;
-		else 
+		else
 			y->right = newElement;
 	}
 }
@@ -90,7 +90,7 @@ static bst_node* create_node(VALUE key_value,VALUE value) {
 	new_node->left = NULL;
 	new_node->right = NULL;
 	new_node->parent = NULL;
-	return new_node;	 
+	return new_node;
 }
 
 static bst_node* tree_minimum (bst_node *tree) {
@@ -215,7 +215,7 @@ static VALUE rb_bst_each(VALUE self) {
 static VALUE rb_bst_delete(VALUE self, VALUE key) {
 	bst *tree = get_bst_from_self(self);
 	bst_node *tobeDeleted = search_node(tree, tree->root, key);
-	if(tobeDeleted) { 
+	if(tobeDeleted) {
 		tree->size -= 1;
 		bst_node *deletedNode = delete_node(&(tree->root),tobeDeleted);
 		return deletedNode->value;
@@ -223,7 +223,7 @@ static VALUE rb_bst_delete(VALUE self, VALUE key) {
 	return Qnil;
 }
 
-static VALUE rb_bst_size(VALUE self) { 
+static VALUE rb_bst_size(VALUE self) {
 	bst *tree;
 	Data_Get_Struct(self,bst,tree);
 	return INT2FIX(tree->size);
