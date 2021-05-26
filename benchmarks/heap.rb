@@ -5,7 +5,7 @@ include Algorithms
 require 'rubygems'
 require 'rbench'
 
-TIMES = 1_000
+TIMES = 10_000
 ELEMENTS = []
 TIMES.times { ELEMENTS << Random.rand('a'.ord .. 'z'.ord).chr }
 
