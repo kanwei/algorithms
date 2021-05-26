@@ -28,7 +28,7 @@ RBench.run(2) do
     end
   end
 
-  report "Removal and resort of element" do
+  report "Swapping two elements" do
     heap = Containers::MinHeap.new
     ELEMENTS.each_with_index do |x, i|
       heap.push(i, x)
@@ -50,8 +50,39 @@ RBench.run(2) do
     heap do
       10_000.times do 
         i = Random.rand(0..ELEMENTS.size-1)
-        elem = heap.delete(i)
-        heap.push(i - 10, elem) if elem
+        j = Random.rand(0..ELEMENTS.size-1)
+        x = heap.delete(i)
+        y = heap.delete(j)
+        heap.push(j, x)
+        heap.push(i, y)
+      end
+    end
+  end
+
+  report "Promoting one element" do
+    heap = Containers::MinHeap.new
+    ELEMENTS.each_with_index do |x, i|
+      heap.push(i, x)
+    end
+    array = ELEMENTS.sort
+
+    array do
+      10_000.times do
+        i = Random.rand(0..ELEMENTS.size-1)
+        j = Random.rand(0..i)
+        x = array[i]
+        array[j] = [x, array[j]]
+        array[i] = nil
+
+        array = array.flatten.compact.sort
+      end
+    end
+
+    heap do
+      10_000.times do 
+        i = Random.rand(0..ELEMENTS.size-1)
+        j = Random.rand(0..i)
+        heap.change_key(i, j)
       end
     end
   end
