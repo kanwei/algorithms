@@ -75,13 +75,6 @@ class Containers::Heap
     end
     @size += 1
     
-    arr = []
-    w = @next.right
-    until w == @next do
-      arr << w.value
-      w = w.right
-    end
-    arr << @next.value
     @stored[key] ||= []
     @stored[key] << node
     value
