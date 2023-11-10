@@ -12,10 +12,10 @@ class Containers::SuffixArray
   #
   # Complexity: O(n^2 log n)
   #
-  #   s_array = Containers::SuffixArray("abracadabra")
+  #   s_array = Containers::SuffixArray.new("abracadabra")
   #   s_array["abra"] #=> true
   #
-  #   number = Containers::SuffixArray(1234567)
+  #   number = Containers::SuffixArray.new(1234567)
   #   number[1] #=> true
   #   number[13] #=> false 
   def initialize(string)
