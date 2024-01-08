@@ -10,7 +10,6 @@ require 'containers/heap'
     This container is implemented using the Fibonacci heap included in the Collections library.
 =end
 class Containers::PriorityQueue
-  include Enumerable
   
   # Create a new, empty PriorityQueue
   def initialize(&block)

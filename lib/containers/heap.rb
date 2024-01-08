@@ -10,7 +10,6 @@
     This library implements a Fibonacci heap, which allows O(1) complexity for most methods.
 =end
 class Containers::Heap
-  include Enumerable
   
   # call-seq:
   #     size -> int
