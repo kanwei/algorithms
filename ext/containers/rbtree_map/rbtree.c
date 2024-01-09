@@ -412,9 +412,6 @@ static VALUE rbtree_max_key(VALUE self) {
 static VALUE rbtree_delete(VALUE self, VALUE key) {
 	VALUE deleted_value;
 	rbtree *tree = get_tree_from_self(self);
-	if(!tree->root)
-		return Qnil;
-
 	if(get(tree, tree->root, key) == Qnil) {
 		return Qnil;
 	}
