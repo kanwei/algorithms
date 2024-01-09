@@ -129,7 +129,7 @@ class Containers::RubyRBTreeMap
   #   map.min_key #=> "GA"
   def delete(key)
     result = nil
-    if @root
+    if @root && get(key)
       @root, result = delete_recursive(@root, key)
       @root.color = :black if @root
     end

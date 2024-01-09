@@ -88,6 +88,10 @@ shared_examples "non-empty rbtree" do
       counter += 1
     end
   end
+
+  it "should allow deleting non-existent keys" do
+    expect(@tree.delete(100000)).to be_nil
+  end
 end
 
 describe "empty rbtreemap" do
