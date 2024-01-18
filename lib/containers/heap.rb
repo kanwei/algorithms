@@ -368,7 +368,7 @@ class Containers::Heap
           degree += 1
         end
         degrees[degree] = root
-        min = root if min.key == root.key # this fixes a bug with duplicate keys not being in the right order
+        min = root if !@compare_fn[min.key, root.key] # this fixes a bug with duplicate keys not being in the right order
       end
     end
     @next = min
