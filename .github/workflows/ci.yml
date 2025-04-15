@@ -24,6 +24,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
+          bundler: latest
           # This automatically runs 'bundle install' and caches gems
           # It uses the Gemfile.lock for efficient caching
           bundler-cache: true
