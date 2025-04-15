@@ -1,4 +1,4 @@
-# algorithms [![Build Status](https://travis-ci.org/kanwei/algorithms.svg?branch=master)](https://travis-ci.org/github/kanwei/algorithms)
+# algorithms [![Ruby CI](https://github.com/kanwei/algorithms/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/kanwei/algorithms/actions/workflows/ci.yml)
 
 [API Documentation](http://kanwei.github.io/algorithms/)
 
