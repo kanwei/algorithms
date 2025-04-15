@@ -34,6 +34,7 @@ end
 shared_examples "non-empty rbtree" do
   before(:each) do
     @num_items = 1000
+    @non_existing_element = @num_items+1
     @random_array = Array.new(@num_items) { rand(@num_items) }
     @random_array.each { |x| @tree[x] = x }
   end
@@ -51,7 +52,7 @@ shared_examples "non-empty rbtree" do
   end
 
   it "should not #has_key? keys it doesn't have" do
-    expect(@tree.has_key?(100000)).to be false
+    expect(@tree.has_key?(@non_existing_element)).to be false
   end
 
   it "should #has_key? keys it does have" do
@@ -87,6 +88,10 @@ shared_examples "non-empty rbtree" do
       expect(key).to eql(sorted_array[counter])
       counter += 1
     end
+  end
+
+  it "should allow deleting non-existent keys" do
+    expect(@tree.delete(@non_existing_element)).to be_nil
   end
 end
 
