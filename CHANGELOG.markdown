@@ -1,3 +1,7 @@
+=== August 20, 2025
+
+    * Fix Heap not working in certain cases
+
 === January 22, 2013
     
     * JRuby support

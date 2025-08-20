@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = "algorithms"
-  s.version = "1.0.1"
+  s.version = "1.1.0"
 
   s.authors = ["Kanwei Li"]
   s.email = "kanwei@gmail.com"
