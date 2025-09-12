@@ -33,16 +33,19 @@ module Algorithms::Search
   # substring in a string. The algorithm calculates the best position to resume searching from if a failure
   # occurs.
   # 
-  # The method returns the index of the starting position in the string where the substring is found. If there
-  # is no match, nil is returned.
+  # The method can either return the index of the first occurrence of the substring in the string or an array
+  # of all starting positions where the substring is found, depending on the `all_indices` flag.
+  # If there is no match, nil is returned or an empty array if `all_indices` is true.
   #
   # Complexity: O(n + k), where n is the length of the string and k is the length of the substring.
   #
   #   Algorithms::Search.kmp_search("ABC ABCDAB ABCDABCDABDE", "ABCDABD") #=> 15
   #   Algorithms::Search.kmp_search("ABC ABCDAB ABCDABCDABDE", "ABCDEF") #=> nil
-  def self.kmp_search(string, substring)
+  #   Algorithms::Search.kmp_search(string, "ABC", all_indices: true) #=> [0, 4, 11, 15]
+  #   Algorithms::Search.kmp_search("ABC ABCDAB ABCDABCDABDE", "ABCDEF", all_indices: true) #=> []
+  def self.kmp_search(string, substring, all_indices: false)
     return nil if string.nil? or substring.nil?
-    
+
     # create failure function table
     pos = 2
     cnd = 0
@@ -60,25 +63,32 @@ module Algorithms::Search
       end
     end
 
+    match_indices = []
     m = i = 0
     while m + i < string.length
       if substring[i] == string[m + i]
-        i += 1
-        return m if i == substring.length
+        if i == substring.length - 1
+          return m if !all_indices
+          match_indices << m
+          m = m + i - failure_table[i]
+          i = failure_table[i] > -1 ? failure_table[i] : 0
+        else
+          i += 1
+        end
       else
         m = m + i - failure_table[i]
         i = failure_table[i] if i > 0
       end
     end
-    return nil
+    return match_indices.empty? ? nil : match_indices
   end
   
   # Allows kmp_search to be called as an instance method in classes that include the Search module.
   #
   #   class String; include Algorithms::Search; end
   #   "ABC ABCDAB ABCDABCDABDE".kmp_search("ABCDABD") #=> 15
-  def kmp_search(substring)
-    Algorithms::Search.kmp_search(self, substring)
+  def kmp_search(substring, all_indices: false)
+    Algorithms::Search.kmp_search(self, substring, all_indices: all_indices)
   end
   
 end
