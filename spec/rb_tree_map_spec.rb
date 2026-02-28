@@ -90,6 +90,43 @@ shared_examples "non-empty rbtree" do
   end
 end
 
+describe "RubyRBTreeMap delete bug fixes" do
+  before(:each) do
+    @tree = Containers::RubyRBTreeMap.new
+    [5, 3, 7, 1, 4, 6, 9, 8].each { |k| @tree[k] = k }
+  end
+
+  it "should return nil when deleting a key smaller than any key in the tree" do
+    expect(@tree.delete(0)).to be_nil
+    expect(@tree.size).to eql(8)
+  end
+
+  it "should return nil when deleting a key larger than any key in the tree" do
+    expect(@tree.delete(100)).to be_nil
+    expect(@tree.size).to eql(8)
+  end
+
+  it "should return nil when deleting a key that falls between existing keys" do
+    expect(@tree.delete(2)).to be_nil
+    expect(@tree.size).to eql(8)
+  end
+
+  it "should not crash or corrupt the tree on a double-delete" do
+    expect(@tree.delete(5)).to eql(5)
+    expect(@tree.delete(5)).to be_nil
+    expect(@tree.size).to eql(7)
+    expect(@tree.has_key?(5)).to be false
+    # remaining keys should still be retrievable
+    [3, 7, 1, 4, 6, 9, 8].each { |k| expect(@tree.has_key?(k)).to be true }
+  end
+
+  it "should leave the tree intact after deleting a non-existent key" do
+    @tree.delete(2)
+    # all original keys must still be present and the tree must iterate in order
+    expect(@tree.to_a.map(&:first)).to eql([1, 3, 4, 5, 6, 7, 8, 9])
+  end
+end
+
 describe "empty rbtreemap" do
   before(:each) do
     @tree = Containers::RubyRBTreeMap.new

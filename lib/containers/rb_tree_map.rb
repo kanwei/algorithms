@@ -118,9 +118,6 @@ class Containers::RubyRBTreeMap
   # Deletes the item and key if it's found, and returns the item. Returns nil
   # if key is not present.
   #
-  # !!! Warning !!! There is a currently a bug in the delete method that occurs rarely
-  # but often enough, especially in large datasets. It is currently under investigation.
-  #
   # Complexity: O(log n)
   #
   #   map = Containers::TreeMap.new
@@ -291,15 +288,16 @@ class Containers::RubyRBTreeMap
   end
 
   def delete_recursive(node, key)
+    return nil, nil if node.nil?
     if (key <=> node.key) == -1
-      node.move_red_left if ( !isred(node.left) && !isred(node.left.left) )
+      node.move_red_left if ( node.left && !isred(node.left) && !isred(node.left.left) )
       node.left, result = delete_recursive(node.left, key)
     else
       node.rotate_right if isred(node.left)
       if ( ( (key <=> node.key) == 0) && node.right.nil? )
         return nil, node.value
       end
-      if ( !isred(node.right) && !isred(node.right.left) )
+      if ( node.right && !isred(node.right) && !isred(node.right.left) )
         node.move_red_right
       end
       if (key <=> node.key) == 0
