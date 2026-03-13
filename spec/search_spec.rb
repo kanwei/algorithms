@@ -21,8 +21,21 @@ describe "search algorithms" do
     expect(Algorithms::Search.kmp_search(string, "")).to be_nil
     expect(Algorithms::Search.kmp_search(nil, "ABCD")).to be_nil
   end
-  
+
+  it "should use kmp_search to find all substrings if all_indices is true" do
+    string = "ABC ABCDAB ABCDABCDABDE"
+    expect(Algorithms::Search.kmp_search(string, "ABC", all_indices: true)).to eql([0, 4, 11, 15])
+    expect(Algorithms::Search.kmp_search(string, "ABCDEF", all_indices: true)).to be_nil
+    expect(Algorithms::Search.kmp_search(string, nil, all_indices: true)).to be_nil
+    expect(Algorithms::Search.kmp_search(string, "", all_indices: true)).to be_nil
+    expect(Algorithms::Search.kmp_search(nil, "ABCD", all_indices: true)).to be_nil
+  end
+
   it "should let you include Search in String to enable instance methods" do
     expect("ABC ABCDAB ABCDABCDABDE".kmp_search("ABCDABD")).to eql(15)
+  end
+
+  it "should let you include Search in String to enable instance methods with all_indices set to true" do
+    expect("ABC ABCDAB ABCDABCDABDE".kmp_search("ABC", all_indices: true)).to eql([0, 4, 11, 15])
   end
 end
