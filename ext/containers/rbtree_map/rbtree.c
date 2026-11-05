@@ -36,9 +36,18 @@ static void recursively_free_nodes(rbtree_node *node) {
 	return;
 }
 
+static void rbtree_mark(void *ptr);
+static void rbtree_free(void *ptr);
+
+static const rb_data_type_t rbtree_type = {
+	"Containers::CRBTreeMap",
+	{rbtree_mark, rbtree_free, 0,},
+	0, 0, 0
+};
+
 static rbtree* get_tree_from_self(VALUE self) {
 	rbtree *tree;
-	Data_Get_Struct(self, rbtree, tree);
+	TypedData_Get_Struct(self, rbtree, &rbtree_type, tree);
 	return tree;
 }
 
@@ -355,7 +364,7 @@ static void rbtree_free(void *ptr) {
 
 static VALUE rbtree_alloc(VALUE klass) {
 	rbtree *tree = create_rbtree(&rbtree_compare_function);
-	return Data_Wrap_Struct(klass, rbtree_mark, rbtree_free, tree);
+	return TypedData_Wrap_Struct(klass, &rbtree_type, tree);
 }
 
 static VALUE rbtree_push(VALUE self, VALUE key, VALUE value) {

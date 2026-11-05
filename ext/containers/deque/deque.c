@@ -34,9 +34,18 @@ void clear_deque(deque *a_deque) {
 	return;
 }
 
+static void deque_mark(void *ptr);
+static void deque_free(void *ptr);
+
+static const rb_data_type_t deque_type = {
+	"Containers::CDeque",
+	{deque_mark, deque_free, 0,},
+	0, 0, 0
+};
+
 static deque* get_deque_from_self(VALUE self) {
 	deque *a_deque;
-	Data_Get_Struct(self, deque, a_deque);
+	TypedData_Get_Struct(self, deque, &deque_type, a_deque);
 	return a_deque;
 }
 
@@ -77,7 +86,7 @@ static void deque_free(void *ptr) {
 
 static VALUE deque_alloc(VALUE klass) {
 	deque *deque = create_deque();
-	return Data_Wrap_Struct(klass, deque_mark, deque_free, deque);
+	return TypedData_Wrap_Struct(klass, &deque_type, deque);
 }
 
 static VALUE deque_push_front(VALUE self, VALUE obj) {

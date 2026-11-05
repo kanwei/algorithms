@@ -33,9 +33,18 @@ static void recursively_free_nodes(splaytree_node *node) {
 	return;
 }
 
+static void splaytree_mark(void *ptr);
+static void splaytree_free(void *ptr);
+
+static const rb_data_type_t splaytree_type = {
+	"Containers::CSplayTreeMap",
+	{splaytree_mark, splaytree_free, 0,},
+	0, 0, 0
+};
+
 static splaytree* get_tree_from_self(VALUE self) {
 	splaytree *tree;
-	Data_Get_Struct(self, splaytree, tree);
+	TypedData_Get_Struct(self, splaytree, &splaytree_type, tree);
 	return tree;
 }
 
@@ -298,7 +307,7 @@ static void splaytree_free(void *ptr) {
 
 static VALUE splaytree_alloc(VALUE klass) {
 	splaytree *tree = create_splaytree(&splaytree_compare_function);
-	return Data_Wrap_Struct(klass, splaytree_mark, splaytree_free, tree);
+	return TypedData_Wrap_Struct(klass, &splaytree_type, tree);
 }
 
 static VALUE splaytree_push(VALUE self, VALUE key, VALUE value) {
