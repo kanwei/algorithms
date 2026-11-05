@@ -19,11 +19,6 @@ typedef struct {
 	splaytree_node *root;
 } splaytree;
 
-typedef struct struct_ll_node {
-	splaytree_node *node;
-	struct struct_ll_node *next;
-} ll_node;
-
 static void recursively_free_nodes(splaytree_node *node) {
 	if(node) {
 		recursively_free_nodes(node->left);
@@ -261,39 +256,27 @@ static VALUE splaytree_init(VALUE self)
 	return self;
 }
 
+/* Must not allocate: Ruby aborts on malloc during GC. A splay tree can be
+   as deep as it is large, so recurse into the smaller subtree and loop on
+   the larger one to keep the C stack depth logarithmic. */
+static void mark_nodes(splaytree_node *node) {
+	while(node) {
+		rb_gc_mark(node->key);
+		rb_gc_mark(node->value);
+		if (node_size(node->left) < node_size(node->right)) {
+			mark_nodes(node->left);
+			node = node->right;
+		} else {
+			mark_nodes(node->right);
+			node = node->left;
+		}
+	}
+}
+
 static void splaytree_mark(void *ptr) {
-	ll_node *current, *new, *last, *old;
 	if (ptr) {
 		splaytree *tree = ptr;
-		
-		if (tree->root) {
-			current = ALLOC(ll_node);
-			last = current;
-			current->node = tree->root;
-			current->next = NULL;
-
-			while(current) {
-				rb_gc_mark(current->node->key);
-				rb_gc_mark(current->node->value);
-				if (current->node->left) {
-					new = ALLOC(ll_node);
-					new->node = current->node->left;
-					new->next = NULL;
-					last->next = new;
-					last = new;
-				} 
-				if (current->node->right) {
-					new = ALLOC(ll_node);
-					new->node = current->node->right;
-					new->next = NULL;
-					last->next = new;
-					last = new;
-				}
-				old = current;
-				current = current->next;
-				xfree(old);
-			}
-		}
+		mark_nodes(tree->root);
 	}
 }
 
