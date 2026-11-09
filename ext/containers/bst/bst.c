@@ -18,9 +18,18 @@ static VALUE bst_initialize(VALUE self) {
 	return self;
 }
 
+static void bst_mark(void *ptr);
+static void bst_free(void *ptr);
+
+static const rb_data_type_t bst_type = {
+	"Containers::CBst",
+	{bst_mark, bst_free, 0,},
+	0, 0, 0
+};
+
 static bst* get_bst_from_self(VALUE self) {
 	bst *tree;
-	Data_Get_Struct(self, bst, tree);
+	TypedData_Get_Struct(self, bst, &bst_type, tree);
 	return tree;
 }
 
@@ -162,7 +171,8 @@ static void recursively_mark_nodes(bst_node *node) {
 	}
 }
 
-static void bst_mark(bst *tree) {
+static void bst_mark(void *ptr) {
+	bst *tree = ptr;
 	if (tree) {
 		recursively_mark_nodes(tree->root);
 	}
@@ -176,7 +186,8 @@ static void recursively_free_nodes(bst_node *node) {
 	}
 }
 
-static void bst_free(bst *tree) {
+static void bst_free(void *ptr) {
+	bst *tree = ptr;
 	if (tree) {
 		recursively_free_nodes(tree->root);
 	}
@@ -192,7 +203,7 @@ static bst* create_bst(int (*compare_function)(VALUE, VALUE)) {
 
 static VALUE bst_alloc(VALUE klass) {
 	bst *tree = create_bst(&bst_compare_function);
-	return Data_Wrap_Struct(klass, bst_mark, bst_free, tree);
+	return TypedData_Wrap_Struct(klass, &bst_type, tree);
 }
 
 static VALUE rb_bst_push_value(VALUE self, VALUE key, VALUE value) {
@@ -225,7 +236,7 @@ static VALUE rb_bst_delete(VALUE self, VALUE key) {
 
 static VALUE rb_bst_size(VALUE self) { 
 	bst *tree;
-	Data_Get_Struct(self,bst,tree);
+	TypedData_Get_Struct(self, bst, &bst_type, tree);
 	return INT2FIX(tree->size);
 }
 

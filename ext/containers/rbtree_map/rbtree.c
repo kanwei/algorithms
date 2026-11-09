@@ -22,11 +22,6 @@ typedef struct {
 	rbtree_node *root;
 } rbtree;
 
-typedef struct struct_ll_node {
-	rbtree_node *node;
-	struct struct_ll_node *next;
-} ll_node;
-
 static void recursively_free_nodes(rbtree_node *node) {
 	if(node) {
 		recursively_free_nodes(node->left);
@@ -36,9 +31,18 @@ static void recursively_free_nodes(rbtree_node *node) {
 	return;
 }
 
+static void rbtree_mark(void *ptr);
+static void rbtree_free(void *ptr);
+
+static const rb_data_type_t rbtree_type = {
+	"Containers::CRBTreeMap",
+	{rbtree_mark, rbtree_free, 0,},
+	0, 0, 0
+};
+
 static rbtree* get_tree_from_self(VALUE self) {
 	rbtree *tree;
-	Data_Get_Struct(self, rbtree, tree);
+	TypedData_Get_Struct(self, rbtree, &rbtree_type, tree);
 	return tree;
 }
 
@@ -311,39 +315,21 @@ static VALUE rbtree_init(VALUE self)
 	return self;
 }
 
+/* Must not allocate: Ruby aborts on malloc during GC. A red-black tree is
+   balanced, so the recursion depth is logarithmic. */
+static void recursively_mark_nodes(rbtree_node *node) {
+	if(node) {
+		rb_gc_mark(node->key);
+		rb_gc_mark(node->value);
+		recursively_mark_nodes(node->left);
+		recursively_mark_nodes(node->right);
+	}
+}
+
 static void rbtree_mark(void *ptr) {
-	ll_node *current, *new, *last, *old;
 	if (ptr) {
 		rbtree *tree = ptr;
-		
-		if (tree->root) {
-			current = ALLOC(ll_node);
-			last = current;
-			current->node = tree->root;
-			current->next = NULL;
-
-			while(current) {
-				rb_gc_mark(current->node->key);
-				rb_gc_mark(current->node->value);
-				if (current->node->left) {
-					new = ALLOC(ll_node);
-					new->node = current->node->left;
-					new->next = NULL;
-					last->next = new;
-					last = new;
-				} 
-				if (current->node->right) {
-					new = ALLOC(ll_node);
-					new->node = current->node->right;
-					new->next = NULL;
-					last->next = new;
-					last = new;
-				}
-				old = current;
-				current = current->next;
-				xfree(old);
-			}
-		}
+		recursively_mark_nodes(tree->root);
 	}
 }
 
@@ -357,7 +343,7 @@ static void rbtree_free(void *ptr) {
 
 static VALUE rbtree_alloc(VALUE klass) {
 	rbtree *tree = create_rbtree(&rbtree_compare_function);
-	return Data_Wrap_Struct(klass, rbtree_mark, rbtree_free, tree);
+	return TypedData_Wrap_Struct(klass, &rbtree_type, tree);
 }
 
 static VALUE rbtree_push(VALUE self, VALUE key, VALUE value) {
