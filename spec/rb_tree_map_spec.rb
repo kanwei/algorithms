@@ -90,10 +90,24 @@ shared_examples "non-empty rbtree" do
   end
 end
 
-describe "RubyRBTreeMap delete bug fixes" do
+shared_examples "rbtree delete of missing keys" do
   before(:each) do
-    @tree = Containers::RubyRBTreeMap.new
     [5, 3, 7, 1, 4, 6, 9, 8].each { |k| @tree[k] = k }
+  end
+
+  it "should return nil when deleting from an empty tree" do
+    empty = @tree.class.new
+    expect(empty.delete(1)).to be_nil
+    expect(empty.size).to eql(0)
+  end
+
+  it "should return nil when deleting a missing key from a single-node tree" do
+    single = @tree.class.new
+    single[0] = "a"
+    expect(single.delete(-5)).to be_nil
+    expect(single.delete(5)).to be_nil
+    expect(single.size).to eql(1)
+    expect(single[0]).to eql("a")
   end
 
   it "should return nil when deleting a key smaller than any key in the tree" do
@@ -125,6 +139,39 @@ describe "RubyRBTreeMap delete bug fixes" do
     # all original keys must still be present and the tree must iterate in order
     expect(@tree.to_a.map(&:first)).to eql([1, 3, 4, 5, 6, 7, 8, 9])
   end
+
+  it "should return a deleted value of false rather than nil" do
+    @tree[2] = false
+    expect(@tree.delete(2)).to be false
+    expect(@tree.has_key?(2)).to be false
+  end
+
+  it "should stay consistent with a Hash under random inserts and deletes of present and missing keys" do
+    rng = Random.new(42)
+    expected = {}
+    @tree.each { |k, v| expected[k] = v }
+    5000.times do
+      key = rng.rand(200)
+      if rng.rand(2).zero?
+        @tree[key] = key * 2
+        expected[key] = key * 2
+      else
+        expect(@tree.delete(key)).to eql(expected.delete(key))
+      end
+      expect(@tree.size).to eql(expected.size)
+    end
+    expect(@tree.to_a).to eql(expected.sort)
+    expected.keys.shuffle(random: rng).each { |k| expect(@tree.delete(k)).to eql(expected[k]) }
+    expect(@tree.size).to eql(0)
+    expect(@tree.delete(1)).to be_nil
+  end
+end
+
+describe "RubyRBTreeMap delete" do
+  before(:each) do
+    @tree = Containers::RubyRBTreeMap.new
+  end
+  it_should_behave_like "rbtree delete of missing keys"
 end
 
 describe "empty rbtreemap" do
@@ -155,6 +202,13 @@ begin
       @tree = Containers::CRBTreeMap.new
     end
     it_should_behave_like "non-empty rbtree"
+  end
+
+  describe "CRBTreeMap delete" do
+    before(:each) do
+      @tree = Containers::CRBTreeMap.new
+    end
+    it_should_behave_like "rbtree delete of missing keys"
   end
 rescue Exception
 end

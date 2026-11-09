@@ -231,9 +231,11 @@ static rbtree_node* delete_max(rbtree_node *h, VALUE *deleted_value) {
 static rbtree_node* delete(rbtree *tree, rbtree_node *node, VALUE key, VALUE *deleted_value) {
 	int cmp;
 	VALUE minimum_key;
+	if (!node)
+		return NULL;
 	cmp = tree->compare_function(key, node->key);
 	if (cmp == -1) {
-		if ( !isred(node->left) && !isred(node->left->left) )
+		if ( node->left && !isred(node->left) && !isred(node->left->left) )
 			node = move_red_left(node);
 		
 		node->left = delete(tree, node->left, key, deleted_value);
@@ -249,9 +251,9 @@ static rbtree_node* delete(rbtree *tree, rbtree_node *node, VALUE key, VALUE *de
 			return NULL;
 		}
 
-		if ( !isred(node->right) && !isred(node->right->left) )
+		if ( node->right && !isred(node->right) && !isred(node->right->left) )
 			node = move_red_right(node);
-		
+
 		cmp = tree->compare_function(key, node->key);
 		if (cmp == 0) {
 			*deleted_value = node->value;
@@ -410,20 +412,16 @@ static VALUE rbtree_max_key(VALUE self) {
 }
 
 static VALUE rbtree_delete(VALUE self, VALUE key) {
-	VALUE deleted_value;
+	VALUE deleted_value = Qnil;
 	rbtree *tree = get_tree_from_self(self);
 	if(!tree->root)
 		return Qnil;
-	
+
 	tree->root = delete(tree, tree->root, key, &deleted_value);
 	if(tree->root)
 		tree->root->color = BLACK;
-	
-	if(deleted_value) {
-		return deleted_value;
-	}
-		
-	return Qnil;
+
+	return deleted_value;
 }
 
 static VALUE rbtree_delete_min(VALUE self) {
